@@ -2,81 +2,85 @@
 
 ## Modules
 
-### What is Gatsby?
+### Day 1
+
+### Day 2
+
+#### What is Gatsby?
 
 - React
 - GraphQL
 - Node.js
 - Tooling (webpack, Babel, Parcel)
 
-### gatsby-plugin-image
+#### gatsby-plugin-image
 
-### Schema Customization
+#### Schema Customization
 
-### Creating GraphQL Relationships
+#### Creating GraphQL Relationships
 
-### Debugging Build Failures
+#### Debugging Build Failures
 
-### The Build Lifecycle
+#### The Build Lifecycle
 
 - gatsby-node
 - gatsby-ssr
 - gatsby-browser
 
-### SVGs
+#### SVGs
 
 - imports vs. sprites
 
-### Styles
+#### Styles
 
-### Bundling
+#### Bundling
 
-### Code-Splitting
+#### Code-Splitting
 
-### Lazy Loading
+#### Lazy Loading
 
-### Fonts
+#### Fonts
 
-### Third-Party Libraries
+#### Third-Party Libraries
 
-### Authentication
+#### Authentication
 
-### Client Side Routes
+#### Client Side Routes
 
-### Render Modes
+#### Render Modes
 
-### Content Modelling in the CMS
+#### Content Modelling in the CMS
 
-### Queries and Fragments
+#### Queries and Fragments
 
-### Creating Pages
+#### Creating Pages
 
-### Flex Pages
+#### Flex Pages
 
-### Memory Issues
+#### Memory Issues
 
 - context stuffing
 - debugging
 
-### Dependency Management
+#### Dependency Management
 
 - npm/yarn
 - lock files
 - sharp
 
-### Build Output
+#### Build Output
 
 - HTML
 - page-data.json, etc.
 
-### Preview
+#### Preview
 
-### Incremental Builds
+#### Incremental Builds
 
 - data update
 - code update
 
-### Measuring Performance
+#### Measuring Performance
 
 - CWVs
 - WebPageTest
