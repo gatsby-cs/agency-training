@@ -1,64 +1,84 @@
-# Contentful Gatsby Starter Blog
+# agency-training
 
-Create a [Gatsby](http://gatsbyjs.com/) blog powered by [Contentful](https://www.contentful.com).
+## Modules
 
-![An article page of the starter blog](./screenshot.png "An article page of the starter blog")
+### What is Gatsby?
 
-Static sites are scalable, secure and have very little required maintenance. They come with a drawback though. Not everybody feels good editing files, building a project and uploading it somewhere. This is where Contentful comes into play.
+- React
+- GraphQL
+- Node.js
+- Tooling (webpack, Babel, Parcel)
 
-With Contentful and Gatsby you can connect your favorite static site generator with an API that provides an easy to use interface for people writing content and automate the publishing using services like [Travis CI](https://travis-ci.org/) or [Netlify](https://www.netlify.com/).
+### gatsby-plugin-image
 
-## Features
+### Schema Customization
 
-- Simple content model and structure. Easy to adjust to your needs.
-- Use the [synchronization feature](https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/synchronization) of our [Delivery API](https://www.contentful.com/developers/docs/references/content-delivery-api/).
-- Responsive/adaptive images via [gatsby-plugin-image](https://www.gatsbyjs.org/packages/gatsby-plugin-image/) and our [Images API](https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/synchronization/initial-synchronization-of-entries-of-a-specific-content-type).
+### Creating GraphQL Relationships
 
-## Getting started
+### Debugging Build Failures
 
-See our [official Contentful getting started guide](https://www.contentful.com/developers/docs/tutorials/general/get-started/).
+### The Build Lifecycle
 
-### Get the source code and install dependencies.
+- gatsby-node
+- gatsby-ssr
+- gatsby-browser
 
-```
-$ git clone https://github.com/contentful/starter-gatsby-blog.git
-$ npm install
-```
+### SVGs
 
-Or use the [Gatsby CLI](https://www.npmjs.com/package/gatsby-cli).
+- imports vs. sprites
 
-```
-$ gatsby new contentful-starter-blog https://github.com/contentful/starter-gatsby-blog/
-```
+### Styles
 
-### Set up of the needed content model and create a configuration file
+### Bundling
 
-This project comes with a Contentful setup command `npm run setup`.
+### Code-Splitting
 
-This command will ask you for a space ID, and access tokens for the Contentful Management and Delivery API and then import the needed content model into the space you define and write a config file (`./.contentful.json`).
+### Lazy Loading
 
-`npm run setup` automates that for you but if you want to do it yourself rename `.contentful.json.sample` to `.contentful.json` and add your configuration in this file.
+### Fonts
 
-## Crucial Commands
+### Third-Party Libraries
 
-### `npm run dev`
+### Authentication
 
-Run the project locally with live reload in development mode.
+### Client Side Routes
 
-### `npm run build`
+### Render Modes
 
-Run a production build into `./public`. The result is ready to be put on any static hosting you prefer.
+### Content Modelling in the CMS
 
-### `npm run serve`
+### Queries and Fragments
 
-Spin up a production-ready server with your blog. Don't forget to build your page beforehand.
+### Creating Pages
 
-## Deployment
+### Flex Pages
 
-See the [official Contentful getting started guide](https://www.contentful.com/developers/docs/tutorials/general/get-started/).
+### Memory Issues
 
-## Contribution
+- context stuffing
+- debugging
 
-Feel free to open pull requests to fix bugs. If you want to add features, please have a look at the [original version](https://github.com/contentful-userland/gatsby-contentful-starter). It is always open to contributions and pull requests.
+### Dependency Management
 
-You can learn more about how Contentful userland is organized by visiting [our about repository](https://github.com/contentful-userland/about).
+- npm/yarn
+- lock files
+- sharp
+
+### Build Output
+
+- HTML
+- page-data.json, etc.
+
+### Preview
+
+### Incremental Builds
+
+- data update
+- code update
+
+### Measuring Performance
+
+- CWVs
+- WebPageTest
+- PageSpeed
+- DevTools
