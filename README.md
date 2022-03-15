@@ -1,10 +1,10 @@
 # agency-training
 
+[Link to slides](https://docs.google.com/presentation/d/1l4MRLhCFUTaWnLEuMOlG_TvEo5wHXfmWxI-uJhndpCI/edit#slide=id.p)
+
 ## Modules
 
 ### Day 1
-
-### Day 2
 
 #### What is Gatsby?
 
@@ -12,6 +12,38 @@
 - GraphQL
 - Node.js
 - Tooling (webpack, Babel, Parcel)
+
+#### Why Gatsby?
+
+#### The Data Layer
+
+#### The Build Lifecycle
+
+- gatsby-node
+- gatsby-ssr
+- gatsby-browser
+
+#### Starters
+
+#### Node Management
+
+#### Dependency Management
+
+- npm/yarn
+- lock files
+- sharp
+
+#### Typescript
+
+#### Styles
+
+#### GraphiQL
+
+#### Creating Pages
+
+#### Flex Pages
+
+#### Queries and Fragments
 
 #### gatsby-plugin-image
 
@@ -21,52 +53,34 @@
 
 #### Debugging Build Failures
 
-#### The Build Lifecycle
+### Day 2
 
-- gatsby-node
-- gatsby-ssr
-- gatsby-browser
+#### Fonts
 
 #### SVGs
 
 - imports vs. sprites
 
-#### Styles
-
 #### Bundling
 
 #### Code-Splitting
 
-#### Lazy Loading
+#### Lazy-Loading
 
-#### Fonts
+#### Render Modes
 
-#### Third-Party Libraries
+#### Gatsby Functions
 
 #### Authentication
 
 #### Client Side Routes
 
-#### Render Modes
-
-#### Content Modelling in the CMS
-
-#### Queries and Fragments
-
-#### Creating Pages
-
-#### Flex Pages
+#### Themes
 
 #### Memory Issues
 
 - context stuffing
 - debugging
-
-#### Dependency Management
-
-- npm/yarn
-- lock files
-- sharp
 
 #### Build Output
 
@@ -86,3 +100,7 @@
 - WebPageTest
 - PageSpeed
 - DevTools
+
+#### Third-Party Libraries
+
+#### Content Modelling in the CMS

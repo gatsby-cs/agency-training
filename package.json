@@ -1,11 +1,11 @@
 {
-  "name": "contentful-starter-gatsby-blog",
-  "description": "Contentful Gatsby Starter Blog",
+  "name": "agency-training",
+  "description": "In-Depth Gatsby Training for Agencies",
   "private": true,
   "version": "0.0.1",
-  "author": "Contentful <opensource@contentful.com>",
+  "author": "Grayson Hicks <grayson@gatsbyjs.com>",
   "bugs": {
-    "url": "https://github.com/contentful/starter-gatsby-blog/issues"
+    "url": "https://github.com/gatsby-cs/agency-training/issues"
   },
   "dependencies": {
     "gatsby": "^4.0.0",
@@ -22,32 +22,30 @@
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
-    "contentful-import": "^7.8.6",
-    "netlify-cli": "^2.54.0"
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.40",
+    "@types/react-dom": "^17.0.13",
+    "contentful-import": "^7.8.6"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
-  "homepage": "https://github.com/contentful/starter-gatsby-blog#readme",
+  "homepage": "https://github.com/gatsby-cs/agency-training#readme",
   "keywords": [
     "gatsby",
     "contentful",
     "starter"
   ],
   "license": "MIT",
-  "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/contentful/starter-gatsby-blog.git"
+    "url": "git+https://github.com/gatsby-cs/agency-training.git"
   },
   "scripts": {
     "dev": "gatsby develop",
     "build": "gatsby build",
-    "heroku-postbuild": "gatsby build",
     "serve": "gatsby serve",
-    "postinstall": "node ./bin/hello.js",
-    "setup": "node ./bin/setup.js",
-    "netlify:login": "netlify login",
-    "netlify:deploy": "netlify deploy -d public -p"
-  }
+    "setup": "node ./bin/setup.js"
+  },
+  "packageManager": "yarn@2.4.3"
 }
