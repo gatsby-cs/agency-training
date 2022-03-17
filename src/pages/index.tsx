@@ -1,27 +1,33 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import get from 'lodash/get'
 
 import Layout from '../components/layout'
 import Hero from '../components/hero'
 import ArticlePreview from '../components/article-preview'
 
-class RootIndex extends React.Component {
-  render() {
-    const posts = get(this, 'props.data.allContentfulBlogPost.nodes')
-    const [author] = get(this, 'props.data.allContentfulPerson.nodes')
+import { PageProps } from 'gatsby'
 
-    return (
-      <Layout location={this.props.location}>
-        <Hero
-          image={author.heroImage.gatsbyImageData}
-          title={author.name}
-          content={author.shortBio.shortBio}
-        />
-        <ArticlePreview posts={posts} />
-      </Layout>
-    )
+interface DataProps {
+  allContentfulBlogPost: {
+    nodes: GatsbyTypes.ContentfulBlogPost[]
   }
+  contentfulPerson: GatsbyTypes.ContentfulPerson
+}
+
+function RootIndex({ data, location }: PageProps<DataProps>) {
+  const posts = data.allContentfulBlogPost.nodes
+  const author = data.contentfulPerson
+
+  return (
+    <Layout location={location}>
+      <Hero
+        image={author?.image?.gatsbyImageData}
+        title={author.name}
+        content={author?.shortBio?.shortBio}
+      />
+      <ArticlePreview posts={posts} />
+    </Layout>
+  )
 }
 
 export default RootIndex
@@ -49,22 +55,14 @@ export const pageQuery = graphql`
         }
       }
     }
-    allContentfulPerson(
-      filter: { contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" } }
-    ) {
-      nodes {
-        name
-        shortBio {
-          shortBio
-        }
-        title
-        heroImage: image {
-          gatsbyImageData(
-            layout: CONSTRAINED
-            placeholder: BLURRED
-            width: 1180
-          )
-        }
+    contentfulPerson(contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" }) {
+      name
+      shortBio {
+        shortBio
+      }
+      title
+      heroImage: image {
+        gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1180)
       }
     }
   }
