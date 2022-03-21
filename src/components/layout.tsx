@@ -1,7 +1,7 @@
 import React from 'react'
 
-import './variables.css'
-import './global.css'
+import './variables.scss'
+import './global.scss'
 import Seo from './seo'
 import Navigation from './navigation'
 import Footer from './footer'
@@ -12,7 +12,7 @@ type DataProps = {
   location: PageProps['location']
 }
 
-function Template({ children, location }: DataProps) {
+const Template: React.FC<DataProps> = ({ children, location }) => {
   console.log(location)
 
   return (

@@ -19,8 +19,10 @@
   text-decoration: none;
 }
 
-.link:hover .title {
-  border-bottom-color: var(--primary);
+.link:hover {
+  .title {
+    border-bottom-color: var(--primary);
+  }
 }
 
 .meta {

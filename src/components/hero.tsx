@@ -1,9 +1,15 @@
 import React from 'react'
-import { GatsbyImage } from 'gatsby-plugin-image'
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 
-import * as styles from './hero.module.css'
+import * as styles from './hero.module.scss'
 
-const Hero = ({ image, title, content }) => (
+type HeroProps = {
+  image: IGatsbyImageData
+  title: string
+  content: string
+}
+
+const Hero: React.FC<HeroProps> = ({ image, title, content }) => (
   <div className={styles.hero}>
     {image && (
       <GatsbyImage className={styles.image} alt={title} image={image} />

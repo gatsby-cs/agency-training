@@ -4,9 +4,13 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 
 import Container from './container'
 import Tags from './tags'
-import * as styles from './article-preview.module.css'
+import * as styles from './article-preview.module.scss'
 
-const ArticlePreview = ({ posts }) => {
+const ArticlePreview = ({
+  posts,
+}: {
+  posts: GatsbyTypes.ContentfulBlogPost[]
+}) => {
   if (!posts) return null
   if (!Array.isArray(posts)) return null
 
@@ -17,12 +21,14 @@ const ArticlePreview = ({ posts }) => {
           return (
             <li key={post.slug}>
               <Link to={`/blog/${post.slug}`} className={styles.link}>
-                <GatsbyImage alt="" image={post.heroImage.gatsbyImageData} />
+                {post?.heroImage?.gatsbyImageData && (
+                  <GatsbyImage alt="" image={post.heroImage.gatsbyImageData} />
+                )}
                 <h2 className={styles.title}>{post.title}</h2>
               </Link>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: post.description.childMarkdownRemark.html,
+                  __html: post?.description?.childMarkdownRemark?.html!,
                 }}
               />
               <div className={styles.meta}>

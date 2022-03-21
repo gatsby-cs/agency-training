@@ -14,7 +14,7 @@ interface DataProps {
   contentfulPerson: GatsbyTypes.ContentfulPerson
 }
 
-function RootIndex({ data, location }: PageProps<DataProps>) {
+const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
   const posts = data.allContentfulBlogPost.nodes
   const author = data.contentfulPerson
 

@@ -1,12 +1,14 @@
 import React from 'react'
 
-import * as styles from './tags.module.css'
+import * as styles from './tags.module.scss'
 
-function Tags({ tags }: { tags: GatsbyTypes.ContentfulBlogPost['tags'][] }) {
+const Tags: React.FC<{ tags: GatsbyTypes.ContentfulBlogPost['tags'][] }> = ({
+  tags,
+}) => {
   return tags?.length > 0 ? (
     <small className={styles.tags}>
-      {tags.map((tag) => (
-        <div key={tag} className={styles.tag}>
+      {tags.map((tag, i) => (
+        <div key={i} className={styles.tag}>
           {tag}
         </div>
       ))}
