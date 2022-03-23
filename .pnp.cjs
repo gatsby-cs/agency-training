@@ -36,6 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:17.0.23"],\
             ["@types/react", "npm:17.0.42"],\
             ["@types/react-dom", "npm:17.0.14"],\
+            ["@types/react-helmet", "npm:6.1.5"],\
             ["contentful-import", "npm:7.9.42"],\
             ["dotenv", "npm:16.0.0"],\
             ["gatsby", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:4.10.3"],\
@@ -6145,6 +6146,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/react-helmet", [\
+        ["npm:6.1.5", {\
+          "packageLocation": "./.yarn/cache/@types-react-helmet-npm-6.1.5-f6dfe85617-d059cc084d.zip/node_modules/@types/react-helmet/",\
+          "packageDependencies": [\
+            ["@types/react-helmet", "npm:6.1.5"],\
+            ["@types/react", "npm:17.0.42"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/responselike", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/@types-responselike-npm-1.0.0-85dd08af42-e99fc7cc62.zip/node_modules/@types/responselike/",\
@@ -6745,6 +6756,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:17.0.23"],\
             ["@types/react", "npm:17.0.42"],\
             ["@types/react-dom", "npm:17.0.14"],\
+            ["@types/react-helmet", "npm:6.1.5"],\
             ["contentful-import", "npm:7.9.42"],\
             ["dotenv", "npm:16.0.0"],\
             ["gatsby", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:4.10.3"],\
@@ -7986,7 +7998,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["browserslist", "npm:4.14.2"],\
             ["caniuse-lite", "npm:1.0.30001319"],\
-            ["electron-to-chromium", "npm:1.4.90"],\
+            ["electron-to-chromium", "npm:1.4.91"],\
             ["escalade", "npm:3.1.1"],\
             ["node-releases", "npm:1.1.77"]\
           ],\
@@ -7997,7 +8009,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["browserslist", "npm:4.20.2"],\
             ["caniuse-lite", "npm:1.0.30001319"],\
-            ["electron-to-chromium", "npm:1.4.90"],\
+            ["electron-to-chromium", "npm:1.4.91"],\
             ["escalade", "npm:3.1.1"],\
             ["node-releases", "npm:2.0.2"],\
             ["picocolors", "npm:1.0.0"]\
@@ -10229,10 +10241,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["electron-to-chromium", [\
-        ["npm:1.4.90", {\
-          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.4.90-70c2ed2306-e0d678f6d6.zip/node_modules/electron-to-chromium/",\
+        ["npm:1.4.91", {\
+          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.4.91-39501a1f90-48396dc8b1.zip/node_modules/electron-to-chromium/",\
           "packageDependencies": [\
-            ["electron-to-chromium", "npm:1.4.90"]\
+            ["electron-to-chromium", "npm:1.4.91"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12452,7 +12464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["gatsby-plugin-react-helmet", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:5.10.0"],\
             ["@babel/runtime", "npm:7.17.8"],\
             ["@types/gatsby", null],\
-            ["@types/react-helmet", null],\
+            ["@types/react-helmet", "npm:6.1.5"],\
             ["gatsby", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:4.10.3"],\
             ["react-helmet", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:6.1.0"]\
           ],\

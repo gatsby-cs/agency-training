@@ -26,8 +26,9 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
-    "@types/react": "^17.0.40",
+    "@types/react": "^17.0.42",
     "@types/react-dom": "^17.0.13",
+    "@types/react-helmet": "^6.1.5",
     "contentful-import": "^7.8.6",
     "dotenv": "^16.0.0",
     "ts-graphql-plugin": "^2.1.6",
