@@ -30,7 +30,7 @@ function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
       />
       <Hero
         image={post.heroImage?.gatsbyImageData}
-        title={post.title}
+        title={post.title!}
         content={post.description?.childMarkdownRemark?.excerpt}
       />
       <div className={styles.container}>
@@ -43,7 +43,7 @@ function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
           <div
             className={styles.body}
             dangerouslySetInnerHTML={{
-              __html: post.body?.childMarkdownRemark?.html,
+              __html: post.body?.childMarkdownRemark?.html!,
             }}
           />
           <Tags tags={post.tags} />

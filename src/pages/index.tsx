@@ -22,7 +22,7 @@ const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
     <Layout location={location}>
       <Hero
         image={author?.image?.gatsbyImageData}
-        title={author.name}
+        title={author.name!}
         content={author?.shortBio?.shortBio}
       />
       <ArticlePreview posts={posts} />

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Helmet, MetaProps } from 'react-helmet'
+import { Helmet } from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 
 export type SeoProps = {
@@ -7,7 +7,7 @@ export type SeoProps = {
   image?: string
   description?: string
   lang?: string
-  meta?: MetaProps[]
+  meta?: HTMLMetaElement
 }
 
 const Seo: React.FC<SeoProps> = ({
@@ -40,7 +40,7 @@ const Seo: React.FC<SeoProps> = ({
       }}
       title={title}
       defaultTitle={defaultTitle}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : undefined}
       meta={[
         {
           name: `description`,

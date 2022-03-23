@@ -4,9 +4,9 @@ import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 import * as styles from './hero.module.scss'
 
 type HeroProps = {
-  image: IGatsbyImageData
+  image?: IGatsbyImageData
   title: string
-  content: string
+  content?: string
 }
 
 const Hero: React.FC<HeroProps> = ({ image, title, content }) => (

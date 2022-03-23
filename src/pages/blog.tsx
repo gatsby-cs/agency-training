@@ -1,11 +1,11 @@
 import React from 'react'
 import { graphql, PageProps } from 'gatsby'
-import get from 'lodash/get'
 
 import Seo from '../components/seo'
 import Layout from '../components/layout'
 import Hero from '../components/hero'
 import ArticlePreview from '../components/article-preview'
+import { getImage } from 'gatsby-plugin-image'
 
 interface DataProps {
   allContentfulBlogPost: {
@@ -15,11 +15,12 @@ interface DataProps {
 
 const BlogIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
   const posts = data.allContentfulBlogPost.nodes
+  const hero = getImage(posts[0].heroImage!.gatsbyImageData!)
 
   return (
     <Layout location={location}>
       <Seo title="Blog" />
-      <Hero title="Blog" />
+      <Hero title="Blog" image={hero} />
       <ArticlePreview posts={posts} />
     </Layout>
   )
