@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import { Link, PageProps } from 'gatsby'
+import { Link } from 'gatsby'
 
 type ClientPageProps = {
   path: string
