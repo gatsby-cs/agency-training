@@ -251,6 +251,8 @@ type Directory_ctimeArgs = {
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly siteMetadata: Maybe<SiteSiteMetadata>;
+  readonly port: Maybe<Scalars['Int']>;
+  readonly host: Maybe<Scalars['String']>;
   readonly pathPrefix: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly jsxRuntime: Maybe<Scalars['String']>;
@@ -1223,6 +1225,8 @@ type Query_allDirectoryArgs = {
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
   siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
+  port: Maybe<IntQueryOperatorInput>;
+  host: Maybe<StringQueryOperatorInput>;
   pathPrefix: Maybe<StringQueryOperatorInput>;
   polyfill: Maybe<BooleanQueryOperatorInput>;
   jsxRuntime: Maybe<StringQueryOperatorInput>;
@@ -2436,6 +2440,8 @@ type SiteFieldsEnum =
   | 'buildTime'
   | 'siteMetadata.title'
   | 'siteMetadata.description'
+  | 'port'
+  | 'host'
   | 'pathPrefix'
   | 'polyfill'
   | 'jsxRuntime'
@@ -2571,6 +2577,8 @@ type SiteGroupConnection_groupArgs = {
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
   readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
+  readonly port: Maybe<IntQueryOperatorInput>;
+  readonly host: Maybe<StringQueryOperatorInput>;
   readonly pathPrefix: Maybe<StringQueryOperatorInput>;
   readonly polyfill: Maybe<BooleanQueryOperatorInput>;
   readonly jsxRuntime: Maybe<StringQueryOperatorInput>;
@@ -7912,19 +7920,6 @@ type GatsbyContentfulFluid_withWebpFragment = Pick<ContentfulFluid, 'base64' | '
 
 type GatsbyContentfulFluid_withWebp_noBase64Fragment = Pick<ContentfulFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
-type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
-
-type BlogIndexQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type BlogIndexQueryQuery = { readonly allContentfulBlogPost: { readonly nodes: ReadonlyArray<(
-      Pick<ContentfulBlogPost, 'title' | 'slug' | 'publishDate' | 'tags'>
-      & { readonly heroImage: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html'>> }> }
-    )> } };
-
 type BlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
   previousPostSlug: Maybe<Scalars['String']>;
@@ -7941,6 +7936,19 @@ type BlogPostBySlugQuery = { readonly contentfulBlogPost: Maybe<(
     )>, readonly body: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html' | 'timeToRead'>> }>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'excerpt'>> }> }
   )>, readonly previous: Maybe<Pick<ContentfulBlogPost, 'slug' | 'title'>>, readonly next: Maybe<Pick<ContentfulBlogPost, 'slug' | 'title'>> };
 
+type PagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type PagesQueryQuery = { readonly allSiteFunction: { readonly nodes: ReadonlyArray<Pick<SiteFunction, 'functionRoute'>> }, readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
+
+type BlogIndexQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type BlogIndexQueryQuery = { readonly allContentfulBlogPost: { readonly nodes: ReadonlyArray<(
+      Pick<ContentfulBlogPost, 'title' | 'slug' | 'publishDate' | 'tags'>
+      & { readonly heroImage: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html'>> }> }
+    )> } };
+
 type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -7949,7 +7957,25 @@ type HomeQueryQuery = { readonly allContentfulBlogPost: { readonly nodes: Readon
       & { readonly heroImage: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html'>> }> }
     )> }, readonly contentfulPerson: Maybe<(
     Pick<ContentfulPerson, 'name' | 'title'>
-    & { readonly shortBio: Maybe<Pick<contentfulPersonShortBioTextNode, 'shortBio'>>, readonly heroImage: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>> }
+    & { readonly shortBio: Maybe<Pick<contentfulPersonShortBioTextNode, 'shortBio'>>, readonly image: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>> }
   )> };
+
+type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
+
+type BadBlogPostBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+  previousPostSlug: Maybe<Scalars['String']>;
+  nextPostSlug: Maybe<Scalars['String']>;
+}>;
+
+
+type BadBlogPostBySlugQuery = { readonly contentfulBlogPost: Maybe<(
+    Pick<ContentfulBlogPost, 'slug' | 'title' | 'publishDate' | 'tags'>
+    & { rawDate: ContentfulBlogPost['publishDate'] }
+    & { readonly author: Maybe<Pick<ContentfulPerson, 'name'>>, readonly heroImage: Maybe<{ readonly resize: Maybe<Pick<ContentfulResize, 'src'>>, readonly file: Maybe<Pick<ContentfulAssetFile, 'url'>> }>, readonly body: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html' | 'timeToRead'>> }>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'excerpt'>> }> }
+  )>, readonly previous: Maybe<Pick<ContentfulBlogPost, 'slug' | 'title'>>, readonly next: Maybe<Pick<ContentfulBlogPost, 'slug' | 'title'>> };
 
 }

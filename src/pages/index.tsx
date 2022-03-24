@@ -18,16 +18,9 @@ const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
   const posts = data.allContentfulBlogPost.nodes
   const author = data.contentfulPerson
 
-  return (
-    <Layout location={location}>
-      <Hero
-        image={author?.image?.gatsbyImageData}
-        title={author.name!}
-        content={author?.shortBio?.shortBio}
-      />
-      <ArticlePreview posts={posts} />
-    </Layout>
-  )
+  console.log(author)
+
+  return <Layout location={location}>Training!</Layout>
 }
 
 export default RootIndex
@@ -61,7 +54,7 @@ export const pageQuery = graphql`
         shortBio
       }
       title
-      heroImage: image {
+      image {
         gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1180)
       }
     }

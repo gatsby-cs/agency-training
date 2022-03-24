@@ -9,16 +9,27 @@ type HeroProps = {
   content?: string
 }
 
-const Hero: React.FC<HeroProps> = ({ image, title, content }) => (
-  <div className={styles.hero}>
-    {image && (
-      <GatsbyImage className={styles.image} alt={title} image={image} />
-    )}
-    <div className={styles.details}>
-      <h1 className={styles.title}>{title}</h1>
-      {content && <p className={styles.content}>{content}</p>}
+const Hero: React.FC<HeroProps> = ({ image, title, content }) => {
+  console.log(image)
+
+  return (
+    <div className={styles.hero}>
+      {image && (
+        <GatsbyImage
+          className={styles.image}
+          alt={title}
+          image={image}
+          loading="eager"
+          // @ts-ignore
+          fetchpriority="high"
+        />
+      )}
+      <div className={styles.details}>
+        <h1 className={styles.title}>{title}</h1>
+        {content && <p className={styles.content}>{content}</p>}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default Hero

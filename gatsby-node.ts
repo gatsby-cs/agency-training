@@ -5,6 +5,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // Define a template for blog post
   const blogPost = path.resolve('./src/templates/blog-post.tsx')
+  const badBlogPost = path.resolve('./src/templates/bad-blog-post.tsx')
 
   const result = await graphql(
     `
@@ -49,5 +50,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         },
       })
     })
+    // posts.forEach((post, index) => {
+    //   const previousPostSlug = index === 0 ? null : posts[index - 1].slug
+    //   const nextPostSlug =
+    //     index === posts.length - 1 ? null : posts[index + 1].slug
+
+    //   createPage({
+    //     path: `/bad-blog/${post.slug}/`,
+    //     component: badBlogPost,
+    //     context: {
+    //       slug: post.slug,
+    //       previousPostSlug,
+    //       nextPostSlug,
+    //     },
+    //   })
+    // })
   }
 }
