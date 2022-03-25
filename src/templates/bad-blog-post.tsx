@@ -8,17 +8,17 @@ import BadHero from '../components/bad-hero'
 
 import * as styles from './blog-post.module.scss'
 
-interface PostWithRawDate extends GatsbyTypes.ContentfulBlogPost {
+interface PostWithRawDate extends GatsbyTypes.ContentfulPageBlogPost {
   rawDate: string
 }
 interface DataProps {
-  contentfulBlogPost: PostWithRawDate
-  previous: GatsbyTypes.ContentfulBlogPost
-  next: GatsbyTypes.ContentfulBlogPost
+  contentfulPageBlogPost: PostWithRawDate
+  previous: GatsbyTypes.ContentfulPageBlogPost
+  next: GatsbyTypes.ContentfulPageBlogPost
 }
 
 function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
-  const post = data.contentfulBlogPost
+  const post = data.contentfulPageBlogPost
   const previous = data.previous
   const next = data.next
 
@@ -82,7 +82,7 @@ export const pageQuery = graphql`
     $previousPostSlug: String
     $nextPostSlug: String
   ) {
-    contentfulBlogPost(slug: { eq: $slug }) {
+    contentfulPageBlogPost(slug: { eq: $slug }) {
       slug
       title
       author {
@@ -111,11 +111,11 @@ export const pageQuery = graphql`
         }
       }
     }
-    previous: contentfulBlogPost(slug: { eq: $previousPostSlug }) {
+    previous: contentfulPageBlogPost(slug: { eq: $previousPostSlug }) {
       slug
       title
     }
-    next: contentfulBlogPost(slug: { eq: $nextPostSlug }) {
+    next: contentfulPageBlogPost(slug: { eq: $nextPostSlug }) {
       slug
       title
     }

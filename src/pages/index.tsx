@@ -8,15 +8,15 @@ import ArticlePreview from '../components/article-preview'
 import { PageProps } from 'gatsby'
 
 interface DataProps {
-  allContentfulBlogPost: {
-    nodes: GatsbyTypes.ContentfulBlogPost[]
+  allContentfulPageBlogPost: {
+    nodes: GatsbyTypes.ContentfulPageBlogPost[]
   }
-  contentfulPerson: GatsbyTypes.ContentfulPerson
+  contentfulEntityPerson: GatsbyTypes.ContentfulPerson
 }
 
 const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
-  const posts = data.allContentfulBlogPost.nodes
-  const author = data.contentfulPerson
+  const posts = data.allContentfulPageBlogPost.nodes
+  const author = data.contentfulEntityPerson
 
   console.log(author)
 
@@ -27,7 +27,7 @@ export default RootIndex
 
 export const pageQuery = graphql`
   query HomeQuery {
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    allContentfulPageBlogPost(sort: { fields: [publishDate], order: DESC }) {
       nodes {
         title
         slug
@@ -48,7 +48,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    contentfulPerson(contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" }) {
+    contentfulEntityPerson(contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" }) {
       name
       shortBio {
         shortBio

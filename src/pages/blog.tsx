@@ -8,13 +8,13 @@ import ArticlePreview from '../components/article-preview'
 import { getImage } from 'gatsby-plugin-image'
 
 interface DataProps {
-  allContentfulBlogPost: {
-    nodes: GatsbyTypes.ContentfulBlogPost[]
+  allContentfulPageBlogPost: {
+    nodes: GatsbyTypes.ContentfulPageBlogPost[]
   }
 }
 
 const BlogIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
-  const posts = data.allContentfulBlogPost.nodes
+  const posts = data.allContentfulPageBlogPost.nodes
   const hero = getImage(posts[0].heroImage!.gatsbyImageData!)
 
   return (
@@ -30,7 +30,7 @@ export default BlogIndex
 
 export const pageQuery = graphql`
   query BlogIndexQuery {
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    allContentfulPageBlogPost(sort: { fields: [publishDate], order: DESC }) {
       nodes {
         title
         slug

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, graphql, PageProps } from 'gatsby'
 
 import Seo from '../components/seo'
@@ -6,18 +6,19 @@ import Layout from '../components/layout'
 import Hero from '../components/hero'
 import Tags from '../components/tags'
 import * as styles from './blog-post.module.scss'
+import { GatsbyImage } from 'gatsby-plugin-image'
 
-interface PostWithRawDate extends GatsbyTypes.ContentfulBlogPost {
+interface PostWithRawDate extends GatsbyTypes.ContentfulPageBlogPost {
   rawDate: string
 }
 interface DataProps {
-  contentfulBlogPost: PostWithRawDate
-  previous: GatsbyTypes.ContentfulBlogPost
-  next: GatsbyTypes.ContentfulBlogPost
+  contentfulPageBlogPost: PostWithRawDate
+  previous: GatsbyTypes.ContentfulPageBlogPost
+  next: GatsbyTypes.ContentfulPageBlogPost
 }
 
 function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
-  const post = data.contentfulBlogPost
+  const post = data.contentfulPageBlogPost
   const previous = data.previous
   const next = data.next
 
@@ -81,7 +82,7 @@ export const pageQuery = graphql`
     $previousPostSlug: String
     $nextPostSlug: String
   ) {
-    contentfulBlogPost(slug: { eq: $slug }) {
+    contentfulPageBlogPost(slug: { eq: $slug }) {
       slug
       title
       author {
@@ -95,6 +96,7 @@ export const pageQuery = graphql`
           src
         }
       }
+
       body {
         childMarkdownRemark {
           html
@@ -108,11 +110,11 @@ export const pageQuery = graphql`
         }
       }
     }
-    previous: contentfulBlogPost(slug: { eq: $previousPostSlug }) {
+    previous: contentfulPageBlogPost(slug: { eq: $previousPostSlug }) {
       slug
       title
     }
-    next: contentfulBlogPost(slug: { eq: $nextPostSlug }) {
+    next: contentfulPageBlogPost(slug: { eq: $nextPostSlug }) {
       slug
       title
     }

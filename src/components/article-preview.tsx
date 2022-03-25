@@ -9,7 +9,7 @@ import * as styles from './article-preview.module.scss'
 const ArticlePreview = ({
   posts,
 }: {
-  posts: GatsbyTypes.ContentfulBlogPost[]
+  posts: GatsbyTypes.ContentfulPageBlogPost[]
 }) => {
   if (!posts) return null
   if (!Array.isArray(posts)) return null

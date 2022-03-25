@@ -2,7 +2,7 @@ import React from 'react'
 
 import * as styles from './tags.module.scss'
 
-const Tags: React.FC<{ tags: GatsbyTypes.ContentfulBlogPost['tags'] }> = ({
+const Tags: React.FC<{ tags: GatsbyTypes.ContentfulPageBlogPost['tags'] }> = ({
   tags = [],
 }) => {
   return tags?.length > 0 ? (

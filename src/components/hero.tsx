@@ -24,6 +24,7 @@ const Hero: React.FC<HeroProps> = ({ image, title, content }) => {
           fetchpriority="high"
         />
       )}
+
       <div className={styles.details}>
         <h1 className={styles.title}>{title}</h1>
         {content && <p className={styles.content}>{content}</p>}
