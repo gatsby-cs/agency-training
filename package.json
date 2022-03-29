@@ -15,7 +15,7 @@
     "gatsby-plugin-react-helmet": "^5.11.0",
     "gatsby-plugin-sass": "^5.11.0",
     "gatsby-plugin-sharp": "^4.11.0",
-    "gatsby-plugin-typegen": "^2.2.4",
+    "gatsby-plugin-typegen": "^3.0.0-rc.0",
     "gatsby-source-contentful": "^7.9.0",
     "gatsby-transformer-remark": "^5.11.0",
     "gatsby-transformer-sharp": "^4.11.0",

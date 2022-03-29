@@ -18,7 +18,6 @@ interface DataProps {
 const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
   const posts = data.allContentfulPageBlogPost.nodes
   const author = data.contentfulEntityPerson
-  console.log(author)
 
   return (
     <Layout location={location}>

@@ -10,8 +10,6 @@ type HeroProps = {
 }
 
 const Hero: React.FC<HeroProps> = ({ image, title, content }) => {
-  console.log(image)
-
   return (
     <div className={styles.hero}>
       {image && (
