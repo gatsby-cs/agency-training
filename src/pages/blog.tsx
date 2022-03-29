@@ -1,10 +1,10 @@
 import React from 'react'
 import { graphql, PageProps } from 'gatsby'
 
-import Seo from '../components/seo'
-import Layout from '../components/layout'
-import Hero from '../components/hero'
-import ArticlePreview from '../components/article-preview'
+import Seo from '../components/seo/seo'
+import Layout from '../components/layout/layout'
+import Hero from '../components/hero/hero'
+import ArticlePreview from '../components/article-preview/article-preview'
 import { getImage } from 'gatsby-plugin-image'
 
 interface DataProps {

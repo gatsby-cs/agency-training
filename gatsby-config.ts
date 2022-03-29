@@ -63,5 +63,11 @@ module.exports = {
         outputPath: `src/__generated__/gatsby-types.d.ts`,
       },
     },
+    {
+      resolve: 'gatsby-plugin-clerk',
+      options: {
+        frontendApi: process.env.CLERK_FRONTEND_API_KEY,
+      },
+    },
   ],
 }

@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@clerk/clerk-react", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.2.1"],\
             ["@types/node", "npm:17.0.23"],\
             ["@types/reach__router", "npm:1.3.10"],\
             ["@types/react", "npm:17.0.42"],\
@@ -41,6 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["contentful-import", "npm:7.9.42"],\
             ["dotenv", "npm:16.0.0"],\
             ["gatsby", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:4.10.3"],\
+            ["gatsby-plugin-clerk", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.0.0"],\
             ["gatsby-plugin-image", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.10.1"],\
             ["gatsby-plugin-react-helmet", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:5.10.0"],\
             ["gatsby-plugin-sass", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:5.10.2"],\
@@ -54,7 +56,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-helmet", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:6.1.0"],\
             ["sass", "npm:1.49.9"],\
             ["ts-graphql-plugin", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.1.6"],\
-            ["typescript", "patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"]\
+            ["typescript", "patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"],\
+            ["zustand", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.7.1"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -2550,6 +2553,39 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/types", "npm:7.17.0"],\
             ["@babel/helper-validator-identifier", "npm:7.16.7"],\
             ["to-fast-properties", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@clerk/clerk-react", [\
+        ["npm:3.2.1", {\
+          "packageLocation": "./.yarn/cache/@clerk-clerk-react-npm-3.2.1-1b8c77c46c-69d1c9660e.zip/node_modules/@clerk/clerk-react/",\
+          "packageDependencies": [\
+            ["@clerk/clerk-react", "npm:3.2.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.2.1", {\
+          "packageLocation": "./.yarn/__virtual__/@clerk-clerk-react-virtual-bd1aa82905/0/cache/@clerk-clerk-react-npm-3.2.1-1b8c77c46c-69d1c9660e.zip/node_modules/@clerk/clerk-react/",\
+          "packageDependencies": [\
+            ["@clerk/clerk-react", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.2.1"],\
+            ["@clerk/types", "npm:2.2.1"],\
+            ["@types/react", "npm:17.0.42"],\
+            ["react", "npm:17.0.2"],\
+            ["tslib", "npm:2.3.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@clerk/types", [\
+        ["npm:2.2.1", {\
+          "packageLocation": "./.yarn/cache/@clerk-types-npm-2.2.1-6470bcd409-a8b53045c1.zip/node_modules/@clerk/types/",\
+          "packageDependencies": [\
+            ["@clerk/types", "npm:2.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6752,6 +6788,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["agency-training", "workspace:."],\
+            ["@clerk/clerk-react", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.2.1"],\
             ["@types/node", "npm:17.0.23"],\
             ["@types/reach__router", "npm:1.3.10"],\
             ["@types/react", "npm:17.0.42"],\
@@ -6760,6 +6797,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["contentful-import", "npm:7.9.42"],\
             ["dotenv", "npm:16.0.0"],\
             ["gatsby", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:4.10.3"],\
+            ["gatsby-plugin-clerk", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.0.0"],\
             ["gatsby-plugin-image", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.10.1"],\
             ["gatsby-plugin-react-helmet", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:5.10.0"],\
             ["gatsby-plugin-sass", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:5.10.2"],\
@@ -6773,7 +6811,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-helmet", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:6.1.0"],\
             ["sass", "npm:1.49.9"],\
             ["ts-graphql-plugin", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.1.6"],\
-            ["typescript", "patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"]\
+            ["typescript", "patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"],\
+            ["zustand", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.7.1"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -12312,6 +12351,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [\
             "@parcel/core",\
             "@types/parcel__core"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["gatsby-plugin-clerk", [\
+        ["npm:2.0.0", {\
+          "packageLocation": "./.yarn/cache/gatsby-plugin-clerk-npm-2.0.0-0572f17c1e-5f455c40b9.zip/node_modules/gatsby-plugin-clerk/",\
+          "packageDependencies": [\
+            ["gatsby-plugin-clerk", "npm:2.0.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/gatsby-plugin-clerk-virtual-58153889d7/0/cache/gatsby-plugin-clerk-npm-2.0.0-0572f17c1e-5f455c40b9.zip/node_modules/gatsby-plugin-clerk/",\
+          "packageDependencies": [\
+            ["gatsby-plugin-clerk", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:2.0.0"],\
+            ["@clerk/clerk-react", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.2.1"],\
+            ["@types/clerk__clerk-react", null],\
+            ["@types/gatsby", null],\
+            ["gatsby", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:4.10.3"]\
+          ],\
+          "packagePeers": [\
+            "@clerk/clerk-react",\
+            "@types/clerk__clerk-react",\
+            "@types/gatsby",\
+            "gatsby"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23880,6 +23945,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["is-ci", "npm:2.0.0"],\
             ["read", "npm:1.0.7"],\
             ["strip-ansi", "npm:5.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["zustand", [\
+        ["npm:3.7.1", {\
+          "packageLocation": "./.yarn/cache/zustand-npm-3.7.1-c210dd782f-987a2cee95.zip/node_modules/zustand/",\
+          "packageDependencies": [\
+            ["zustand", "npm:3.7.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.7.1", {\
+          "packageLocation": "./.yarn/__virtual__/zustand-virtual-cf6cac4323/0/cache/zustand-npm-3.7.1-c210dd782f-987a2cee95.zip/node_modules/zustand/",\
+          "packageDependencies": [\
+            ["zustand", "virtual:7e3960126850912473850c85dc56b16ff5bb5063f7b86a16363d8ee31945260dea03a297cd2cf17ad6d55e5d6a8e1cbe7683eb25c3eaceffe5bfa4695bcc01d8#npm:3.7.1"],\
+            ["@types/react", "npm:17.0.42"],\
+            ["react", "npm:17.0.2"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\

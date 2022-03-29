@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Container from './container'
+import Container from '../container/container'
 import * as styles from './footer.module.scss'
 
 const Footer: React.FC = () => (

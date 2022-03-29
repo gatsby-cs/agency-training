@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, graphql, PageProps } from 'gatsby'
 
-import Seo from '../components/seo'
-import Layout from '../components/layout'
-import Hero from '../components/hero'
-import Tags from '../components/tags'
+import Seo from '../components/seo/seo'
+import Layout from '../components/layout/layout'
+import Hero from '../components/hero/hero'
+import Tags from '../components/tags/tags'
 import * as styles from './blog-post.module.scss'
 import { GatsbyImage } from 'gatsby-plugin-image'
 

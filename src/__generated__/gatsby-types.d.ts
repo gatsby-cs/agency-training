@@ -12153,10 +12153,16 @@ type BlogIndexQueryQuery = { readonly allContentfulPageBlogPost: { readonly node
       & { readonly heroImage: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html'>> }> }
     )> } };
 
-type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
+type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<(
+      Pick<ContentfulPageBlogPost, 'title' | 'slug' | 'publishDate' | 'tags'>
+      & { readonly heroImage: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html'>> }> }
+    )> }, readonly contentfulEntityPerson: Maybe<(
+    Pick<ContentfulEntityPerson, 'name' | 'title'>
+    & { readonly shortBio: Maybe<Pick<contentfulEntityPersonShortBioTextNode, 'shortBio'>>, readonly image: Maybe<Pick<ContentfulAsset, 'gatsbyImageData'>> }
+  )> };
 
 type BadBlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -12170,5 +12176,15 @@ type BadBlogPostBySlugQuery = { readonly contentfulPageBlogPost: Maybe<(
     & { rawDate: ContentfulPageBlogPost['publishDate'] }
     & { readonly author: Maybe<Pick<ContentfulEntityPerson, 'name'>>, readonly heroImage: Maybe<{ readonly resize: Maybe<Pick<ContentfulResize, 'src'>>, readonly file: Maybe<Pick<ContentfulAssetFile, 'url'>> }>, readonly body: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'html' | 'timeToRead'>> }>, readonly description: Maybe<{ readonly childMarkdownRemark: Maybe<Pick<MarkdownRemark, 'excerpt'>> }> }
   )>, readonly previous: Maybe<Pick<ContentfulPageBlogPost, 'slug' | 'title'>>, readonly next: Maybe<Pick<ContentfulPageBlogPost, 'slug' | 'title'>> };
+
+type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
+
+type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type Unnamed_2_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
 
 }

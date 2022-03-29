@@ -1,26 +1,37 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 
-import Layout from '../components/layout'
-import Hero from '../components/hero'
-import ArticlePreview from '../components/article-preview'
+import Layout from '../components/layout/layout'
+import Hero from '../components/hero/hero'
+import ArticlePreview from '../components/article-preview/article-preview'
 
 import { PageProps } from 'gatsby'
+import { getImage } from 'gatsby-plugin-image'
 
 interface DataProps {
   allContentfulPageBlogPost: {
     nodes: GatsbyTypes.ContentfulPageBlogPost[]
   }
-  contentfulEntityPerson: GatsbyTypes.ContentfulPerson
+  contentfulEntityPerson: GatsbyTypes.ContentfulEntityPerson
 }
 
 const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
   const posts = data.allContentfulPageBlogPost.nodes
   const author = data.contentfulEntityPerson
-
   console.log(author)
 
-  return <Layout location={location}>Training!</Layout>
+  return (
+    <Layout location={location}>
+      <Hero
+        title="Agency Training"
+        image={
+          author?.image?.gatsbyImageData &&
+          getImage(author.image.gatsbyImageData)
+        }
+      />
+      <ArticlePreview posts={posts} />
+    </Layout>
+  )
 }
 
 export default RootIndex
@@ -48,14 +59,20 @@ export const pageQuery = graphql`
         }
       }
     }
-    contentfulEntityPerson(contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" }) {
+    contentfulEntityPerson(contentful_id: { eq: "2037iqVH7K7LXMOUBAiztV" }) {
       name
       shortBio {
         shortBio
       }
       title
       image {
-        gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1180)
+        gatsbyImageData(
+          layout: CONSTRAINED
+          formats: [AUTO, WEBP]
+          placeholder: BLURRED
+          width: 1440
+          quality: 100
+        )
       }
     }
   }

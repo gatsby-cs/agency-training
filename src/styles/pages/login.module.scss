@@ -1,0 +1,7 @@
+.container {
+  height: 100vh;
+
+  :global(.cl-auth-form-header) {
+    padding-top: 0;
+  }
+}

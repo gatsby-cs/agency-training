@@ -1,5 +1,11 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import {
+  SignOutButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/clerk-react'
 
 import * as styles from './navigation.module.scss'
 
@@ -19,6 +25,30 @@ const Navigation: React.FC = () => (
         <Link to="/blog/" activeClassName="active">
           Blog
         </Link>
+      </li>
+      <SignedIn>
+        <li className={styles.navigationItem}>
+          <Link to="/profile/" activeClassName="active">
+            Profile
+          </Link>
+        </li>
+      </SignedIn>
+      <SignedIn>
+        <li className={styles.navigationItem}>
+          <UserButton />
+        </li>
+      </SignedIn>
+      <li className={styles.navigationItem}>
+        <SignedOut>
+          <Link to="/login/" activeClassName="active">
+            Login
+          </Link>
+        </SignedOut>
+        <SignedIn>
+          <SignOutButton>
+            <button className={styles.logout}>Logout</button>
+          </SignOutButton>
+        </SignedIn>
       </li>
     </ul>
   </nav>

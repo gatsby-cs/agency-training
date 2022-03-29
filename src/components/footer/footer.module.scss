@@ -2,8 +2,13 @@
   border-top: 1px solid var(--border);
   font-size: var(--text-sm);
   margin-top: var(--space-2xl);
-  padding: var(--space-2xl) 0;
+  padding: var(--space-2xl);
   text-align: right;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
 }
 
 .container a {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link, graphql, PageProps } from 'gatsby'
 
-import Seo from '../components/seo'
-import Layout from '../components/layout'
-import Tags from '../components/tags'
-import BadHero from '../components/bad-hero'
+import Seo from '../components/seo/seo'
+import Layout from '../components/layout/layout'
+import Tags from '../components/tags/tags'
+import BadHero from '../components/hero/bad-hero'
 
 import * as styles from './blog-post.module.scss'
 

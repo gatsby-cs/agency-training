@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
-import Container from './container'
-import Tags from './tags'
+import Container from '../container/container'
+import Tags from '../tags/tags'
 import * as styles from './article-preview.module.scss'
 
 const ArticlePreview = ({
