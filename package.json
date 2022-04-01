@@ -56,5 +56,5 @@
     "serve": "gatsby serve",
     "setup": "node ./bin/setup.js"
   },
-  "packageManager": "yarn@1.22.18"
+  "packageManager": "yarn@3.2.0"
 }
