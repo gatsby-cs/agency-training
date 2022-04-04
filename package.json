@@ -59,6 +59,7 @@
     "dev": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
+    "clean": "gatsby clean",
     "setup": "node ./bin/setup.js"
   },
   "packageManager": "yarn@3.2.0"

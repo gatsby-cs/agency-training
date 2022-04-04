@@ -1,7 +1,7 @@
 import React from 'react'
 import loadable from '@loadable/component'
 
-import * as Fa from 'react-icons/fa'
+import * as styles from './icon.module.scss'
 
 type IconProps = {
   iconName: string
@@ -13,26 +13,26 @@ const CustomIcon: React.FC<IconProps> = ({ iconName }) => {
     // @ts-ignore
     resolveComponent: (el: JSX.Element) => el[iconName],
   })
-  return <Icon />
+  //@ts-ignore
+  return <Icon className={styles.svg} />
 }
 
 export default CustomIcon
 
-// type IconProps = {
-//   name: string
-//   color: string
-//   size: string
-// }
+type SpriteIconProps = {
+  iconName: string
+  color?: string
+  size?: string
+}
 
-// export const Icon: React.FC<IconProps> = ({ name, color, size }) => {
-//   return (
-//     <svg
-//       style={{ position: 'absolute' }}
-//       width={size}
-//       viewBox="0 0 1000 500"
-//       fill={color}
-//     >
-//       <use href={Icons + `#${name}`} />
-//     </svg>
-//   )
-// }
+export const SpriteIcon: React.FC<SpriteIconProps> = ({
+  iconName,
+  color,
+  size,
+}) => {
+  return (
+    <svg width="100" viewBox="0 0 1000 500" fill={color}>
+      <use href={'/sprite.svg' + `#${iconName}`} />
+    </svg>
+  )
+}
