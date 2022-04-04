@@ -7,6 +7,7 @@ import {
   SignedIn,
   RedirectToSignIn,
 } from '@clerk/clerk-react'
+import { withServerSideAuth } from '@clerk/nextjs/ssr'
 
 import Layout from '../../components/layout/layout'
 
@@ -23,8 +24,9 @@ const Account: React.FC<ClientPageProps> = (props) => {
   return <h2>Account!</h2>
 }
 
-export default function Profile() {
+export default function Profile({ serverData }) {
   const user = useUser()
+  console.log(serverData)
 
   return (
     <>
@@ -47,4 +49,26 @@ export default function Profile() {
       </SignedIn>
     </>
   )
+}
+
+//@ts-ignore
+export async function getServerData(context) {
+  try {
+    withServerSideAuth(context)
+
+    return {
+      status: 200,
+      props: {
+        test: 'foo',
+      },
+      headers: {},
+    }
+  } catch (err) {
+    console.log(err)
+    return {
+      status: 500,
+      headers: {},
+      props: {},
+    }
+  }
 }
