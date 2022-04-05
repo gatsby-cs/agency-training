@@ -57,19 +57,19 @@ module.exports = {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,
     },
-    // {
-    //   resolve: `gatsby-plugin-typegen`,
-    //   options: {
-    //     outputPath: `src/__generated__/gatsby-types.d.ts`,
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-typegen`,
+      options: {
+        outputPath: `src/__generated__/gatsby-types.d.ts`,
+      },
+    },
     {
       resolve: 'gatsby-plugin-clerk',
       options: {
         frontendApi: process.env.CLERK_FRONTEND_API_KEY,
       },
     },
-    // `gatsby-plugin-perf-budgets`,
+    `gatsby-plugin-perf-budgets`,
     'gatsby-plugin-loadable-components-ssr',
   ],
 }

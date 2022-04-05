@@ -40,6 +40,7 @@ const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
           <Link to="/ssr-profile">SSR Profile</Link>
           <Link to="/svg-imports">SVG Imports</Link>
           <Link to="/svg-sprites">SVG Sprites</Link>
+          <Link to="/state-management">State Management</Link>
         </div>
       </Container>
     </Layout>

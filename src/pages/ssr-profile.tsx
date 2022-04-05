@@ -26,7 +26,6 @@ const Account: React.FC<ClientPageProps> = (props) => {
 
 export default function Profile({ serverData }) {
   const user = useUser()
-  console.log(serverData)
 
   return (
     <>
@@ -52,23 +51,23 @@ export default function Profile({ serverData }) {
 }
 
 //@ts-ignore
-export async function getServerData(context) {
-  try {
-    withServerSideAuth(context)
+// export async function getServerData(context) {
+//   try {
+//     withServerSideAuth(context)
 
-    return {
-      status: 200,
-      props: {
-        test: 'foo',
-      },
-      headers: {},
-    }
-  } catch (err) {
-    console.log(err)
-    return {
-      status: 500,
-      headers: {},
-      props: {},
-    }
-  }
-}
+//     return {
+//       status: 200,
+//       props: {
+//         test: 'foo',
+//       },
+//       headers: {},
+//     }
+//   } catch (err) {
+//     console.log(err)
+//     return {
+//       status: 500,
+//       headers: {},
+//       props: {},
+//     }
+//   }
+// }
