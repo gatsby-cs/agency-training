@@ -18,6 +18,7 @@ const Navigation: React.FC = () => {
 
   // Zustand
   const length = useStore((state) => state.length)
+
   return (
     <nav role="navigation" className={styles.container} aria-label="Main">
       <Link to="/" className={styles.logoLink}>
@@ -25,7 +26,7 @@ const Navigation: React.FC = () => {
         <span className={styles.navigationItem}>Gatsby Starter Contentful</span>
       </Link>
       <ul className={styles.navigation}>
-        <li className={styles.navigationItem}>Global Data Length: {length}</li>
+        {/* <li className={styles.navigationItem}>Global Data Length: {length}</li> */}
         <li className={styles.navigationItem}>
           <Link to="/" activeClassName="active">
             Home

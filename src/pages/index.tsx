@@ -83,7 +83,7 @@ export const pageQuery = graphql`
           layout: CONSTRAINED
           formats: [AUTO, WEBP]
           placeholder: BLURRED
-          width: 1440
+          width: 1200
           quality: 100
         )
       }

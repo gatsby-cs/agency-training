@@ -18,8 +18,6 @@ const Hero: React.FC<HeroProps> = ({ image, title, content }) => {
           alt={title}
           image={image}
           loading="eager"
-          // @ts-ignore
-          fetchpriority="high"
         />
       )}
 
