@@ -1,6 +1,8 @@
 // import wrapWithProvider from './src/state/wrap-with-provider'
 // export const wrapRootElement = wrapWithProvider
 
+import React from 'react'
+
 export const onPreRenderHTML = ({
   getHeadComponents,
   replaceHeadComponents,
