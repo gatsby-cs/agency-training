@@ -6,6 +6,7 @@ import Layout from '../components/layout/layout'
 import Hero from '../components/hero/hero'
 import ArticlePreview from '../components/article-preview/article-preview'
 import { getImage } from 'gatsby-plugin-image'
+import Container from '../components/container/container'
 
 interface DataProps {
   allContentfulPageBlogPost: {
@@ -20,8 +21,10 @@ const BlogIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
   return (
     <Layout location={location}>
       <Seo title="Blog" />
-      <Hero title="Blog" image={hero} />
-      <ArticlePreview posts={posts} />
+      <Container>
+        <Hero title="Blog" image={hero} />
+        <ArticlePreview posts={posts} />
+      </Container>
     </Layout>
   )
 }

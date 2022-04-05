@@ -1,5 +1,5 @@
 import React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 
 import Layout from '../components/layout/layout'
 import Hero from '../components/hero/hero'
@@ -7,7 +7,9 @@ import ArticlePreview from '../components/article-preview/article-preview'
 
 import { PageProps } from 'gatsby'
 import { getImage } from 'gatsby-plugin-image'
+import Container from '../components/container/container'
 
+import * as styles from '../styles/pages/index.module.scss'
 interface DataProps {
   allContentfulPageBlogPost: {
     nodes: GatsbyTypes.ContentfulPageBlogPost[]
@@ -21,14 +23,25 @@ const RootIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
 
   return (
     <Layout location={location}>
-      <Hero
-        title="Agency Training"
-        image={
-          author?.image?.gatsbyImageData &&
-          getImage(author.image.gatsbyImageData)
-        }
-      />
-      <ArticlePreview posts={posts} />
+      <Container>
+        <Hero
+          title="Agency Training"
+          image={
+            author?.image?.gatsbyImageData &&
+            getImage(author.image.gatsbyImageData)
+          }
+        />
+        <ArticlePreview posts={posts} />
+        <h2>Modules</h2>
+        <div className={styles.modules}>
+          <Link to="/profile">Profile</Link>
+          <Link to="/form">Functions / Form</Link>
+          <Link to="/gatsby-link">Gatsby Link</Link>
+          <Link to="/ssr-profile">SSR Profile</Link>
+          <Link to="/svg-imports">SVG Imports</Link>
+          <Link to="/svg-sprites">SVG Sprites</Link>
+        </div>
+      </Container>
     </Layout>
   )
 }
