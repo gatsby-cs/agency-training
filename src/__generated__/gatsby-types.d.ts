@@ -2802,6 +2802,7 @@ type ContentfulEntityPerson = ContentfulEntry & ContentfulReference & Node & {
   readonly createdAt: Maybe<Scalars['Date']>;
   readonly email: Maybe<Scalars['String']>;
   readonly facebook: Maybe<Scalars['String']>;
+  readonly gatsbyPath: Maybe<Scalars['String']>;
   readonly github: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
   readonly image: Maybe<ContentfulAsset>;
@@ -2825,6 +2826,11 @@ type ContentfulEntityPerson_createdAtArgs = {
   formatString: InputMaybe<Scalars['String']>;
   fromNow: InputMaybe<Scalars['Boolean']>;
   locale: InputMaybe<Scalars['String']>;
+};
+
+
+type ContentfulEntityPerson_gatsbyPathArgs = {
+  filePath: InputMaybe<Scalars['String']>;
 };
 
 
@@ -3124,6 +3130,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'createdAt'
   | 'email'
   | 'facebook'
+  | 'gatsbyPath'
   | 'github'
   | 'id'
   | 'image.children'
@@ -3218,6 +3225,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.author.createdAt'
   | 'page___blog_post.author.email'
   | 'page___blog_post.author.facebook'
+  | 'page___blog_post.author.gatsbyPath'
   | 'page___blog_post.author.github'
   | 'page___blog_post.author.id'
   | 'page___blog_post.author.image.children'
@@ -3802,6 +3810,7 @@ type ContentfulEntityPersonFilterInput = {
   readonly createdAt: InputMaybe<DateQueryOperatorInput>;
   readonly email: InputMaybe<StringQueryOperatorInput>;
   readonly facebook: InputMaybe<StringQueryOperatorInput>;
+  readonly gatsbyPath: InputMaybe<StringQueryOperatorInput>;
   readonly github: InputMaybe<StringQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly image: InputMaybe<ContentfulAssetFilterInput>;
@@ -4660,6 +4669,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.createdAt'
   | 'author.email'
   | 'author.facebook'
+  | 'author.gatsbyPath'
   | 'author.github'
   | 'author.id'
   | 'author.image.children'
@@ -4719,6 +4729,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.page___blog_post.author.createdAt'
   | 'author.page___blog_post.author.email'
   | 'author.page___blog_post.author.facebook'
+  | 'author.page___blog_post.author.gatsbyPath'
   | 'author.page___blog_post.author.github'
   | 'author.page___blog_post.author.id'
   | 'author.page___blog_post.author.name'
@@ -5693,6 +5704,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.page___blog_post.author.createdAt'
   | 'seo.page___blog_post.author.email'
   | 'seo.page___blog_post.author.facebook'
+  | 'seo.page___blog_post.author.gatsbyPath'
   | 'seo.page___blog_post.author.github'
   | 'seo.page___blog_post.author.id'
   | 'seo.page___blog_post.author.name'
@@ -6413,6 +6425,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.author.createdAt'
   | 'page___blog_post.author.email'
   | 'page___blog_post.author.facebook'
+  | 'page___blog_post.author.gatsbyPath'
   | 'page___blog_post.author.github'
   | 'page___blog_post.author.id'
   | 'page___blog_post.author.image.children'
@@ -9175,6 +9188,7 @@ type Query_contentfulEntityPersonArgs = {
   createdAt: InputMaybe<DateQueryOperatorInput>;
   email: InputMaybe<StringQueryOperatorInput>;
   facebook: InputMaybe<StringQueryOperatorInput>;
+  gatsbyPath: InputMaybe<StringQueryOperatorInput>;
   github: InputMaybe<StringQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   image: InputMaybe<ContentfulAssetFilterInput>;
