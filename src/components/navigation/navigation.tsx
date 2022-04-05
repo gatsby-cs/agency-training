@@ -6,13 +6,18 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/clerk-react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../state/redux'
+// import { useSelector } from 'react-redux'
+// import { RootState } from '../../state/redux'
 
 import * as styles from './navigation.module.scss'
+import useStore from '../../state/zustand'
 
 const Navigation: React.FC = () => {
-  const data = useSelector((state: RootState) => state.data.length)
+  // Redux
+  // const length = useSelector((state: RootState) => state.data.length)
+
+  // Zustand
+  const length = useStore((state) => state.length)
   return (
     <nav role="navigation" className={styles.container} aria-label="Main">
       <Link to="/" className={styles.logoLink}>
@@ -20,7 +25,7 @@ const Navigation: React.FC = () => {
         <span className={styles.navigationItem}>Gatsby Starter Contentful</span>
       </Link>
       <ul className={styles.navigation}>
-        <li className={styles.navigationItem}>Global Data Length: {data}</li>
+        <li className={styles.navigationItem}>Global Data Length: {length}</li>
         <li className={styles.navigationItem}>
           <Link to="/" activeClassName="active">
             Home

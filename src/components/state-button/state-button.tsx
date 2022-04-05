@@ -1,20 +1,26 @@
 import React from 'react'
-import { RootState } from '../../state/redux'
-import { useSelector, useDispatch } from 'react-redux'
-import { set } from '../../state/slice'
+// import { RootState } from '../../state/redux'
+// import { useSelector, useDispatch } from 'react-redux'
+// import { set } from '../../state/slice'
 
 import * as styles from './state-button.module.scss'
+import useStore from '../../state/zustand'
 
 const StateButton: React.FC = () => {
-  const data = useSelector((state: RootState) => state.data.value)
-  const dispatch = useDispatch()
+  // Redux
+  //   const data = useSelector((state: RootState) => state.data.value)
+  //   const dispatch = useDispatch()
+
+  // Zustand
+  const setDataZustand = useStore((state) => state.set)
+  const data = useStore((state) => state.value)
 
   return (
     <div>
       <div>
         <button
           aria-label="Increment value"
-          onClick={() => dispatch(set())}
+          onClick={setDataZustand}
           className={styles.button}
         >
           Set Data
