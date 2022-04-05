@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import data from './data'
 
 const initialState = {
-  value: {},
+  value: [] as any,
+  length: 0,
 }
 
 export const dataSlice = createSlice({
@@ -11,7 +12,8 @@ export const dataSlice = createSlice({
   initialState,
   reducers: {
     set: (state) => {
-      state.value = data
+      state.value = data.data
+      state.length = data.data.length
     },
   },
 })
