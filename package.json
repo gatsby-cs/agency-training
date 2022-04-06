@@ -12,6 +12,7 @@
     "@clerk/clerk-react": "^3.2.1",
     "@clerk/clerk-sdk-node": "^3.3.0",
     "@clerk/nextjs": "^3.3.0",
+    "@contentful/rich-text-react-renderer": "^15.12.0",
     "@loadable/component": "^5.15.2",
     "@reduxjs/toolkit": "^1.8.1",
     "gatsby": "^4.11.0",

@@ -9,6 +9,9 @@ export const onPreRenderHTML = ({
 }) => {
   replaceHeadComponents([
     ...getHeadComponents(),
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" />,
+    <script
+      key="jquery"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    />,
   ])
 }

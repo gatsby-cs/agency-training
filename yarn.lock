@@ -1532,10 +1532,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@contentful/rich-text-react-renderer@npm:^15.12.0":
+  version: 15.12.0
+  resolution: "@contentful/rich-text-react-renderer@npm:15.12.0"
+  dependencies:
+    "@contentful/rich-text-types": ^15.12.0
+  peerDependencies:
+    react: ^16.8.6 || ^17.0.0
+    react-dom: ^16.8.6 || ^17.0.0
+  checksum: 8c18e5ab15981427d53eb749324e909010f812f06d39218cff8a43993ea1f3fae3d4166d35f55dc585688bee616530c244636a251a593b448363834cfed8ed16
+  languageName: node
+  linkType: hard
+
 "@contentful/rich-text-types@npm:^14.1.2":
   version: 14.1.2
   resolution: "@contentful/rich-text-types@npm:14.1.2"
   checksum: 9323587118a90171f59809c1a0375f0d85a0e100347df870f3c14535440baf78dff2b6065661999341eddab08c9fcb06a7791f22644d97d9d76e90f23d2760ce
+  languageName: node
+  linkType: hard
+
+"@contentful/rich-text-types@npm:^15.12.0":
+  version: 15.12.0
+  resolution: "@contentful/rich-text-types@npm:15.12.0"
+  checksum: 3383e59931fe29112fb6dea99b050b234fe459a53cd44991cce56412bc62d14e6bd937bb4457f5fb7e897349252dc3db9dfe3c7f233964ca97826eba9dc9a2ec
   languageName: node
   linkType: hard
 
@@ -4625,6 +4644,7 @@ __metadata:
     "@clerk/clerk-react": ^3.2.1
     "@clerk/clerk-sdk-node": ^3.3.0
     "@clerk/nextjs": ^3.3.0
+    "@contentful/rich-text-react-renderer": ^15.12.0
     "@loadable/component": ^5.15.2
     "@reduxjs/toolkit": ^1.8.1
     "@types/loadable__component": ^5.13.4

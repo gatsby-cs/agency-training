@@ -1,7 +1,11 @@
+import createFlexPages from './gatsby-apis/flex-page'
+
 const path = require('path')
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
+
+  createFlexPages({ graphql, createPage, reporter })
 
   // Define a template for blog post
   const blogPost = path.resolve('./src/templates/blog-post.tsx')
@@ -12,7 +16,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       {
         allContentfulPageBlogPost {
           nodes {
-            title
             slug
           }
         }
