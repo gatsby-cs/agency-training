@@ -1,15 +1,16 @@
-import createFlexPages from './gatsby-apis/flex-page'
+// import createFlexPages from './gatsby-apis/flex-page'
 
 const path = require('path')
+const fetch = require('node-fetch')
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
-  createFlexPages({ graphql, createPage, reporter })
+  // createFlexPages({ graphql, createPage, reporter })
 
   // Define a template for blog post
   const blogPost = path.resolve('./src/templates/blog-post.tsx')
-  const badBlogPost = path.resolve('./src/templates/bad-blog-post.tsx')
+  // const badBlogPost = path.resolve('./src/templates/bad-blog-post.tsx')
 
   const result = await graphql(
     `
@@ -70,3 +71,73 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     // })
   }
 }
+
+exports.sourceNodes = async ({
+  actions,
+  createContentDigest,
+  createNodeId,
+}) => {
+  const { createNode } = actions
+
+  const data = await fetch(`https://api.openbrewerydb.org/breweries`)
+  const breweries = await data.json()
+  const POST_NODE_TYPE = `Brewery`
+  breweries.forEach((brewery, i) => {
+    createNode({
+      ...brewery,
+      id: createNodeId(`${POST_NODE_TYPE}-${brewery.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: POST_NODE_TYPE,
+        content: JSON.stringify(brewery),
+        contentDigest: createContentDigest(brewery),
+      },
+    })
+  })
+}
+
+// exports.createResolvers = ({ createResolvers }) => {
+//   const resolvers = {
+//     Brewery: {
+//       hero: {
+//         type: 'ContentfulComponentHero',
+//         resolve(source, args, context, info) {
+//           return context.nodeModel.getNodeById({
+//             id: '3392c50c-b934-50a6-8d79-f57dfb6fa751',
+//             type: 'ContentfulComponentHero',
+//           })
+//         },
+//       },
+//     },
+//   }
+//   createResolvers(resolvers)
+// }
+
+// exports.createSchemaCustomization = ({ actions, schema }) => {
+//   const { createTypes } = actions
+
+//   const typeDefs = [
+//     'type Brewery implements Node { hero: ContentfulComponentHero }',
+//     schema.buildObjectType({
+//       name: 'Brewery',
+//       fields: {
+//         hero: {
+//           type: 'ContentfulComponentHero',
+//           resolve: (source, args, context, info) => {
+//             // source is the instance in question at the time of the query
+//             // source.heroId
+//             return context.nodeModel.findOne({
+//               type: 'ContentfulComponentHero',
+//               query: {
+//                 filter: { id: { eq: '3392c50c-b934-50a6-8d79-f57dfb6fa751' } },
+//               },
+//             })
+//           },
+//         },
+//       },
+//     }),
+//   ]
+
+//   createTypes(typeDefs)
+// }

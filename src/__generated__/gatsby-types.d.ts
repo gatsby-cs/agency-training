@@ -46,6 +46,255 @@ type BooleanQueryOperatorInput = {
   readonly nin: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
 };
 
+type Brewery = Node & {
+  readonly brewery_type: Maybe<Scalars['String']>;
+  readonly children: ReadonlyArray<Node>;
+  readonly city: Maybe<Scalars['String']>;
+  readonly country: Maybe<Scalars['String']>;
+  readonly created_at: Maybe<Scalars['Date']>;
+  readonly hero: Maybe<ContentfulComponentHero>;
+  readonly id: Scalars['ID'];
+  readonly internal: Internal;
+  readonly latitude: Maybe<Scalars['String']>;
+  readonly longitude: Maybe<Scalars['String']>;
+  readonly name: Maybe<Scalars['String']>;
+  readonly parent: Maybe<Node>;
+  readonly phone: Maybe<Scalars['String']>;
+  readonly postal_code: Maybe<Scalars['String']>;
+  readonly state: Maybe<Scalars['String']>;
+  readonly street: Maybe<Scalars['String']>;
+  readonly updated_at: Maybe<Scalars['Date']>;
+  readonly website_url: Maybe<Scalars['String']>;
+};
+
+
+type Brewery_created_atArgs = {
+  difference: InputMaybe<Scalars['String']>;
+  formatString: InputMaybe<Scalars['String']>;
+  fromNow: InputMaybe<Scalars['Boolean']>;
+  locale: InputMaybe<Scalars['String']>;
+};
+
+
+type Brewery_updated_atArgs = {
+  difference: InputMaybe<Scalars['String']>;
+  formatString: InputMaybe<Scalars['String']>;
+  fromNow: InputMaybe<Scalars['Boolean']>;
+  locale: InputMaybe<Scalars['String']>;
+};
+
+type BreweryConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<BreweryEdge>;
+  readonly group: ReadonlyArray<BreweryGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<Brewery>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type BreweryConnection_distinctArgs = {
+  field: BreweryFieldsEnum;
+};
+
+
+type BreweryConnection_groupArgs = {
+  field: BreweryFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type BreweryConnection_maxArgs = {
+  field: BreweryFieldsEnum;
+};
+
+
+type BreweryConnection_minArgs = {
+  field: BreweryFieldsEnum;
+};
+
+
+type BreweryConnection_sumArgs = {
+  field: BreweryFieldsEnum;
+};
+
+type BreweryEdge = {
+  readonly next: Maybe<Brewery>;
+  readonly node: Brewery;
+  readonly previous: Maybe<Brewery>;
+};
+
+type BreweryFieldsEnum =
+  | 'brewery_type'
+  | 'children'
+  | 'children.children'
+  | 'children.children.children'
+  | 'children.children.children.children'
+  | 'children.children.children.id'
+  | 'children.children.id'
+  | 'children.children.internal.content'
+  | 'children.children.internal.contentDigest'
+  | 'children.children.internal.description'
+  | 'children.children.internal.fieldOwners'
+  | 'children.children.internal.ignoreType'
+  | 'children.children.internal.mediaType'
+  | 'children.children.internal.owner'
+  | 'children.children.internal.type'
+  | 'children.children.parent.children'
+  | 'children.children.parent.id'
+  | 'children.id'
+  | 'children.internal.content'
+  | 'children.internal.contentDigest'
+  | 'children.internal.description'
+  | 'children.internal.fieldOwners'
+  | 'children.internal.ignoreType'
+  | 'children.internal.mediaType'
+  | 'children.internal.owner'
+  | 'children.internal.type'
+  | 'children.parent.children'
+  | 'children.parent.children.children'
+  | 'children.parent.children.id'
+  | 'children.parent.id'
+  | 'children.parent.internal.content'
+  | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.description'
+  | 'children.parent.internal.fieldOwners'
+  | 'children.parent.internal.ignoreType'
+  | 'children.parent.internal.mediaType'
+  | 'children.parent.internal.owner'
+  | 'children.parent.internal.type'
+  | 'children.parent.parent.children'
+  | 'children.parent.parent.id'
+  | 'city'
+  | 'country'
+  | 'created_at'
+  | 'id'
+  | 'internal.content'
+  | 'internal.contentDigest'
+  | 'internal.description'
+  | 'internal.fieldOwners'
+  | 'internal.ignoreType'
+  | 'internal.mediaType'
+  | 'internal.owner'
+  | 'internal.type'
+  | 'latitude'
+  | 'longitude'
+  | 'name'
+  | 'parent.children'
+  | 'parent.children.children'
+  | 'parent.children.children.children'
+  | 'parent.children.children.id'
+  | 'parent.children.id'
+  | 'parent.children.internal.content'
+  | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.description'
+  | 'parent.children.internal.fieldOwners'
+  | 'parent.children.internal.ignoreType'
+  | 'parent.children.internal.mediaType'
+  | 'parent.children.internal.owner'
+  | 'parent.children.internal.type'
+  | 'parent.children.parent.children'
+  | 'parent.children.parent.id'
+  | 'parent.id'
+  | 'parent.internal.content'
+  | 'parent.internal.contentDigest'
+  | 'parent.internal.description'
+  | 'parent.internal.fieldOwners'
+  | 'parent.internal.ignoreType'
+  | 'parent.internal.mediaType'
+  | 'parent.internal.owner'
+  | 'parent.internal.type'
+  | 'parent.parent.children'
+  | 'parent.parent.children.children'
+  | 'parent.parent.children.id'
+  | 'parent.parent.id'
+  | 'parent.parent.internal.content'
+  | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.description'
+  | 'parent.parent.internal.fieldOwners'
+  | 'parent.parent.internal.ignoreType'
+  | 'parent.parent.internal.mediaType'
+  | 'parent.parent.internal.owner'
+  | 'parent.parent.internal.type'
+  | 'parent.parent.parent.children'
+  | 'parent.parent.parent.id'
+  | 'phone'
+  | 'postal_code'
+  | 'state'
+  | 'street'
+  | 'updated_at'
+  | 'website_url';
+
+type BreweryFilterInput = {
+  readonly brewery_type: InputMaybe<StringQueryOperatorInput>;
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly city: InputMaybe<StringQueryOperatorInput>;
+  readonly country: InputMaybe<StringQueryOperatorInput>;
+  readonly created_at: InputMaybe<DateQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly latitude: InputMaybe<StringQueryOperatorInput>;
+  readonly longitude: InputMaybe<StringQueryOperatorInput>;
+  readonly name: InputMaybe<StringQueryOperatorInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+  readonly phone: InputMaybe<StringQueryOperatorInput>;
+  readonly postal_code: InputMaybe<StringQueryOperatorInput>;
+  readonly state: InputMaybe<StringQueryOperatorInput>;
+  readonly street: InputMaybe<StringQueryOperatorInput>;
+  readonly updated_at: InputMaybe<DateQueryOperatorInput>;
+  readonly website_url: InputMaybe<StringQueryOperatorInput>;
+};
+
+type BreweryGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<BreweryEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<BreweryGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<Brewery>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type BreweryGroupConnection_distinctArgs = {
+  field: BreweryFieldsEnum;
+};
+
+
+type BreweryGroupConnection_groupArgs = {
+  field: BreweryFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type BreweryGroupConnection_maxArgs = {
+  field: BreweryFieldsEnum;
+};
+
+
+type BreweryGroupConnection_minArgs = {
+  field: BreweryFieldsEnum;
+};
+
+
+type BreweryGroupConnection_sumArgs = {
+  field: BreweryFieldsEnum;
+};
+
+type BrewerySortInput = {
+  readonly fields: InputMaybe<ReadonlyArray<InputMaybe<BreweryFieldsEnum>>>;
+  readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
+};
+
 type ContentfulAsset = ContentfulReference & Node & RemoteFile & {
   readonly children: ReadonlyArray<Node>;
   readonly contentful_id: Scalars['String'];
@@ -8758,6 +9007,7 @@ type PotraceTurnPolicy =
   | 'white';
 
 type Query = {
+  readonly allBrewery: BreweryConnection;
   readonly allContentfulAsset: ContentfulAssetConnection;
   readonly allContentfulComponentCallout: ContentfulComponentCalloutConnection;
   readonly allContentfulComponentCalloutBodyTextNode: contentfulComponentCalloutBodyTextNodeConnection;
@@ -8785,6 +9035,7 @@ type Query = {
   readonly allSiteFunction: SiteFunctionConnection;
   readonly allSitePage: SitePageConnection;
   readonly allSitePlugin: SitePluginConnection;
+  readonly brewery: Maybe<Brewery>;
   readonly contentfulAsset: Maybe<ContentfulAsset>;
   readonly contentfulComponentCallout: Maybe<ContentfulComponentCallout>;
   readonly contentfulComponentCalloutBodyTextNode: Maybe<contentfulComponentCalloutBodyTextNode>;
@@ -8812,6 +9063,14 @@ type Query = {
   readonly siteFunction: Maybe<SiteFunction>;
   readonly sitePage: Maybe<SitePage>;
   readonly sitePlugin: Maybe<SitePlugin>;
+};
+
+
+type Query_allBreweryArgs = {
+  filter: InputMaybe<BreweryFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<BrewerySortInput>;
 };
 
 
@@ -9028,6 +9287,27 @@ type Query_allSitePluginArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<SitePluginSortInput>;
+};
+
+
+type Query_breweryArgs = {
+  brewery_type: InputMaybe<StringQueryOperatorInput>;
+  children: InputMaybe<NodeFilterListInput>;
+  city: InputMaybe<StringQueryOperatorInput>;
+  country: InputMaybe<StringQueryOperatorInput>;
+  created_at: InputMaybe<DateQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  latitude: InputMaybe<StringQueryOperatorInput>;
+  longitude: InputMaybe<StringQueryOperatorInput>;
+  name: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+  phone: InputMaybe<StringQueryOperatorInput>;
+  postal_code: InputMaybe<StringQueryOperatorInput>;
+  state: InputMaybe<StringQueryOperatorInput>;
+  street: InputMaybe<StringQueryOperatorInput>;
+  updated_at: InputMaybe<DateQueryOperatorInput>;
+  website_url: InputMaybe<StringQueryOperatorInput>;
 };
 
 
@@ -12077,6 +12357,13 @@ type BadBlogPostBySlugQueryVariables = Exact<{
 
 
 type BadBlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly resize: { readonly src: string | undefined } | undefined, readonly file: { readonly url: string | undefined } | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
+
+type FlexPageBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | undefined, readonly content: ReadonlyArray<{ readonly heading: string | undefined, readonly internal: { readonly type: string }, readonly body: { readonly body: string | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | undefined } | undefined } | undefined> | undefined } | undefined };
 
 
 }
