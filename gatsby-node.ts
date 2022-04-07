@@ -65,10 +65,6 @@ exports.createSchemaCustomization = async ({ actions, schema }) => {
   const { createTypes } = actions
 
   const typeDefs = `
-  type ContentfulInferComponent implements Node {
-    name: String!
-  }
-
   type Geo {
     lat: String
     lng: String
