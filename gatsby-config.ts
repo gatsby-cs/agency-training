@@ -70,6 +70,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-perf-budgets`,
-    'gatsby-plugin-loadable-components-ssr',
+    // 'gatsby-plugin-loadable-components-ssr',
   ],
 }
