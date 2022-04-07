@@ -71,5 +71,12 @@ module.exports = {
     },
     // `gatsby-plugin-perf-budgets`,
     'gatsby-plugin-loadable-components-ssr',
+    {
+      resolve: `gatsby-theme-notes`,
+      options: {
+        // basePath defaults to `/`
+        basePath: `/notes`,
+      },
+    },
   ],
 }

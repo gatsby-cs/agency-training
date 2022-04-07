@@ -10,9 +10,8 @@ import {
 import { withServerSideAuth } from '@clerk/nextjs/ssr'
 
 import Layout from '../../components/layout/layout'
-
 import * as styles from '../../styles/pages/profile.module.scss'
-import { userInfo } from 'os'
+
 type ClientPageProps = {
   path: string
 }
@@ -68,9 +67,8 @@ const Account: React.FC<ClientPageProps> = (props) => {
   )
 }
 
-export default function Profile({ serverData }) {
+export default function Profile() {
   const user = useUser()
-  console.log(user)
 
   return (
     <>
@@ -112,23 +110,23 @@ export default function Profile({ serverData }) {
 }
 
 //@ts-ignore
-// export async function getServerData(context) {
-//   try {
-//     withServerSideAuth(context)
+export async function getServerData(context) {
+  try {
+    withServerSideAuth(context)
 
-//     return {
-//       status: 200,
-//       props: {
-//         test: 'foo',
-//       },
-//       headers: {},
-//     }
-//   } catch (err) {
-//     console.log(err)
-//     return {
-//       status: 500,
-//       headers: {},
-//       props: {},
-//     }
-//   }
-// }
+    return {
+      status: 200,
+      props: {
+        test: 'foo',
+      },
+      headers: {},
+    }
+  } catch (err) {
+    console.log(err)
+    return {
+      status: 500,
+      headers: {},
+      props: {},
+    }
+  }
+}

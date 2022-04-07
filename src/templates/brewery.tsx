@@ -1,5 +1,5 @@
 import { graphql, PageProps } from 'gatsby'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 type BreweryProps = {
   brewery: {
@@ -8,8 +8,6 @@ type BreweryProps = {
 }
 
 const Brewery: React.FC<PageProps<BreweryProps>> = ({ data, serverData }) => {
-  console.log(serverData)
-
   return (
     <>
       <div>Static:{data.brewery.name}</div>

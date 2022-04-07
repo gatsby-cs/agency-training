@@ -92,6 +92,9 @@ export const pageQuery = graphql`
       rawDate: publishDate
       heroImage {
         gatsbyImageData(layout: CONSTRAINED, placeholder: BLURRED, width: 1280)
+        resize {
+          src
+        }
       }
 
       body {

@@ -4,6 +4,7 @@ import React from 'react'
 import loadable from '@loadable/component'
 import Container from '../components/container/container'
 import Layout from '../components/layout/layout'
+import Seo from '../components/seo/seo'
 
 const Callout = loadable(() => import('../components/callout/callout'))
 const Hero = loadable(() => import('../components/hero/hero'))
@@ -17,6 +18,7 @@ const FlexPage: React.FC<PageProps<FlexPageProps>> = ({ data }) => {
   const page = data.contentfulPageFlexPage
   return (
     <Layout>
+      <Seo />
       <Container>
         <h1>{page.slug}</h1>
         {page.content?.map((c) => {
@@ -42,6 +44,7 @@ export const pageQuery = graphql`
   query FlexPageBySlug($slug: String!) {
     contentfulPageFlexPage(slug: { eq: $slug }) {
       slug
+      title
       content {
         ... on ContentfulComponentCallout {
           ...CalloutFragment
