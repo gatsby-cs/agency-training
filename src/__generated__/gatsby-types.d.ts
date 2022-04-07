@@ -13701,10 +13701,14 @@ type BlogIndexQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 type BlogIndexQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> } };
 
-type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
+type BlogPostBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+  previousPostSlug: InputMaybe<Scalars['String']>;
+  nextPostSlug: InputMaybe<Scalars['String']>;
+}>;
 
 
-type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> }, readonly allContentfulInferComponent: { readonly nodes: ReadonlyArray<{ readonly name: string }> }, readonly contentfulEntityPerson: { readonly name: string | undefined, readonly title: string | undefined, readonly shortBio: { readonly shortBio: string | undefined } | undefined, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | undefined };
+type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
 
 type BadBlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -13714,15 +13718,6 @@ type BadBlogPostBySlugQueryVariables = Exact<{
 
 
 type BadBlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly resize: { readonly src: string | undefined } | undefined, readonly file: { readonly url: string | undefined } | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
-
-type BlogPostBySlugQueryVariables = Exact<{
-  slug: Scalars['String'];
-  previousPostSlug: InputMaybe<Scalars['String']>;
-  nextPostSlug: InputMaybe<Scalars['String']>;
-}>;
-
-
-type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
 
 type FlexPageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -13737,6 +13732,11 @@ type BreweryPageQueryVariables = Exact<{
 
 
 type BreweryPageQuery = { readonly brewery: { readonly name: string | undefined } | undefined };
+
+type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> }, readonly allContentfulInferComponent: { readonly nodes: ReadonlyArray<{ readonly name: string }> }, readonly contentfulEntityPerson: { readonly name: string | undefined, readonly title: string | undefined, readonly shortBio: { readonly shortBio: string | undefined } | undefined, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | undefined };
 
 
 }
