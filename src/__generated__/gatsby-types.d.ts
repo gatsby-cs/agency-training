@@ -1145,6 +1145,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -2005,6 +2006,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -2686,6 +2688,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -6399,6 +6402,7 @@ type ContentfulPageFlexPage = ContentfulEntry & ContentfulReference & Node & {
   readonly slug: Maybe<Scalars['String']>;
   readonly spaceId: Maybe<Scalars['String']>;
   readonly sys: Maybe<ContentfulPageFlexPageSys>;
+  readonly title: Maybe<Scalars['String']>;
   readonly updatedAt: Maybe<Scalars['Date']>;
 };
 
@@ -6560,6 +6564,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'sys.contentType.sys.type'
   | 'sys.revision'
   | 'sys.type'
+  | 'title'
   | 'updatedAt';
 
 type ContentfulPageFlexPageFilterInput = {
@@ -6573,6 +6578,7 @@ type ContentfulPageFlexPageFilterInput = {
   readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly spaceId: InputMaybe<StringQueryOperatorInput>;
   readonly sys: InputMaybe<ContentfulPageFlexPageSysFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
   readonly updatedAt: InputMaybe<DateQueryOperatorInput>;
 };
 
@@ -9817,6 +9823,7 @@ type Query_contentfulPageFlexPageArgs = {
   slug: InputMaybe<StringQueryOperatorInput>;
   spaceId: InputMaybe<StringQueryOperatorInput>;
   sys: InputMaybe<ContentfulPageFlexPageSysFilterInput>;
+  title: InputMaybe<StringQueryOperatorInput>;
   updatedAt: InputMaybe<DateQueryOperatorInput>;
 };
 
@@ -12569,6 +12576,13 @@ type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> }, readonly allContentfulInferComponent: { readonly nodes: ReadonlyArray<{ readonly name: string }> }, readonly contentfulEntityPerson: { readonly name: string | undefined, readonly title: string | undefined, readonly shortBio: { readonly shortBio: string | undefined } | undefined, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | undefined };
 
+type FlexPageBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | undefined, readonly content: ReadonlyArray<{ readonly heading: string | undefined, readonly internal: { readonly type: string }, readonly body: { readonly body: string | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | undefined } | undefined } | undefined> | undefined } | undefined };
+
 type BadBlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
   previousPostSlug: InputMaybe<Scalars['String']>;
@@ -12586,13 +12600,6 @@ type BlogPostBySlugQueryVariables = Exact<{
 
 
 type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
-
-type FlexPageBySlugQueryVariables = Exact<{
-  slug: Scalars['String'];
-}>;
-
-
-type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | undefined, readonly content: ReadonlyArray<{ readonly heading: string | undefined, readonly internal: { readonly type: string }, readonly body: { readonly body: string | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | undefined } | undefined } | undefined> | undefined } | undefined };
 
 
 }
