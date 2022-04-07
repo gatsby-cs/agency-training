@@ -1,3 +1,4 @@
+import createBreweryPages from './gatsby-apis/brewery'
 import createFlexPages from './gatsby-apis/flex-page'
 
 const path = require('path')
@@ -6,6 +7,7 @@ const fetch = require('node-fetch')
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
+  createBreweryPages({ graphql, createPage, reporter })
   createFlexPages({ graphql, createPage, reporter })
 
   // Define a template for blog post
@@ -91,6 +93,7 @@ exports.sourceNodes = async ({
   breweries.forEach((brewery, i) => {
     createNode({
       ...brewery,
+      breweryId: brewery.id,
       id: createNodeId(`${POST_NODE_TYPE}-${brewery.id}`),
       parent: null,
       children: [],

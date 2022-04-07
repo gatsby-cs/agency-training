@@ -2,11 +2,11 @@
 import { graphql, PageProps } from 'gatsby'
 import React from 'react'
 import loadable from '@loadable/component'
+import Container from '../components/container/container'
+import Layout from '../components/layout/layout'
 
 const Callout = loadable(() => import('../components/callout/callout'))
-const Container = loadable(() => import('../components/container/container'))
 const Hero = loadable(() => import('../components/hero/hero'))
-const Layout = loadable(() => import('../components/layout/layout'))
 const Paragraph = loadable(() => import('../components/paragraph/paragraph'))
 
 type FlexPageProps = {

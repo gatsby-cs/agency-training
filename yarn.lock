@@ -4143,6 +4143,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-lazyload@npm:^3":
+  version: 3.2.0
+  resolution: "@types/react-lazyload@npm:3.2.0"
+  dependencies:
+    "@types/react": "*"
+  checksum: bb9399481be2b1f4eaef67d24497951a5e5d2a3cfef6a24157da71d2b8f0abbb0ab1d72a89c05705bb8b5dc1c980a0ee4af3d5c435a6533da240836e8fd410b8
+  languageName: node
+  linkType: hard
+
 "@types/react-redux@npm:^7, @types/react-redux@npm:^7.1.20":
   version: 7.1.23
   resolution: "@types/react-redux@npm:7.1.23"
@@ -4653,6 +4662,7 @@ __metadata:
     "@types/react": ^17.0.42
     "@types/react-dom": ^17.0.13
     "@types/react-helmet": ^6.1.5
+    "@types/react-lazyload": ^3
     "@types/react-redux": ^7
     contentful-import: ^7.8.6
     dotenv: ^16.0.0
@@ -4672,6 +4682,7 @@ __metadata:
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
     react-icons: ^4.3.1
+    react-lazyload: ^3.2.0
     react-redux: ^7.2.8
     sass: ^1.49.9
     ts-graphql-plugin: ^2.1.6
@@ -15660,6 +15671,16 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-lazyload@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "react-lazyload@npm:3.2.0"
+  peerDependencies:
+    react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+  checksum: 871a88c698a80c53ead85c293b493ac67c94e5980590094128c371e3f1e3d5bc17841ead1e7830771c87ece7fe677a6c9c323f3e6ce392a5f6f0328a36c38fe7
   languageName: node
   linkType: hard
 
