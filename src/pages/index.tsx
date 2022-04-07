@@ -62,8 +62,8 @@ export const pageQuery = graphql`
           gatsbyImageData(
             layout: CONSTRAINED
             placeholder: BLURRED
-            width: 330
-            height: 115
+            width: 500
+            height: 250
           )
         }
         description {
@@ -87,10 +87,10 @@ export const pageQuery = graphql`
       image {
         gatsbyImageData(
           layout: CONSTRAINED
-          formats: [AUTO, WEBP]
+          formats: [AUTO, WEBP, AVIF]
           placeholder: BLURRED
           width: 1200
-          quality: 100
+          quality: 75
         )
       }
     }
