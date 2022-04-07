@@ -10,6 +10,7 @@ import { getImage } from 'gatsby-plugin-image'
 import Container from '../components/container/container'
 
 import * as styles from '../styles/pages/index.module.scss'
+
 interface DataProps {
   allContentfulPageBlogPost: {
     nodes: GatsbyTypes.ContentfulPageBlogPost[]
@@ -70,6 +71,11 @@ export const pageQuery = graphql`
             html
           }
         }
+      }
+    }
+    allContentfulInferComponent {
+      nodes {
+        name
       }
     }
     contentfulEntityPerson(contentful_id: { eq: "2037iqVH7K7LXMOUBAiztV" }) {

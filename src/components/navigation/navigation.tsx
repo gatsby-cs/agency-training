@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import { useStaticQuery, graphql, Link } from 'gatsby'
 import {
   SignOutButton,
   SignedIn,
@@ -12,18 +12,30 @@ import {
 import * as styles from './navigation.module.scss'
 import useStore from '../../state/zustand'
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC = (nav_id) => {
   // Redux
   // const length = useSelector((state: RootState) => state.data.length)
 
   // Zustand
   const length = useStore((state) => state.length)
 
+  const navigationData = useStaticQuery(graphql`
+    {
+      contentfulComponentNavigation(
+        contentful_id: { eq: "5Iw1Oniy99MTjCmAKiJ2r0" }
+      ) {
+        title
+      }
+    }
+  `)
+
   return (
     <nav role="navigation" className={styles.container} aria-label="Main">
       <Link to="/" className={styles.logoLink}>
         <span className={styles.logo} />
-        <span className={styles.navigationItem}>Gatsby Starter Contentful</span>
+        <span className={styles.navigationItem}>
+          {navigationData.contentfulComponentNavigation.title}
+        </span>
       </Link>
       <ul className={styles.navigation}>
         {/* <li className={styles.navigationItem}>Global Data Length: {length}</li> */}

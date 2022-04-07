@@ -1,6 +1,7 @@
 export const createPages = () => {
   // create pages programmatically
 }
+
 export const sourceNodes = () => {
   // source nodes from anywhere (JSON, MD, fetch, GraphQL)
   // create nodes

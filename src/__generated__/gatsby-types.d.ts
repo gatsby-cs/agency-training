@@ -52,6 +52,7 @@ type Brewery = Node & {
   readonly city: Maybe<Scalars['String']>;
   readonly country: Maybe<Scalars['String']>;
   readonly created_at: Maybe<Scalars['Date']>;
+  readonly geo: Maybe<Geo>;
   readonly hero: Maybe<ContentfulComponentHero>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
@@ -4367,6 +4368,208 @@ type ContentfulImageCropFocus =
   | 'top_left'
   | 'top_right';
 
+type ContentfulInferComponent = ContentfulEntry & ContentfulReference & Node & {
+  readonly children: ReadonlyArray<Node>;
+  readonly contentful_id: Scalars['String'];
+  readonly id: Scalars['ID'];
+  readonly internal: Internal;
+  readonly name: Scalars['String'];
+  readonly node_locale: Scalars['String'];
+  readonly parent: Maybe<Node>;
+};
+
+type ContentfulInferComponentConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulInferComponentEdge>;
+  readonly group: ReadonlyArray<ContentfulInferComponentGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulInferComponent>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulInferComponentConnection_distinctArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentConnection_groupArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulInferComponentConnection_maxArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentConnection_minArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentConnection_sumArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+type ContentfulInferComponentEdge = {
+  readonly next: Maybe<ContentfulInferComponent>;
+  readonly node: ContentfulInferComponent;
+  readonly previous: Maybe<ContentfulInferComponent>;
+};
+
+type ContentfulInferComponentFieldsEnum =
+  | 'children'
+  | 'children.children'
+  | 'children.children.children'
+  | 'children.children.children.children'
+  | 'children.children.children.id'
+  | 'children.children.id'
+  | 'children.children.internal.content'
+  | 'children.children.internal.contentDigest'
+  | 'children.children.internal.description'
+  | 'children.children.internal.fieldOwners'
+  | 'children.children.internal.ignoreType'
+  | 'children.children.internal.mediaType'
+  | 'children.children.internal.owner'
+  | 'children.children.internal.type'
+  | 'children.children.parent.children'
+  | 'children.children.parent.id'
+  | 'children.id'
+  | 'children.internal.content'
+  | 'children.internal.contentDigest'
+  | 'children.internal.description'
+  | 'children.internal.fieldOwners'
+  | 'children.internal.ignoreType'
+  | 'children.internal.mediaType'
+  | 'children.internal.owner'
+  | 'children.internal.type'
+  | 'children.parent.children'
+  | 'children.parent.children.children'
+  | 'children.parent.children.id'
+  | 'children.parent.id'
+  | 'children.parent.internal.content'
+  | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.description'
+  | 'children.parent.internal.fieldOwners'
+  | 'children.parent.internal.ignoreType'
+  | 'children.parent.internal.mediaType'
+  | 'children.parent.internal.owner'
+  | 'children.parent.internal.type'
+  | 'children.parent.parent.children'
+  | 'children.parent.parent.id'
+  | 'contentful_id'
+  | 'id'
+  | 'internal.content'
+  | 'internal.contentDigest'
+  | 'internal.description'
+  | 'internal.fieldOwners'
+  | 'internal.ignoreType'
+  | 'internal.mediaType'
+  | 'internal.owner'
+  | 'internal.type'
+  | 'name'
+  | 'node_locale'
+  | 'parent.children'
+  | 'parent.children.children'
+  | 'parent.children.children.children'
+  | 'parent.children.children.id'
+  | 'parent.children.id'
+  | 'parent.children.internal.content'
+  | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.description'
+  | 'parent.children.internal.fieldOwners'
+  | 'parent.children.internal.ignoreType'
+  | 'parent.children.internal.mediaType'
+  | 'parent.children.internal.owner'
+  | 'parent.children.internal.type'
+  | 'parent.children.parent.children'
+  | 'parent.children.parent.id'
+  | 'parent.id'
+  | 'parent.internal.content'
+  | 'parent.internal.contentDigest'
+  | 'parent.internal.description'
+  | 'parent.internal.fieldOwners'
+  | 'parent.internal.ignoreType'
+  | 'parent.internal.mediaType'
+  | 'parent.internal.owner'
+  | 'parent.internal.type'
+  | 'parent.parent.children'
+  | 'parent.parent.children.children'
+  | 'parent.parent.children.id'
+  | 'parent.parent.id'
+  | 'parent.parent.internal.content'
+  | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.description'
+  | 'parent.parent.internal.fieldOwners'
+  | 'parent.parent.internal.ignoreType'
+  | 'parent.parent.internal.mediaType'
+  | 'parent.parent.internal.owner'
+  | 'parent.parent.internal.type'
+  | 'parent.parent.parent.children'
+  | 'parent.parent.parent.id';
+
+type ContentfulInferComponentFilterInput = {
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly contentful_id: InputMaybe<StringQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly name: InputMaybe<StringQueryOperatorInput>;
+  readonly node_locale: InputMaybe<StringQueryOperatorInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+};
+
+type ContentfulInferComponentGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulInferComponentEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<ContentfulInferComponentGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulInferComponent>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulInferComponentGroupConnection_distinctArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentGroupConnection_groupArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulInferComponentGroupConnection_maxArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentGroupConnection_minArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentGroupConnection_sumArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+type ContentfulInferComponentSortInput = {
+  readonly fields: InputMaybe<ReadonlyArray<InputMaybe<ContentfulInferComponentFieldsEnum>>>;
+  readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
+};
+
 type ContentfulLink = ContentfulEntry & ContentfulReference & Node & {
   readonly children: ReadonlyArray<Node>;
   readonly component___navigation: Maybe<ReadonlyArray<Maybe<ContentfulComponentNavigation>>>;
@@ -8128,6 +8331,11 @@ type GatsbyImagePlaceholder =
   | 'none'
   | 'tracedSVG';
 
+type Geo = {
+  readonly lat: Maybe<Scalars['String']>;
+  readonly lng: Maybe<Scalars['String']>;
+};
+
 type ImageCropFocus =
   | 17
   | 'CENTER'
@@ -9020,6 +9228,7 @@ type Query = {
   readonly allContentfulEntityPerson: ContentfulEntityPersonConnection;
   readonly allContentfulEntityPersonShortBioTextNode: contentfulEntityPersonShortBioTextNodeConnection;
   readonly allContentfulEntry: ContentfulEntryConnection;
+  readonly allContentfulInferComponent: ContentfulInferComponentConnection;
   readonly allContentfulLink: ContentfulLinkConnection;
   readonly allContentfulPageBlogPost: ContentfulPageBlogPostConnection;
   readonly allContentfulPageBlogPostBodyTextNode: contentfulPageBlogPostBodyTextNodeConnection;
@@ -9048,6 +9257,7 @@ type Query = {
   readonly contentfulEntityPerson: Maybe<ContentfulEntityPerson>;
   readonly contentfulEntityPersonShortBioTextNode: Maybe<contentfulEntityPersonShortBioTextNode>;
   readonly contentfulEntry: Maybe<ContentfulEntry>;
+  readonly contentfulInferComponent: Maybe<ContentfulInferComponent>;
   readonly contentfulLink: Maybe<ContentfulLink>;
   readonly contentfulPageBlogPost: Maybe<ContentfulPageBlogPost>;
   readonly contentfulPageBlogPostBodyTextNode: Maybe<contentfulPageBlogPostBodyTextNode>;
@@ -9167,6 +9377,14 @@ type Query_allContentfulEntryArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<ContentfulEntrySortInput>;
+};
+
+
+type Query_allContentfulInferComponentArgs = {
+  filter: InputMaybe<ContentfulInferComponentFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ContentfulInferComponentSortInput>;
 };
 
 
@@ -9504,6 +9722,17 @@ type Query_contentfulEntryArgs = {
   contentful_id: InputMaybe<StringQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
+  node_locale: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+};
+
+
+type Query_contentfulInferComponentArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  contentful_id: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  name: InputMaybe<StringQueryOperatorInput>;
   node_locale: InputMaybe<StringQueryOperatorInput>;
   parent: InputMaybe<NodeFilterInput>;
 };
@@ -12338,16 +12567,7 @@ type BlogIndexQueryQuery = { readonly allContentfulPageBlogPost: { readonly node
 type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> }, readonly contentfulEntityPerson: { readonly name: string | undefined, readonly title: string | undefined, readonly shortBio: { readonly shortBio: string | undefined } | undefined, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | undefined };
-
-type BlogPostBySlugQueryVariables = Exact<{
-  slug: Scalars['String'];
-  previousPostSlug: InputMaybe<Scalars['String']>;
-  nextPostSlug: InputMaybe<Scalars['String']>;
-}>;
-
-
-type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined, readonly resize: { readonly src: string | undefined } | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
+type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> }, readonly allContentfulInferComponent: { readonly nodes: ReadonlyArray<{ readonly name: string }> }, readonly contentfulEntityPerson: { readonly name: string | undefined, readonly title: string | undefined, readonly shortBio: { readonly shortBio: string | undefined } | undefined, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | undefined };
 
 type BadBlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -12357,6 +12577,15 @@ type BadBlogPostBySlugQueryVariables = Exact<{
 
 
 type BadBlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly resize: { readonly src: string | undefined } | undefined, readonly file: { readonly url: string | undefined } | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
+
+type BlogPostBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+  previousPostSlug: InputMaybe<Scalars['String']>;
+  nextPostSlug: InputMaybe<Scalars['String']>;
+}>;
+
+
+type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
 
 type FlexPageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];

@@ -4,7 +4,6 @@ import {
 } from 'gatsby-source-contentful/rich-text'
 import React from 'react'
 import ContentfulRichText from '../rich-text/rich-text'
-import renderRichText from '../rich-text/rich-text'
 type ParagraphProps = {
   title: string
   content: RenderRichTextData<ContentfulRichTextGatsbyReference>

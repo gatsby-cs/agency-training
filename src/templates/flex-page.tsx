@@ -43,31 +43,13 @@ export const pageQuery = graphql`
       slug
       content {
         ... on ContentfulComponentCallout {
-          internal {
-            type
-          }
-          heading
-          body {
-            body
-          }
+          ...CalloutFragment
         }
         ... on ContentfulComponentHero {
-          internal {
-            type
-          }
-          title
-          image {
-            gatsbyImageData(width: 1200)
-          }
+          ...HeroFragment
         }
         ... on ContentfulComponentParagraph {
-          internal {
-            type
-          }
-          title
-          content {
-            raw
-          }
+          ...ParagraphFragment
         }
       }
     }
