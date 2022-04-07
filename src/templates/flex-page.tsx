@@ -1,12 +1,13 @@
 //@ts-nocheck
 import { graphql, PageProps } from 'gatsby'
 import React from 'react'
-import Callout from '../components/callout/callout'
-import Container from '../components/container/container'
-import Hero from '../components/hero/hero'
+import loadable from '@loadable/component'
 
-import Layout from '../components/layout/layout'
-import Paragraph from '../components/paragraph/paragraph'
+const Callout = loadable(() => import('../components/callout/callout'))
+const Container = loadable(() => import('../components/container/container'))
+const Hero = loadable(() => import('../components/hero/hero'))
+const Layout = loadable(() => import('../components/layout/layout'))
+const Paragraph = loadable(() => import('../components/paragraph/paragraph'))
 
 type FlexPageProps = {
   contentfulPageFlexPage: GatsbyTypes.ContentfulPageFlexPage

@@ -1145,6 +1145,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -2005,6 +2006,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -2686,6 +2688,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -6399,6 +6402,7 @@ type ContentfulPageFlexPage = ContentfulEntry & ContentfulReference & Node & {
   readonly slug: Maybe<Scalars['String']>;
   readonly spaceId: Maybe<Scalars['String']>;
   readonly sys: Maybe<ContentfulPageFlexPageSys>;
+  readonly title: Maybe<Scalars['String']>;
   readonly updatedAt: Maybe<Scalars['Date']>;
 };
 
@@ -6560,6 +6564,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'sys.contentType.sys.type'
   | 'sys.revision'
   | 'sys.type'
+  | 'title'
   | 'updatedAt';
 
 type ContentfulPageFlexPageFilterInput = {
@@ -6573,6 +6578,7 @@ type ContentfulPageFlexPageFilterInput = {
   readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly spaceId: InputMaybe<StringQueryOperatorInput>;
   readonly sys: InputMaybe<ContentfulPageFlexPageSysFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
   readonly updatedAt: InputMaybe<DateQueryOperatorInput>;
 };
 
@@ -9817,6 +9823,7 @@ type Query_contentfulPageFlexPageArgs = {
   slug: InputMaybe<StringQueryOperatorInput>;
   spaceId: InputMaybe<StringQueryOperatorInput>;
   sys: InputMaybe<ContentfulPageFlexPageSysFilterInput>;
+  title: InputMaybe<StringQueryOperatorInput>;
   updatedAt: InputMaybe<DateQueryOperatorInput>;
 };
 
