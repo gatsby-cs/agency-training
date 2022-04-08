@@ -24,6 +24,7 @@ const BlogIndex: React.FC<PageProps<DataProps>> = ({ data, location }) => {
       <Container>
         <Hero title="Blog" image={hero} />
         <ArticlePreview posts={posts} />
+        {document.title}
       </Container>
     </Layout>
   )
