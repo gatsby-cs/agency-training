@@ -29,6 +29,15 @@ function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
         description={post?.description?.childMarkdownRemark?.excerpt}
         image={`http:${post?.heroImage?.resize?.src}`}
       />
+      <script
+        src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+        crossorigin="anonymous"
+      ></script>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap"
+        rel="stylesheet"
+      ></link>
       <Hero
         image={post.heroImage?.file?.url!}
         title={post.title!}
