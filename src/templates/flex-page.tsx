@@ -19,6 +19,11 @@ const FlexPage: React.FC<PageProps<FlexPageProps>> = ({ data }) => {
   return (
     <Layout>
       <Seo />
+      <script
+        src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+        crossorigin="anonymous"
+      ></script>
       <Container>
         <h1>{page.slug}</h1>
 
