@@ -5,10 +5,5 @@ export default function handler(
   res: GatsbyFunctionResponse
 ) {
   console.log(`submitted form`, req.body)
-  // write to a database
-  // talk to an api
-  // send a success or error response
-  // should return original req
-
-  res.json(req.body.name)
+  res.status(200).json(req.body.name)
 }

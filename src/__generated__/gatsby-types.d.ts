@@ -9731,6 +9731,11 @@ type GatsbyImagePlaceholder =
   | 'none'
   | 'tracedSVG';
 
+type Geo = {
+  readonly lat: Maybe<Scalars['String']>;
+  readonly lng: Maybe<Scalars['String']>;
+};
+
 type ImageCropFocus =
   | 17
   | 0

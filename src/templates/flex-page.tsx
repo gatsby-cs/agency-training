@@ -17,6 +17,7 @@ const FlexPage: React.FC<PageProps<FlexPageProps>> = ({ data }) => {
   const page = data.contentfulPageFlexPage
   return (
     <Layout>
+      <Seo />
       <Container>
         <h1>{page.slug}</h1>
 
@@ -43,33 +44,16 @@ export const pageQuery = graphql`
   query FlexPageBySlug($slug: String!) {
     contentfulPageFlexPage(slug: { eq: $slug }) {
       slug
+      title
       content {
         ... on ContentfulComponentCallout {
-          internal {
-            type
-          }
-          heading
-          body {
-            body
-          }
+          ...CalloutFragment
         }
         ... on ContentfulComponentHero {
-          internal {
-            type
-          }
-          title
-          image {
-            gatsbyImageData(width: 1200)
-          }
+          ...HeroFragment
         }
         ... on ContentfulComponentParagraph {
-          internal {
-            type
-          }
-          title
-          content {
-            raw
-          }
+          ...ParagraphFragment
         }
       }
     }

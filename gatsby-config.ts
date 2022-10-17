@@ -6,6 +6,7 @@ type ContentfulConfig = {
   spaceId: String
   accessToken: String
   host?: String
+  downloadLocal: boolean
 }
 
 const contentfulConfig: ContentfulConfig = {
@@ -13,6 +14,7 @@ const contentfulConfig: ContentfulConfig = {
   accessToken:
     process.env.CONTENTFUL_ACCESS_TOKEN ||
     process.env.CONTENTFUL_DELIVERY_TOKEN,
+  downloadLocal: true,
 }
 
 // If you want to use the preview API please define
@@ -69,7 +71,7 @@ module.exports = {
         frontendApi: process.env.CLERK_FRONTEND_API_KEY,
       },
     },
-    `gatsby-plugin-perf-budgets`,
+    // `gatsby-plugin-perf-budgets`,
     'gatsby-plugin-loadable-components-ssr',
   ],
 }

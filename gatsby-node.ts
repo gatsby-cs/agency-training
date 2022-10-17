@@ -23,9 +23,13 @@ export const createPages = async ({ graphql, actions, reporter }) => {
     `
   )
 
+  // slower
+  // memory problems
+  // cache invalidation problems
+
   if (result.errors) {
     reporter.panicOnBuild(
-      `There was an error loading your Contentful posts`,
+      `There was an error loading your Contentful blog posts`,
       result.errors
     )
     return
@@ -47,6 +51,23 @@ export const createPages = async ({ graphql, actions, reporter }) => {
         },
       })
     })
+    posts.forEach((post, index) => {
+      const previousPostSlug = index === 0 ? null : posts[index - 1].slug
+      const nextPostSlug =
+        index === posts.length - 1 ? null : posts[index + 1].slug
+
+      createPage({
+        path: `/blog/${post.slug}/`,
+        component: blogPost,
+        defer: index > 0,
+        context: {
+          slug: post.slug,
+          previousPostSlug,
+          nextPostSlug,
+        },
+      })
+    })
+
     posts.forEach((post, index) => {
       const previousPostSlug = index === 0 ? null : posts[index - 1].slug
       const nextPostSlug =
@@ -78,6 +99,7 @@ export const sourceNodes = async ({
   breweries.forEach((brewery, i) => {
     createNode({
       ...brewery,
+      breweryId: brewery.id,
       id: createNodeId(`${POST_NODE_TYPE}-${brewery.id}`),
       parent: null,
       children: [],

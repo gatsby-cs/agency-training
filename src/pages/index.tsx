@@ -10,6 +10,7 @@ import { getImage } from 'gatsby-plugin-image'
 import Container from '../components/container/container'
 
 import * as styles from '../styles/pages/index.module.scss'
+
 interface DataProps {
   allContentfulPageBlogPost: {
     nodes: GatsbyTypes.ContentfulPageBlogPost[]
@@ -59,10 +60,10 @@ export const pageQuery = graphql`
         tags
         heroImage {
           gatsbyImageData(
-            layout: FULL_WIDTH
+            layout: CONSTRAINED
             placeholder: BLURRED
-            width: 424
-            height: 212
+            width: 500
+            height: 250
           )
         }
         description {
@@ -70,6 +71,11 @@ export const pageQuery = graphql`
             html
           }
         }
+      }
+    }
+    allContentfulInferComponent {
+      nodes {
+        name
       }
     }
     contentfulEntityPerson(contentful_id: { eq: "2037iqVH7K7LXMOUBAiztV" }) {
@@ -81,10 +87,10 @@ export const pageQuery = graphql`
       image {
         gatsbyImageData(
           layout: CONSTRAINED
-          formats: [AUTO, WEBP]
+          formats: [AUTO, WEBP, AVIF]
           placeholder: BLURRED
           width: 1200
-          quality: 100
+          quality: 75
         )
       }
     }
