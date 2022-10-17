@@ -15,6 +15,7 @@
     "@contentful/rich-text-react-renderer": "^15.12.0",
     "@loadable/component": "^5.15.2",
     "@reduxjs/toolkit": "^1.8.1",
+    "crypto-browserify": "^3.12.0",
     "gatsby": "^4.11.0",
     "gatsby-plugin-clerk": "^2.0.0",
     "gatsby-plugin-image": "^2.11.0",
@@ -36,17 +37,17 @@
   },
   "devDependencies": {
     "@types/loadable__component": "^5.13.4",
-    "@types/node": "^17.0.21",
+    "@types/node": "^17.0.45",
     "@types/reach__router": "^1.3.10",
-    "@types/react": "^17.0.42",
-    "@types/react-dom": "^17.0.13",
+    "@types/react": "^17.0.48",
+    "@types/react-dom": "^17.0.17",
     "@types/react-helmet": "^6.1.5",
     "@types/react-redux": "^7",
     "contentful-import": "^7.8.6",
     "dotenv": "^16.0.0",
     "gatsby-plugin-perf-budgets": "^0.0.18",
     "ts-graphql-plugin": "^2.1.6",
-    "typescript": "^4.6.2"
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": ">=16.0.0"

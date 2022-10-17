@@ -1,12 +1,13 @@
 //@ts-nocheck
-import { graphql, PageProps } from 'gatsby'
-import React from 'react'
-import Callout from '../components/callout/callout'
-import Container from '../components/container/container'
-import Hero from '../components/hero/hero'
 
+import { graphql, PageProps } from 'gatsby'
+import React, { Suspense } from 'react'
+
+import Container from '../components/container/container'
 import Layout from '../components/layout/layout'
 import Paragraph from '../components/paragraph/paragraph'
+import Hero from '../components/hero/hero'
+import Callout from '../components/callout/callout'
 
 type FlexPageProps = {
   contentfulPageFlexPage: GatsbyTypes.ContentfulPageFlexPage
@@ -18,6 +19,7 @@ const FlexPage: React.FC<PageProps<FlexPageProps>> = ({ data }) => {
     <Layout>
       <Container>
         <h1>{page.slug}</h1>
+
         {page.content?.map((c) => {
           console.log(c?.internal.type)
           if (c?.internal.type === 'ContentfulComponentHero') {

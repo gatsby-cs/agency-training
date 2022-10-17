@@ -19,6 +19,7 @@ interface DataProps {
 
 function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
   const post = data.contentfulPageBlogPost
+
   const previous = data.previous
   const next = data.next
 
@@ -96,7 +97,6 @@ export const pageQuery = graphql`
           src
         }
       }
-
       body {
         childMarkdownRemark {
           html

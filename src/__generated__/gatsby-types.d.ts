@@ -3,8 +3,8 @@
 
 declare namespace GatsbyTypes {
 
-type Maybe<T> = T | undefined;
-type InputMaybe<T> = T | undefined;
+type Maybe<T> = T | null;
+type InputMaybe<T> = T | null;
 type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -22,6 +22,7 @@ type Scalars = {
   Float: number;
   /** A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: string;
+  GatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
 };
@@ -47,12 +48,13 @@ type BooleanQueryOperatorInput = {
 };
 
 type Brewery = Node & {
+  readonly address_2: Maybe<Scalars['String']>;
   readonly brewery_type: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
   readonly city: Maybe<Scalars['String']>;
   readonly country: Maybe<Scalars['String']>;
+  readonly county_province: Maybe<Scalars['String']>;
   readonly created_at: Maybe<Scalars['Date']>;
-  readonly hero: Maybe<ContentfulComponentHero>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
   readonly latitude: Maybe<Scalars['String']>;
@@ -129,6 +131,7 @@ type BreweryEdge = {
 };
 
 type BreweryFieldsEnum =
+  | 'address_2'
   | 'brewery_type'
   | 'children'
   | 'children.children'
@@ -138,6 +141,7 @@ type BreweryFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -149,6 +153,7 @@ type BreweryFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -161,6 +166,7 @@ type BreweryFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -171,10 +177,12 @@ type BreweryFieldsEnum =
   | 'children.parent.parent.id'
   | 'city'
   | 'country'
+  | 'county_province'
   | 'created_at'
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -191,6 +199,7 @@ type BreweryFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -202,6 +211,7 @@ type BreweryFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -214,6 +224,7 @@ type BreweryFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -230,10 +241,12 @@ type BreweryFieldsEnum =
   | 'website_url';
 
 type BreweryFilterInput = {
+  readonly address_2: InputMaybe<StringQueryOperatorInput>;
   readonly brewery_type: InputMaybe<StringQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly city: InputMaybe<StringQueryOperatorInput>;
   readonly country: InputMaybe<StringQueryOperatorInput>;
+  readonly county_province: InputMaybe<StringQueryOperatorInput>;
   readonly created_at: InputMaybe<DateQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
@@ -304,8 +317,8 @@ type ContentfulAsset = ContentfulReference & Node & RemoteFile & {
   readonly filename: Scalars['String'];
   readonly filesize: Maybe<Scalars['Int']>;
   /** Data used in the <GatsbyImage /> component. See https://gatsby.dev/img for more info. */
-  readonly gatsbyImage: Maybe<Scalars['JSON']>;
-  readonly gatsbyImageData: Maybe<Scalars['JSON']>;
+  readonly gatsbyImage: Maybe<Scalars['GatsbyImageData']>;
+  readonly gatsbyImageData: Maybe<Scalars['GatsbyImageData']>;
   readonly height: Maybe<Scalars['Int']>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
@@ -315,6 +328,7 @@ type ContentfulAsset = ContentfulReference & Node & RemoteFile & {
   readonly placeholderUrl: Maybe<Scalars['String']>;
   readonly publicUrl: Scalars['String'];
   readonly resize: Maybe<RemoteFileResize>;
+  readonly size: Maybe<Scalars['Int']>;
   readonly spaceId: Maybe<Scalars['String']>;
   readonly sys: Maybe<ContentfulAssetSys>;
   readonly title: Maybe<Scalars['String']>;
@@ -361,7 +375,7 @@ type ContentfulAsset_gatsbyImageDataArgs = {
   layout: InputMaybe<GatsbyImageLayout>;
   outputPixelDensities: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Float']>>>;
   placeholder: InputMaybe<GatsbyImagePlaceholder>;
-  quality?: InputMaybe<Scalars['Int']>;
+  quality: InputMaybe<Scalars['Int']>;
   resizingBehavior: InputMaybe<ImageResizingBehavior>;
   sizes: InputMaybe<Scalars['String']>;
   width: InputMaybe<Scalars['Int']>;
@@ -440,6 +454,7 @@ type ContentfulAssetFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -451,6 +466,7 @@ type ContentfulAssetFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -463,6 +479,7 @@ type ContentfulAssetFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -488,6 +505,7 @@ type ContentfulAssetFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -503,6 +521,7 @@ type ContentfulAssetFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -514,6 +533,7 @@ type ContentfulAssetFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -526,6 +546,7 @@ type ContentfulAssetFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -539,6 +560,7 @@ type ContentfulAssetFieldsEnum =
   | 'resize.height'
   | 'resize.src'
   | 'resize.width'
+  | 'size'
   | 'spaceId'
   | 'sys.revision'
   | 'sys.type'
@@ -589,8 +611,8 @@ type ContentfulAssetFilterInput = {
   readonly file: InputMaybe<ContentfulAssetFileFilterInput>;
   readonly filename: InputMaybe<StringQueryOperatorInput>;
   readonly filesize: InputMaybe<IntQueryOperatorInput>;
-  readonly gatsbyImage: InputMaybe<JSONQueryOperatorInput>;
-  readonly gatsbyImageData: InputMaybe<JSONQueryOperatorInput>;
+  readonly gatsbyImage: InputMaybe<GatsbyImageDataQueryOperatorInput>;
+  readonly gatsbyImageData: InputMaybe<GatsbyImageDataQueryOperatorInput>;
   readonly height: InputMaybe<IntQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
@@ -600,6 +622,7 @@ type ContentfulAssetFilterInput = {
   readonly placeholderUrl: InputMaybe<StringQueryOperatorInput>;
   readonly publicUrl: InputMaybe<StringQueryOperatorInput>;
   readonly resize: InputMaybe<RemoteFileResizeFilterInput>;
+  readonly size: InputMaybe<IntQueryOperatorInput>;
   readonly spaceId: InputMaybe<StringQueryOperatorInput>;
   readonly sys: InputMaybe<ContentfulAssetSysFilterInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
@@ -764,6 +787,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'body.childMarkdownRemark.id'
   | 'body.childMarkdownRemark.internal.content'
   | 'body.childMarkdownRemark.internal.contentDigest'
+  | 'body.childMarkdownRemark.internal.contentFilePath'
   | 'body.childMarkdownRemark.internal.description'
   | 'body.childMarkdownRemark.internal.fieldOwners'
   | 'body.childMarkdownRemark.internal.ignoreType'
@@ -795,6 +819,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'body.childrenMarkdownRemark.id'
   | 'body.childrenMarkdownRemark.internal.content'
   | 'body.childrenMarkdownRemark.internal.contentDigest'
+  | 'body.childrenMarkdownRemark.internal.contentFilePath'
   | 'body.childrenMarkdownRemark.internal.description'
   | 'body.childrenMarkdownRemark.internal.fieldOwners'
   | 'body.childrenMarkdownRemark.internal.ignoreType'
@@ -815,6 +840,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'body.children.id'
   | 'body.children.internal.content'
   | 'body.children.internal.contentDigest'
+  | 'body.children.internal.contentFilePath'
   | 'body.children.internal.description'
   | 'body.children.internal.fieldOwners'
   | 'body.children.internal.ignoreType'
@@ -826,6 +852,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'body.id'
   | 'body.internal.content'
   | 'body.internal.contentDigest'
+  | 'body.internal.contentFilePath'
   | 'body.internal.description'
   | 'body.internal.fieldOwners'
   | 'body.internal.ignoreType'
@@ -838,6 +865,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'body.parent.id'
   | 'body.parent.internal.content'
   | 'body.parent.internal.contentDigest'
+  | 'body.parent.internal.contentFilePath'
   | 'body.parent.internal.description'
   | 'body.parent.internal.fieldOwners'
   | 'body.parent.internal.ignoreType'
@@ -863,6 +891,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.id'
   | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.content'
   | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.description'
   | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.ignoreType'
@@ -894,6 +923,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.id'
   | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.content'
   | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.description'
   | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -914,6 +944,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childContentfulComponentCalloutBodyTextNode.children.id'
   | 'childContentfulComponentCalloutBodyTextNode.children.internal.content'
   | 'childContentfulComponentCalloutBodyTextNode.children.internal.contentDigest'
+  | 'childContentfulComponentCalloutBodyTextNode.children.internal.contentFilePath'
   | 'childContentfulComponentCalloutBodyTextNode.children.internal.description'
   | 'childContentfulComponentCalloutBodyTextNode.children.internal.fieldOwners'
   | 'childContentfulComponentCalloutBodyTextNode.children.internal.ignoreType'
@@ -925,6 +956,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childContentfulComponentCalloutBodyTextNode.id'
   | 'childContentfulComponentCalloutBodyTextNode.internal.content'
   | 'childContentfulComponentCalloutBodyTextNode.internal.contentDigest'
+  | 'childContentfulComponentCalloutBodyTextNode.internal.contentFilePath'
   | 'childContentfulComponentCalloutBodyTextNode.internal.description'
   | 'childContentfulComponentCalloutBodyTextNode.internal.fieldOwners'
   | 'childContentfulComponentCalloutBodyTextNode.internal.ignoreType'
@@ -937,6 +969,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childContentfulComponentCalloutBodyTextNode.parent.id'
   | 'childContentfulComponentCalloutBodyTextNode.parent.internal.content'
   | 'childContentfulComponentCalloutBodyTextNode.parent.internal.contentDigest'
+  | 'childContentfulComponentCalloutBodyTextNode.parent.internal.contentFilePath'
   | 'childContentfulComponentCalloutBodyTextNode.parent.internal.description'
   | 'childContentfulComponentCalloutBodyTextNode.parent.internal.fieldOwners'
   | 'childContentfulComponentCalloutBodyTextNode.parent.internal.ignoreType'
@@ -964,6 +997,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.id'
   | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.content'
   | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.description'
   | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulComponentCalloutBodyTextNode.childMarkdownRemark.internal.ignoreType'
@@ -995,6 +1029,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.id'
   | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.content'
   | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.description'
   | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulComponentCalloutBodyTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -1015,6 +1050,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childrenContentfulComponentCalloutBodyTextNode.children.id'
   | 'childrenContentfulComponentCalloutBodyTextNode.children.internal.content'
   | 'childrenContentfulComponentCalloutBodyTextNode.children.internal.contentDigest'
+  | 'childrenContentfulComponentCalloutBodyTextNode.children.internal.contentFilePath'
   | 'childrenContentfulComponentCalloutBodyTextNode.children.internal.description'
   | 'childrenContentfulComponentCalloutBodyTextNode.children.internal.fieldOwners'
   | 'childrenContentfulComponentCalloutBodyTextNode.children.internal.ignoreType'
@@ -1026,6 +1062,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childrenContentfulComponentCalloutBodyTextNode.id'
   | 'childrenContentfulComponentCalloutBodyTextNode.internal.content'
   | 'childrenContentfulComponentCalloutBodyTextNode.internal.contentDigest'
+  | 'childrenContentfulComponentCalloutBodyTextNode.internal.contentFilePath'
   | 'childrenContentfulComponentCalloutBodyTextNode.internal.description'
   | 'childrenContentfulComponentCalloutBodyTextNode.internal.fieldOwners'
   | 'childrenContentfulComponentCalloutBodyTextNode.internal.ignoreType'
@@ -1038,6 +1075,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'childrenContentfulComponentCalloutBodyTextNode.parent.id'
   | 'childrenContentfulComponentCalloutBodyTextNode.parent.internal.content'
   | 'childrenContentfulComponentCalloutBodyTextNode.parent.internal.contentDigest'
+  | 'childrenContentfulComponentCalloutBodyTextNode.parent.internal.contentFilePath'
   | 'childrenContentfulComponentCalloutBodyTextNode.parent.internal.description'
   | 'childrenContentfulComponentCalloutBodyTextNode.parent.internal.fieldOwners'
   | 'childrenContentfulComponentCalloutBodyTextNode.parent.internal.ignoreType'
@@ -1054,6 +1092,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -1065,6 +1104,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -1077,6 +1117,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -1091,6 +1132,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -1106,6 +1148,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'page___flex_page.children.id'
   | 'page___flex_page.children.internal.content'
   | 'page___flex_page.children.internal.contentDigest'
+  | 'page___flex_page.children.internal.contentFilePath'
   | 'page___flex_page.children.internal.description'
   | 'page___flex_page.children.internal.fieldOwners'
   | 'page___flex_page.children.internal.ignoreType'
@@ -1119,6 +1162,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'page___flex_page.id'
   | 'page___flex_page.internal.content'
   | 'page___flex_page.internal.contentDigest'
+  | 'page___flex_page.internal.contentFilePath'
   | 'page___flex_page.internal.description'
   | 'page___flex_page.internal.fieldOwners'
   | 'page___flex_page.internal.ignoreType'
@@ -1132,6 +1176,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'page___flex_page.parent.id'
   | 'page___flex_page.parent.internal.content'
   | 'page___flex_page.parent.internal.contentDigest'
+  | 'page___flex_page.parent.internal.contentFilePath'
   | 'page___flex_page.parent.internal.description'
   | 'page___flex_page.parent.internal.fieldOwners'
   | 'page___flex_page.parent.internal.ignoreType'
@@ -1140,10 +1185,80 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'page___flex_page.parent.internal.type'
   | 'page___flex_page.parent.parent.children'
   | 'page___flex_page.parent.parent.id'
+  | 'page___flex_page.seo.children'
+  | 'page___flex_page.seo.children.children'
+  | 'page___flex_page.seo.children.id'
+  | 'page___flex_page.seo.contentful_id'
+  | 'page___flex_page.seo.createdAt'
+  | 'page___flex_page.seo.description'
+  | 'page___flex_page.seo.id'
+  | 'page___flex_page.seo.image.children'
+  | 'page___flex_page.seo.image.contentful_id'
+  | 'page___flex_page.seo.image.createdAt'
+  | 'page___flex_page.seo.image.description'
+  | 'page___flex_page.seo.image.filename'
+  | 'page___flex_page.seo.image.filesize'
+  | 'page___flex_page.seo.image.gatsbyImage'
+  | 'page___flex_page.seo.image.gatsbyImageData'
+  | 'page___flex_page.seo.image.height'
+  | 'page___flex_page.seo.image.id'
+  | 'page___flex_page.seo.image.mimeType'
+  | 'page___flex_page.seo.image.node_locale'
+  | 'page___flex_page.seo.image.placeholderUrl'
+  | 'page___flex_page.seo.image.publicUrl'
+  | 'page___flex_page.seo.image.size'
+  | 'page___flex_page.seo.image.spaceId'
+  | 'page___flex_page.seo.image.title'
+  | 'page___flex_page.seo.image.updatedAt'
+  | 'page___flex_page.seo.image.url'
+  | 'page___flex_page.seo.image.width'
+  | 'page___flex_page.seo.internal.content'
+  | 'page___flex_page.seo.internal.contentDigest'
+  | 'page___flex_page.seo.internal.contentFilePath'
+  | 'page___flex_page.seo.internal.description'
+  | 'page___flex_page.seo.internal.fieldOwners'
+  | 'page___flex_page.seo.internal.ignoreType'
+  | 'page___flex_page.seo.internal.mediaType'
+  | 'page___flex_page.seo.internal.owner'
+  | 'page___flex_page.seo.internal.type'
+  | 'page___flex_page.seo.node_locale'
+  | 'page___flex_page.seo.page___blog_post'
+  | 'page___flex_page.seo.page___blog_post.children'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode'
+  | 'page___flex_page.seo.page___blog_post.contentful_id'
+  | 'page___flex_page.seo.page___blog_post.createdAt'
+  | 'page___flex_page.seo.page___blog_post.id'
+  | 'page___flex_page.seo.page___blog_post.node_locale'
+  | 'page___flex_page.seo.page___blog_post.publishDate'
+  | 'page___flex_page.seo.page___blog_post.slug'
+  | 'page___flex_page.seo.page___blog_post.spaceId'
+  | 'page___flex_page.seo.page___blog_post.tags'
+  | 'page___flex_page.seo.page___blog_post.title'
+  | 'page___flex_page.seo.page___blog_post.updatedAt'
+  | 'page___flex_page.seo.page___flex_page'
+  | 'page___flex_page.seo.page___flex_page.children'
+  | 'page___flex_page.seo.page___flex_page.contentful_id'
+  | 'page___flex_page.seo.page___flex_page.createdAt'
+  | 'page___flex_page.seo.page___flex_page.id'
+  | 'page___flex_page.seo.page___flex_page.node_locale'
+  | 'page___flex_page.seo.page___flex_page.slug'
+  | 'page___flex_page.seo.page___flex_page.spaceId'
+  | 'page___flex_page.seo.page___flex_page.title'
+  | 'page___flex_page.seo.page___flex_page.updatedAt'
+  | 'page___flex_page.seo.parent.children'
+  | 'page___flex_page.seo.parent.id'
+  | 'page___flex_page.seo.robots'
+  | 'page___flex_page.seo.spaceId'
+  | 'page___flex_page.seo.sys.revision'
+  | 'page___flex_page.seo.sys.type'
+  | 'page___flex_page.seo.title'
+  | 'page___flex_page.seo.updatedAt'
   | 'page___flex_page.slug'
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -1152,6 +1267,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -1163,6 +1279,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -1175,6 +1292,7 @@ type ContentfulComponentCalloutFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -1350,6 +1468,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -1361,6 +1480,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -1373,6 +1493,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -1385,6 +1506,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -1399,6 +1521,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -1410,6 +1533,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -1422,6 +1546,7 @@ type ContentfulComponentCarouselFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -1579,6 +1704,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -1590,6 +1716,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -1602,6 +1729,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -1616,6 +1744,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -1630,6 +1759,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -1641,6 +1771,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -1653,6 +1784,7 @@ type ContentfulComponentFooterFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -1850,6 +1982,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -1861,6 +1994,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -1873,6 +2007,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -1892,6 +2027,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.children.id'
   | 'image.children.internal.content'
   | 'image.children.internal.contentDigest'
+  | 'image.children.internal.contentFilePath'
   | 'image.children.internal.description'
   | 'image.children.internal.fieldOwners'
   | 'image.children.internal.ignoreType'
@@ -1915,6 +2051,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.id'
   | 'image.internal.content'
   | 'image.internal.contentDigest'
+  | 'image.internal.contentFilePath'
   | 'image.internal.description'
   | 'image.internal.fieldOwners'
   | 'image.internal.ignoreType'
@@ -1929,6 +2066,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.parent.id'
   | 'image.parent.internal.content'
   | 'image.parent.internal.contentDigest'
+  | 'image.parent.internal.contentFilePath'
   | 'image.parent.internal.description'
   | 'image.parent.internal.fieldOwners'
   | 'image.parent.internal.ignoreType'
@@ -1942,6 +2080,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.resize.height'
   | 'image.resize.src'
   | 'image.resize.width'
+  | 'image.size'
   | 'image.spaceId'
   | 'image.sys.revision'
   | 'image.sys.type'
@@ -1951,6 +2090,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.width'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -1966,6 +2106,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'page___flex_page.children.id'
   | 'page___flex_page.children.internal.content'
   | 'page___flex_page.children.internal.contentDigest'
+  | 'page___flex_page.children.internal.contentFilePath'
   | 'page___flex_page.children.internal.description'
   | 'page___flex_page.children.internal.fieldOwners'
   | 'page___flex_page.children.internal.ignoreType'
@@ -1979,6 +2120,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'page___flex_page.id'
   | 'page___flex_page.internal.content'
   | 'page___flex_page.internal.contentDigest'
+  | 'page___flex_page.internal.contentFilePath'
   | 'page___flex_page.internal.description'
   | 'page___flex_page.internal.fieldOwners'
   | 'page___flex_page.internal.ignoreType'
@@ -1992,6 +2134,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'page___flex_page.parent.id'
   | 'page___flex_page.parent.internal.content'
   | 'page___flex_page.parent.internal.contentDigest'
+  | 'page___flex_page.parent.internal.contentFilePath'
   | 'page___flex_page.parent.internal.description'
   | 'page___flex_page.parent.internal.fieldOwners'
   | 'page___flex_page.parent.internal.ignoreType'
@@ -2000,10 +2143,80 @@ type ContentfulComponentHeroFieldsEnum =
   | 'page___flex_page.parent.internal.type'
   | 'page___flex_page.parent.parent.children'
   | 'page___flex_page.parent.parent.id'
+  | 'page___flex_page.seo.children'
+  | 'page___flex_page.seo.children.children'
+  | 'page___flex_page.seo.children.id'
+  | 'page___flex_page.seo.contentful_id'
+  | 'page___flex_page.seo.createdAt'
+  | 'page___flex_page.seo.description'
+  | 'page___flex_page.seo.id'
+  | 'page___flex_page.seo.image.children'
+  | 'page___flex_page.seo.image.contentful_id'
+  | 'page___flex_page.seo.image.createdAt'
+  | 'page___flex_page.seo.image.description'
+  | 'page___flex_page.seo.image.filename'
+  | 'page___flex_page.seo.image.filesize'
+  | 'page___flex_page.seo.image.gatsbyImage'
+  | 'page___flex_page.seo.image.gatsbyImageData'
+  | 'page___flex_page.seo.image.height'
+  | 'page___flex_page.seo.image.id'
+  | 'page___flex_page.seo.image.mimeType'
+  | 'page___flex_page.seo.image.node_locale'
+  | 'page___flex_page.seo.image.placeholderUrl'
+  | 'page___flex_page.seo.image.publicUrl'
+  | 'page___flex_page.seo.image.size'
+  | 'page___flex_page.seo.image.spaceId'
+  | 'page___flex_page.seo.image.title'
+  | 'page___flex_page.seo.image.updatedAt'
+  | 'page___flex_page.seo.image.url'
+  | 'page___flex_page.seo.image.width'
+  | 'page___flex_page.seo.internal.content'
+  | 'page___flex_page.seo.internal.contentDigest'
+  | 'page___flex_page.seo.internal.contentFilePath'
+  | 'page___flex_page.seo.internal.description'
+  | 'page___flex_page.seo.internal.fieldOwners'
+  | 'page___flex_page.seo.internal.ignoreType'
+  | 'page___flex_page.seo.internal.mediaType'
+  | 'page___flex_page.seo.internal.owner'
+  | 'page___flex_page.seo.internal.type'
+  | 'page___flex_page.seo.node_locale'
+  | 'page___flex_page.seo.page___blog_post'
+  | 'page___flex_page.seo.page___blog_post.children'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode'
+  | 'page___flex_page.seo.page___blog_post.contentful_id'
+  | 'page___flex_page.seo.page___blog_post.createdAt'
+  | 'page___flex_page.seo.page___blog_post.id'
+  | 'page___flex_page.seo.page___blog_post.node_locale'
+  | 'page___flex_page.seo.page___blog_post.publishDate'
+  | 'page___flex_page.seo.page___blog_post.slug'
+  | 'page___flex_page.seo.page___blog_post.spaceId'
+  | 'page___flex_page.seo.page___blog_post.tags'
+  | 'page___flex_page.seo.page___blog_post.title'
+  | 'page___flex_page.seo.page___blog_post.updatedAt'
+  | 'page___flex_page.seo.page___flex_page'
+  | 'page___flex_page.seo.page___flex_page.children'
+  | 'page___flex_page.seo.page___flex_page.contentful_id'
+  | 'page___flex_page.seo.page___flex_page.createdAt'
+  | 'page___flex_page.seo.page___flex_page.id'
+  | 'page___flex_page.seo.page___flex_page.node_locale'
+  | 'page___flex_page.seo.page___flex_page.slug'
+  | 'page___flex_page.seo.page___flex_page.spaceId'
+  | 'page___flex_page.seo.page___flex_page.title'
+  | 'page___flex_page.seo.page___flex_page.updatedAt'
+  | 'page___flex_page.seo.parent.children'
+  | 'page___flex_page.seo.parent.id'
+  | 'page___flex_page.seo.robots'
+  | 'page___flex_page.seo.spaceId'
+  | 'page___flex_page.seo.sys.revision'
+  | 'page___flex_page.seo.sys.type'
+  | 'page___flex_page.seo.title'
+  | 'page___flex_page.seo.updatedAt'
   | 'page___flex_page.slug'
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -2012,6 +2225,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -2023,6 +2237,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -2035,6 +2250,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -2232,6 +2448,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -2243,6 +2460,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -2255,6 +2473,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -2268,6 +2487,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -2282,6 +2502,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'links.children.id'
   | 'links.children.internal.content'
   | 'links.children.internal.contentDigest'
+  | 'links.children.internal.contentFilePath'
   | 'links.children.internal.description'
   | 'links.children.internal.fieldOwners'
   | 'links.children.internal.ignoreType'
@@ -2299,6 +2520,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'links.component___navigation.id'
   | 'links.component___navigation.internal.content'
   | 'links.component___navigation.internal.contentDigest'
+  | 'links.component___navigation.internal.contentFilePath'
   | 'links.component___navigation.internal.description'
   | 'links.component___navigation.internal.fieldOwners'
   | 'links.component___navigation.internal.ignoreType'
@@ -2330,6 +2552,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'links.id'
   | 'links.internal.content'
   | 'links.internal.contentDigest'
+  | 'links.internal.contentFilePath'
   | 'links.internal.description'
   | 'links.internal.fieldOwners'
   | 'links.internal.ignoreType'
@@ -2343,6 +2566,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'links.parent.id'
   | 'links.parent.internal.content'
   | 'links.parent.internal.contentDigest'
+  | 'links.parent.internal.contentFilePath'
   | 'links.parent.internal.description'
   | 'links.parent.internal.fieldOwners'
   | 'links.parent.internal.ignoreType'
@@ -2364,6 +2588,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -2375,6 +2600,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -2387,6 +2613,7 @@ type ContentfulComponentNavigationFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -2595,6 +2822,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -2606,6 +2834,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -2618,6 +2847,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -2632,6 +2862,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -2647,6 +2878,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'page___flex_page.children.id'
   | 'page___flex_page.children.internal.content'
   | 'page___flex_page.children.internal.contentDigest'
+  | 'page___flex_page.children.internal.contentFilePath'
   | 'page___flex_page.children.internal.description'
   | 'page___flex_page.children.internal.fieldOwners'
   | 'page___flex_page.children.internal.ignoreType'
@@ -2660,6 +2892,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'page___flex_page.id'
   | 'page___flex_page.internal.content'
   | 'page___flex_page.internal.contentDigest'
+  | 'page___flex_page.internal.contentFilePath'
   | 'page___flex_page.internal.description'
   | 'page___flex_page.internal.fieldOwners'
   | 'page___flex_page.internal.ignoreType'
@@ -2673,6 +2906,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'page___flex_page.parent.id'
   | 'page___flex_page.parent.internal.content'
   | 'page___flex_page.parent.internal.contentDigest'
+  | 'page___flex_page.parent.internal.contentFilePath'
   | 'page___flex_page.parent.internal.description'
   | 'page___flex_page.parent.internal.fieldOwners'
   | 'page___flex_page.parent.internal.ignoreType'
@@ -2681,10 +2915,80 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'page___flex_page.parent.internal.type'
   | 'page___flex_page.parent.parent.children'
   | 'page___flex_page.parent.parent.id'
+  | 'page___flex_page.seo.children'
+  | 'page___flex_page.seo.children.children'
+  | 'page___flex_page.seo.children.id'
+  | 'page___flex_page.seo.contentful_id'
+  | 'page___flex_page.seo.createdAt'
+  | 'page___flex_page.seo.description'
+  | 'page___flex_page.seo.id'
+  | 'page___flex_page.seo.image.children'
+  | 'page___flex_page.seo.image.contentful_id'
+  | 'page___flex_page.seo.image.createdAt'
+  | 'page___flex_page.seo.image.description'
+  | 'page___flex_page.seo.image.filename'
+  | 'page___flex_page.seo.image.filesize'
+  | 'page___flex_page.seo.image.gatsbyImage'
+  | 'page___flex_page.seo.image.gatsbyImageData'
+  | 'page___flex_page.seo.image.height'
+  | 'page___flex_page.seo.image.id'
+  | 'page___flex_page.seo.image.mimeType'
+  | 'page___flex_page.seo.image.node_locale'
+  | 'page___flex_page.seo.image.placeholderUrl'
+  | 'page___flex_page.seo.image.publicUrl'
+  | 'page___flex_page.seo.image.size'
+  | 'page___flex_page.seo.image.spaceId'
+  | 'page___flex_page.seo.image.title'
+  | 'page___flex_page.seo.image.updatedAt'
+  | 'page___flex_page.seo.image.url'
+  | 'page___flex_page.seo.image.width'
+  | 'page___flex_page.seo.internal.content'
+  | 'page___flex_page.seo.internal.contentDigest'
+  | 'page___flex_page.seo.internal.contentFilePath'
+  | 'page___flex_page.seo.internal.description'
+  | 'page___flex_page.seo.internal.fieldOwners'
+  | 'page___flex_page.seo.internal.ignoreType'
+  | 'page___flex_page.seo.internal.mediaType'
+  | 'page___flex_page.seo.internal.owner'
+  | 'page___flex_page.seo.internal.type'
+  | 'page___flex_page.seo.node_locale'
+  | 'page___flex_page.seo.page___blog_post'
+  | 'page___flex_page.seo.page___blog_post.children'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode'
+  | 'page___flex_page.seo.page___blog_post.contentful_id'
+  | 'page___flex_page.seo.page___blog_post.createdAt'
+  | 'page___flex_page.seo.page___blog_post.id'
+  | 'page___flex_page.seo.page___blog_post.node_locale'
+  | 'page___flex_page.seo.page___blog_post.publishDate'
+  | 'page___flex_page.seo.page___blog_post.slug'
+  | 'page___flex_page.seo.page___blog_post.spaceId'
+  | 'page___flex_page.seo.page___blog_post.tags'
+  | 'page___flex_page.seo.page___blog_post.title'
+  | 'page___flex_page.seo.page___blog_post.updatedAt'
+  | 'page___flex_page.seo.page___flex_page'
+  | 'page___flex_page.seo.page___flex_page.children'
+  | 'page___flex_page.seo.page___flex_page.contentful_id'
+  | 'page___flex_page.seo.page___flex_page.createdAt'
+  | 'page___flex_page.seo.page___flex_page.id'
+  | 'page___flex_page.seo.page___flex_page.node_locale'
+  | 'page___flex_page.seo.page___flex_page.slug'
+  | 'page___flex_page.seo.page___flex_page.spaceId'
+  | 'page___flex_page.seo.page___flex_page.title'
+  | 'page___flex_page.seo.page___flex_page.updatedAt'
+  | 'page___flex_page.seo.parent.children'
+  | 'page___flex_page.seo.parent.id'
+  | 'page___flex_page.seo.robots'
+  | 'page___flex_page.seo.spaceId'
+  | 'page___flex_page.seo.sys.revision'
+  | 'page___flex_page.seo.sys.type'
+  | 'page___flex_page.seo.title'
+  | 'page___flex_page.seo.updatedAt'
   | 'page___flex_page.slug'
   | 'page___flex_page.spaceId'
   | 'page___flex_page.sys.revision'
   | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
   | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
@@ -2693,6 +2997,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -2704,6 +3009,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -2716,6 +3022,7 @@ type ContentfulComponentParagraphFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -2892,6 +3199,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -2903,6 +3211,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -2915,6 +3224,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -2928,6 +3238,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -2942,6 +3253,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -2953,6 +3265,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -2965,6 +3278,7 @@ type ContentfulContentTypeFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -3151,6 +3465,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.id'
   | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.content'
   | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.description'
   | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.ignoreType'
@@ -3182,6 +3497,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.id'
   | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.content'
   | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.description'
   | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -3202,6 +3518,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childContentfulEntityPersonShortBioTextNode.children.id'
   | 'childContentfulEntityPersonShortBioTextNode.children.internal.content'
   | 'childContentfulEntityPersonShortBioTextNode.children.internal.contentDigest'
+  | 'childContentfulEntityPersonShortBioTextNode.children.internal.contentFilePath'
   | 'childContentfulEntityPersonShortBioTextNode.children.internal.description'
   | 'childContentfulEntityPersonShortBioTextNode.children.internal.fieldOwners'
   | 'childContentfulEntityPersonShortBioTextNode.children.internal.ignoreType'
@@ -3213,6 +3530,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childContentfulEntityPersonShortBioTextNode.id'
   | 'childContentfulEntityPersonShortBioTextNode.internal.content'
   | 'childContentfulEntityPersonShortBioTextNode.internal.contentDigest'
+  | 'childContentfulEntityPersonShortBioTextNode.internal.contentFilePath'
   | 'childContentfulEntityPersonShortBioTextNode.internal.description'
   | 'childContentfulEntityPersonShortBioTextNode.internal.fieldOwners'
   | 'childContentfulEntityPersonShortBioTextNode.internal.ignoreType'
@@ -3225,6 +3543,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childContentfulEntityPersonShortBioTextNode.parent.id'
   | 'childContentfulEntityPersonShortBioTextNode.parent.internal.content'
   | 'childContentfulEntityPersonShortBioTextNode.parent.internal.contentDigest'
+  | 'childContentfulEntityPersonShortBioTextNode.parent.internal.contentFilePath'
   | 'childContentfulEntityPersonShortBioTextNode.parent.internal.description'
   | 'childContentfulEntityPersonShortBioTextNode.parent.internal.fieldOwners'
   | 'childContentfulEntityPersonShortBioTextNode.parent.internal.ignoreType'
@@ -3252,6 +3571,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.id'
   | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.content'
   | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.description'
   | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulEntityPersonShortBioTextNode.childMarkdownRemark.internal.ignoreType'
@@ -3283,6 +3603,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.id'
   | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.content'
   | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.description'
   | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulEntityPersonShortBioTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -3303,6 +3624,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childrenContentfulEntityPersonShortBioTextNode.children.id'
   | 'childrenContentfulEntityPersonShortBioTextNode.children.internal.content'
   | 'childrenContentfulEntityPersonShortBioTextNode.children.internal.contentDigest'
+  | 'childrenContentfulEntityPersonShortBioTextNode.children.internal.contentFilePath'
   | 'childrenContentfulEntityPersonShortBioTextNode.children.internal.description'
   | 'childrenContentfulEntityPersonShortBioTextNode.children.internal.fieldOwners'
   | 'childrenContentfulEntityPersonShortBioTextNode.children.internal.ignoreType'
@@ -3314,6 +3636,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childrenContentfulEntityPersonShortBioTextNode.id'
   | 'childrenContentfulEntityPersonShortBioTextNode.internal.content'
   | 'childrenContentfulEntityPersonShortBioTextNode.internal.contentDigest'
+  | 'childrenContentfulEntityPersonShortBioTextNode.internal.contentFilePath'
   | 'childrenContentfulEntityPersonShortBioTextNode.internal.description'
   | 'childrenContentfulEntityPersonShortBioTextNode.internal.fieldOwners'
   | 'childrenContentfulEntityPersonShortBioTextNode.internal.ignoreType'
@@ -3326,6 +3649,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'childrenContentfulEntityPersonShortBioTextNode.parent.id'
   | 'childrenContentfulEntityPersonShortBioTextNode.parent.internal.content'
   | 'childrenContentfulEntityPersonShortBioTextNode.parent.internal.contentDigest'
+  | 'childrenContentfulEntityPersonShortBioTextNode.parent.internal.contentFilePath'
   | 'childrenContentfulEntityPersonShortBioTextNode.parent.internal.description'
   | 'childrenContentfulEntityPersonShortBioTextNode.parent.internal.fieldOwners'
   | 'childrenContentfulEntityPersonShortBioTextNode.parent.internal.ignoreType'
@@ -3343,6 +3667,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -3354,6 +3679,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -3366,6 +3692,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -3389,6 +3716,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.children.id'
   | 'image.children.internal.content'
   | 'image.children.internal.contentDigest'
+  | 'image.children.internal.contentFilePath'
   | 'image.children.internal.description'
   | 'image.children.internal.fieldOwners'
   | 'image.children.internal.ignoreType'
@@ -3412,6 +3740,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.id'
   | 'image.internal.content'
   | 'image.internal.contentDigest'
+  | 'image.internal.contentFilePath'
   | 'image.internal.description'
   | 'image.internal.fieldOwners'
   | 'image.internal.ignoreType'
@@ -3426,6 +3755,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.parent.id'
   | 'image.parent.internal.content'
   | 'image.parent.internal.contentDigest'
+  | 'image.parent.internal.contentFilePath'
   | 'image.parent.internal.description'
   | 'image.parent.internal.fieldOwners'
   | 'image.parent.internal.ignoreType'
@@ -3439,6 +3769,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.resize.height'
   | 'image.resize.src'
   | 'image.resize.width'
+  | 'image.size'
   | 'image.spaceId'
   | 'image.sys.revision'
   | 'image.sys.type'
@@ -3448,6 +3779,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.width'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -3491,6 +3823,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.author.image.node_locale'
   | 'page___blog_post.author.image.placeholderUrl'
   | 'page___blog_post.author.image.publicUrl'
+  | 'page___blog_post.author.image.size'
   | 'page___blog_post.author.image.spaceId'
   | 'page___blog_post.author.image.title'
   | 'page___blog_post.author.image.updatedAt'
@@ -3498,6 +3831,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.author.image.width'
   | 'page___blog_post.author.internal.content'
   | 'page___blog_post.author.internal.contentDigest'
+  | 'page___blog_post.author.internal.contentFilePath'
   | 'page___blog_post.author.internal.description'
   | 'page___blog_post.author.internal.fieldOwners'
   | 'page___blog_post.author.internal.ignoreType'
@@ -3561,6 +3895,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.body.id'
   | 'page___blog_post.body.internal.content'
   | 'page___blog_post.body.internal.contentDigest'
+  | 'page___blog_post.body.internal.contentFilePath'
   | 'page___blog_post.body.internal.description'
   | 'page___blog_post.body.internal.fieldOwners'
   | 'page___blog_post.body.internal.ignoreType'
@@ -3598,6 +3933,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.id'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.content'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.contentDigest'
+  | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.contentFilePath'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.description'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.fieldOwners'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.ignoreType'
@@ -3635,6 +3971,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.id'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.content'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.contentDigest'
+  | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.contentFilePath'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.description'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.fieldOwners'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.ignoreType'
@@ -3674,6 +4011,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.id'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.content'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.contentDigest'
+  | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.contentFilePath'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.description'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.fieldOwners'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.ignoreType'
@@ -3712,6 +4050,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.id'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.content'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.contentDigest'
+  | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.contentFilePath'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.description'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.fieldOwners'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.ignoreType'
@@ -3727,6 +4066,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.children.id'
   | 'page___blog_post.children.internal.content'
   | 'page___blog_post.children.internal.contentDigest'
+  | 'page___blog_post.children.internal.contentFilePath'
   | 'page___blog_post.children.internal.description'
   | 'page___blog_post.children.internal.fieldOwners'
   | 'page___blog_post.children.internal.ignoreType'
@@ -3765,6 +4105,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.description.id'
   | 'page___blog_post.description.internal.content'
   | 'page___blog_post.description.internal.contentDigest'
+  | 'page___blog_post.description.internal.contentFilePath'
   | 'page___blog_post.description.internal.description'
   | 'page___blog_post.description.internal.fieldOwners'
   | 'page___blog_post.description.internal.ignoreType'
@@ -3791,6 +4132,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.heroImage.id'
   | 'page___blog_post.heroImage.internal.content'
   | 'page___blog_post.heroImage.internal.contentDigest'
+  | 'page___blog_post.heroImage.internal.contentFilePath'
   | 'page___blog_post.heroImage.internal.description'
   | 'page___blog_post.heroImage.internal.fieldOwners'
   | 'page___blog_post.heroImage.internal.ignoreType'
@@ -3806,6 +4148,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.heroImage.resize.height'
   | 'page___blog_post.heroImage.resize.src'
   | 'page___blog_post.heroImage.resize.width'
+  | 'page___blog_post.heroImage.size'
   | 'page___blog_post.heroImage.spaceId'
   | 'page___blog_post.heroImage.sys.revision'
   | 'page___blog_post.heroImage.sys.type'
@@ -3816,6 +4159,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.id'
   | 'page___blog_post.internal.content'
   | 'page___blog_post.internal.contentDigest'
+  | 'page___blog_post.internal.contentFilePath'
   | 'page___blog_post.internal.description'
   | 'page___blog_post.internal.fieldOwners'
   | 'page___blog_post.internal.ignoreType'
@@ -3829,6 +4173,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.parent.id'
   | 'page___blog_post.parent.internal.content'
   | 'page___blog_post.parent.internal.contentDigest'
+  | 'page___blog_post.parent.internal.contentFilePath'
   | 'page___blog_post.parent.internal.description'
   | 'page___blog_post.parent.internal.fieldOwners'
   | 'page___blog_post.parent.internal.ignoreType'
@@ -3859,6 +4204,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.seo.image.node_locale'
   | 'page___blog_post.seo.image.placeholderUrl'
   | 'page___blog_post.seo.image.publicUrl'
+  | 'page___blog_post.seo.image.size'
   | 'page___blog_post.seo.image.spaceId'
   | 'page___blog_post.seo.image.title'
   | 'page___blog_post.seo.image.updatedAt'
@@ -3866,6 +4212,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.seo.image.width'
   | 'page___blog_post.seo.internal.content'
   | 'page___blog_post.seo.internal.contentDigest'
+  | 'page___blog_post.seo.internal.contentFilePath'
   | 'page___blog_post.seo.internal.description'
   | 'page___blog_post.seo.internal.fieldOwners'
   | 'page___blog_post.seo.internal.ignoreType'
@@ -3887,6 +4234,16 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.seo.page___blog_post.tags'
   | 'page___blog_post.seo.page___blog_post.title'
   | 'page___blog_post.seo.page___blog_post.updatedAt'
+  | 'page___blog_post.seo.page___flex_page'
+  | 'page___blog_post.seo.page___flex_page.children'
+  | 'page___blog_post.seo.page___flex_page.contentful_id'
+  | 'page___blog_post.seo.page___flex_page.createdAt'
+  | 'page___blog_post.seo.page___flex_page.id'
+  | 'page___blog_post.seo.page___flex_page.node_locale'
+  | 'page___blog_post.seo.page___flex_page.slug'
+  | 'page___blog_post.seo.page___flex_page.spaceId'
+  | 'page___blog_post.seo.page___flex_page.title'
+  | 'page___blog_post.seo.page___flex_page.updatedAt'
   | 'page___blog_post.seo.parent.children'
   | 'page___blog_post.seo.parent.id'
   | 'page___blog_post.seo.robots'
@@ -3909,6 +4266,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -3920,6 +4278,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -3932,6 +4291,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -3956,6 +4316,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'shortBio.childMarkdownRemark.id'
   | 'shortBio.childMarkdownRemark.internal.content'
   | 'shortBio.childMarkdownRemark.internal.contentDigest'
+  | 'shortBio.childMarkdownRemark.internal.contentFilePath'
   | 'shortBio.childMarkdownRemark.internal.description'
   | 'shortBio.childMarkdownRemark.internal.fieldOwners'
   | 'shortBio.childMarkdownRemark.internal.ignoreType'
@@ -3987,6 +4348,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'shortBio.childrenMarkdownRemark.id'
   | 'shortBio.childrenMarkdownRemark.internal.content'
   | 'shortBio.childrenMarkdownRemark.internal.contentDigest'
+  | 'shortBio.childrenMarkdownRemark.internal.contentFilePath'
   | 'shortBio.childrenMarkdownRemark.internal.description'
   | 'shortBio.childrenMarkdownRemark.internal.fieldOwners'
   | 'shortBio.childrenMarkdownRemark.internal.ignoreType'
@@ -4007,6 +4369,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'shortBio.children.id'
   | 'shortBio.children.internal.content'
   | 'shortBio.children.internal.contentDigest'
+  | 'shortBio.children.internal.contentFilePath'
   | 'shortBio.children.internal.description'
   | 'shortBio.children.internal.fieldOwners'
   | 'shortBio.children.internal.ignoreType'
@@ -4018,6 +4381,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'shortBio.id'
   | 'shortBio.internal.content'
   | 'shortBio.internal.contentDigest'
+  | 'shortBio.internal.contentFilePath'
   | 'shortBio.internal.description'
   | 'shortBio.internal.fieldOwners'
   | 'shortBio.internal.ignoreType'
@@ -4030,6 +4394,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'shortBio.parent.id'
   | 'shortBio.parent.internal.content'
   | 'shortBio.parent.internal.contentDigest'
+  | 'shortBio.parent.internal.contentFilePath'
   | 'shortBio.parent.internal.description'
   | 'shortBio.parent.internal.fieldOwners'
   | 'shortBio.parent.internal.ignoreType'
@@ -4218,6 +4583,7 @@ type ContentfulEntryFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -4229,6 +4595,7 @@ type ContentfulEntryFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -4241,6 +4608,7 @@ type ContentfulEntryFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -4253,6 +4621,7 @@ type ContentfulEntryFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -4267,6 +4636,7 @@ type ContentfulEntryFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -4278,6 +4648,7 @@ type ContentfulEntryFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -4290,6 +4661,7 @@ type ContentfulEntryFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -4366,6 +4738,212 @@ type ContentfulImageCropFocus =
   | 'top'
   | 'top_left'
   | 'top_right';
+
+type ContentfulInferComponent = ContentfulEntry & ContentfulReference & Node & {
+  readonly children: ReadonlyArray<Node>;
+  readonly contentful_id: Scalars['String'];
+  readonly id: Scalars['ID'];
+  readonly internal: Internal;
+  readonly node_locale: Scalars['String'];
+  readonly parent: Maybe<Node>;
+};
+
+type ContentfulInferComponentConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulInferComponentEdge>;
+  readonly group: ReadonlyArray<ContentfulInferComponentGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulInferComponent>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulInferComponentConnection_distinctArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentConnection_groupArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulInferComponentConnection_maxArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentConnection_minArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentConnection_sumArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+type ContentfulInferComponentEdge = {
+  readonly next: Maybe<ContentfulInferComponent>;
+  readonly node: ContentfulInferComponent;
+  readonly previous: Maybe<ContentfulInferComponent>;
+};
+
+type ContentfulInferComponentFieldsEnum =
+  | 'children'
+  | 'children.children'
+  | 'children.children.children'
+  | 'children.children.children.children'
+  | 'children.children.children.id'
+  | 'children.children.id'
+  | 'children.children.internal.content'
+  | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
+  | 'children.children.internal.description'
+  | 'children.children.internal.fieldOwners'
+  | 'children.children.internal.ignoreType'
+  | 'children.children.internal.mediaType'
+  | 'children.children.internal.owner'
+  | 'children.children.internal.type'
+  | 'children.children.parent.children'
+  | 'children.children.parent.id'
+  | 'children.id'
+  | 'children.internal.content'
+  | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
+  | 'children.internal.description'
+  | 'children.internal.fieldOwners'
+  | 'children.internal.ignoreType'
+  | 'children.internal.mediaType'
+  | 'children.internal.owner'
+  | 'children.internal.type'
+  | 'children.parent.children'
+  | 'children.parent.children.children'
+  | 'children.parent.children.id'
+  | 'children.parent.id'
+  | 'children.parent.internal.content'
+  | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
+  | 'children.parent.internal.description'
+  | 'children.parent.internal.fieldOwners'
+  | 'children.parent.internal.ignoreType'
+  | 'children.parent.internal.mediaType'
+  | 'children.parent.internal.owner'
+  | 'children.parent.internal.type'
+  | 'children.parent.parent.children'
+  | 'children.parent.parent.id'
+  | 'contentful_id'
+  | 'id'
+  | 'internal.content'
+  | 'internal.contentDigest'
+  | 'internal.contentFilePath'
+  | 'internal.description'
+  | 'internal.fieldOwners'
+  | 'internal.ignoreType'
+  | 'internal.mediaType'
+  | 'internal.owner'
+  | 'internal.type'
+  | 'node_locale'
+  | 'parent.children'
+  | 'parent.children.children'
+  | 'parent.children.children.children'
+  | 'parent.children.children.id'
+  | 'parent.children.id'
+  | 'parent.children.internal.content'
+  | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
+  | 'parent.children.internal.description'
+  | 'parent.children.internal.fieldOwners'
+  | 'parent.children.internal.ignoreType'
+  | 'parent.children.internal.mediaType'
+  | 'parent.children.internal.owner'
+  | 'parent.children.internal.type'
+  | 'parent.children.parent.children'
+  | 'parent.children.parent.id'
+  | 'parent.id'
+  | 'parent.internal.content'
+  | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
+  | 'parent.internal.description'
+  | 'parent.internal.fieldOwners'
+  | 'parent.internal.ignoreType'
+  | 'parent.internal.mediaType'
+  | 'parent.internal.owner'
+  | 'parent.internal.type'
+  | 'parent.parent.children'
+  | 'parent.parent.children.children'
+  | 'parent.parent.children.id'
+  | 'parent.parent.id'
+  | 'parent.parent.internal.content'
+  | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
+  | 'parent.parent.internal.description'
+  | 'parent.parent.internal.fieldOwners'
+  | 'parent.parent.internal.ignoreType'
+  | 'parent.parent.internal.mediaType'
+  | 'parent.parent.internal.owner'
+  | 'parent.parent.internal.type'
+  | 'parent.parent.parent.children'
+  | 'parent.parent.parent.id';
+
+type ContentfulInferComponentFilterInput = {
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly contentful_id: InputMaybe<StringQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly node_locale: InputMaybe<StringQueryOperatorInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+};
+
+type ContentfulInferComponentGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulInferComponentEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<ContentfulInferComponentGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulInferComponent>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulInferComponentGroupConnection_distinctArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentGroupConnection_groupArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulInferComponentGroupConnection_maxArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentGroupConnection_minArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+
+type ContentfulInferComponentGroupConnection_sumArgs = {
+  field: ContentfulInferComponentFieldsEnum;
+};
+
+type ContentfulInferComponentSortInput = {
+  readonly fields: InputMaybe<ReadonlyArray<InputMaybe<ContentfulInferComponentFieldsEnum>>>;
+  readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
+};
 
 type ContentfulLink = ContentfulEntry & ContentfulReference & Node & {
   readonly children: ReadonlyArray<Node>;
@@ -4453,6 +5031,7 @@ type ContentfulLinkFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -4464,6 +5043,7 @@ type ContentfulLinkFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -4476,6 +5056,7 @@ type ContentfulLinkFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -4492,6 +5073,7 @@ type ContentfulLinkFieldsEnum =
   | 'component___navigation.children.id'
   | 'component___navigation.children.internal.content'
   | 'component___navigation.children.internal.contentDigest'
+  | 'component___navigation.children.internal.contentFilePath'
   | 'component___navigation.children.internal.description'
   | 'component___navigation.children.internal.fieldOwners'
   | 'component___navigation.children.internal.ignoreType'
@@ -4505,6 +5087,7 @@ type ContentfulLinkFieldsEnum =
   | 'component___navigation.id'
   | 'component___navigation.internal.content'
   | 'component___navigation.internal.contentDigest'
+  | 'component___navigation.internal.contentFilePath'
   | 'component___navigation.internal.description'
   | 'component___navigation.internal.fieldOwners'
   | 'component___navigation.internal.ignoreType'
@@ -4531,6 +5114,7 @@ type ContentfulLinkFieldsEnum =
   | 'component___navigation.links.id'
   | 'component___navigation.links.internal.content'
   | 'component___navigation.links.internal.contentDigest'
+  | 'component___navigation.links.internal.contentFilePath'
   | 'component___navigation.links.internal.description'
   | 'component___navigation.links.internal.fieldOwners'
   | 'component___navigation.links.internal.ignoreType'
@@ -4552,6 +5136,7 @@ type ContentfulLinkFieldsEnum =
   | 'component___navigation.parent.id'
   | 'component___navigation.parent.internal.content'
   | 'component___navigation.parent.internal.contentDigest'
+  | 'component___navigation.parent.internal.contentFilePath'
   | 'component___navigation.parent.internal.description'
   | 'component___navigation.parent.internal.fieldOwners'
   | 'component___navigation.parent.internal.ignoreType'
@@ -4571,6 +5156,7 @@ type ContentfulLinkFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -4585,6 +5171,7 @@ type ContentfulLinkFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -4596,6 +5183,7 @@ type ContentfulLinkFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -4608,6 +5196,7 @@ type ContentfulLinkFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -4850,6 +5439,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.childContentfulEntityPersonShortBioTextNode.id'
   | 'author.childContentfulEntityPersonShortBioTextNode.internal.content'
   | 'author.childContentfulEntityPersonShortBioTextNode.internal.contentDigest'
+  | 'author.childContentfulEntityPersonShortBioTextNode.internal.contentFilePath'
   | 'author.childContentfulEntityPersonShortBioTextNode.internal.description'
   | 'author.childContentfulEntityPersonShortBioTextNode.internal.fieldOwners'
   | 'author.childContentfulEntityPersonShortBioTextNode.internal.ignoreType'
@@ -4889,6 +5479,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.childrenContentfulEntityPersonShortBioTextNode.id'
   | 'author.childrenContentfulEntityPersonShortBioTextNode.internal.content'
   | 'author.childrenContentfulEntityPersonShortBioTextNode.internal.contentDigest'
+  | 'author.childrenContentfulEntityPersonShortBioTextNode.internal.contentFilePath'
   | 'author.childrenContentfulEntityPersonShortBioTextNode.internal.description'
   | 'author.childrenContentfulEntityPersonShortBioTextNode.internal.fieldOwners'
   | 'author.childrenContentfulEntityPersonShortBioTextNode.internal.ignoreType'
@@ -4905,6 +5496,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.children.id'
   | 'author.children.internal.content'
   | 'author.children.internal.contentDigest'
+  | 'author.children.internal.contentFilePath'
   | 'author.children.internal.description'
   | 'author.children.internal.fieldOwners'
   | 'author.children.internal.ignoreType'
@@ -4938,6 +5530,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.image.id'
   | 'author.image.internal.content'
   | 'author.image.internal.contentDigest'
+  | 'author.image.internal.contentFilePath'
   | 'author.image.internal.description'
   | 'author.image.internal.fieldOwners'
   | 'author.image.internal.ignoreType'
@@ -4953,6 +5546,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.image.resize.height'
   | 'author.image.resize.src'
   | 'author.image.resize.width'
+  | 'author.image.size'
   | 'author.image.spaceId'
   | 'author.image.sys.revision'
   | 'author.image.sys.type'
@@ -4962,6 +5556,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.image.width'
   | 'author.internal.content'
   | 'author.internal.contentDigest'
+  | 'author.internal.contentFilePath'
   | 'author.internal.description'
   | 'author.internal.fieldOwners'
   | 'author.internal.ignoreType'
@@ -5034,6 +5629,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.page___blog_post.heroImage.node_locale'
   | 'author.page___blog_post.heroImage.placeholderUrl'
   | 'author.page___blog_post.heroImage.publicUrl'
+  | 'author.page___blog_post.heroImage.size'
   | 'author.page___blog_post.heroImage.spaceId'
   | 'author.page___blog_post.heroImage.title'
   | 'author.page___blog_post.heroImage.updatedAt'
@@ -5042,6 +5638,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.page___blog_post.id'
   | 'author.page___blog_post.internal.content'
   | 'author.page___blog_post.internal.contentDigest'
+  | 'author.page___blog_post.internal.contentFilePath'
   | 'author.page___blog_post.internal.description'
   | 'author.page___blog_post.internal.fieldOwners'
   | 'author.page___blog_post.internal.ignoreType'
@@ -5059,6 +5656,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.page___blog_post.seo.id'
   | 'author.page___blog_post.seo.node_locale'
   | 'author.page___blog_post.seo.page___blog_post'
+  | 'author.page___blog_post.seo.page___flex_page'
   | 'author.page___blog_post.seo.robots'
   | 'author.page___blog_post.seo.spaceId'
   | 'author.page___blog_post.seo.title'
@@ -5076,6 +5674,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.parent.id'
   | 'author.parent.internal.content'
   | 'author.parent.internal.contentDigest'
+  | 'author.parent.internal.contentFilePath'
   | 'author.parent.internal.description'
   | 'author.parent.internal.fieldOwners'
   | 'author.parent.internal.ignoreType'
@@ -5112,6 +5711,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.shortBio.id'
   | 'author.shortBio.internal.content'
   | 'author.shortBio.internal.contentDigest'
+  | 'author.shortBio.internal.contentFilePath'
   | 'author.shortBio.internal.description'
   | 'author.shortBio.internal.fieldOwners'
   | 'author.shortBio.internal.ignoreType'
@@ -5144,6 +5744,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'body.childMarkdownRemark.id'
   | 'body.childMarkdownRemark.internal.content'
   | 'body.childMarkdownRemark.internal.contentDigest'
+  | 'body.childMarkdownRemark.internal.contentFilePath'
   | 'body.childMarkdownRemark.internal.description'
   | 'body.childMarkdownRemark.internal.fieldOwners'
   | 'body.childMarkdownRemark.internal.ignoreType'
@@ -5175,6 +5776,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'body.childrenMarkdownRemark.id'
   | 'body.childrenMarkdownRemark.internal.content'
   | 'body.childrenMarkdownRemark.internal.contentDigest'
+  | 'body.childrenMarkdownRemark.internal.contentFilePath'
   | 'body.childrenMarkdownRemark.internal.description'
   | 'body.childrenMarkdownRemark.internal.fieldOwners'
   | 'body.childrenMarkdownRemark.internal.ignoreType'
@@ -5195,6 +5797,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'body.children.id'
   | 'body.children.internal.content'
   | 'body.children.internal.contentDigest'
+  | 'body.children.internal.contentFilePath'
   | 'body.children.internal.description'
   | 'body.children.internal.fieldOwners'
   | 'body.children.internal.ignoreType'
@@ -5206,6 +5809,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'body.id'
   | 'body.internal.content'
   | 'body.internal.contentDigest'
+  | 'body.internal.contentFilePath'
   | 'body.internal.description'
   | 'body.internal.fieldOwners'
   | 'body.internal.ignoreType'
@@ -5218,6 +5822,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'body.parent.id'
   | 'body.parent.internal.content'
   | 'body.parent.internal.contentDigest'
+  | 'body.parent.internal.contentFilePath'
   | 'body.parent.internal.description'
   | 'body.parent.internal.fieldOwners'
   | 'body.parent.internal.ignoreType'
@@ -5243,6 +5848,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.id'
   | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.content'
   | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.description'
   | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.ignoreType'
@@ -5274,6 +5880,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.id'
   | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.content'
   | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.description'
   | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -5294,6 +5901,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostBodyTextNode.children.id'
   | 'childContentfulPageBlogPostBodyTextNode.children.internal.content'
   | 'childContentfulPageBlogPostBodyTextNode.children.internal.contentDigest'
+  | 'childContentfulPageBlogPostBodyTextNode.children.internal.contentFilePath'
   | 'childContentfulPageBlogPostBodyTextNode.children.internal.description'
   | 'childContentfulPageBlogPostBodyTextNode.children.internal.fieldOwners'
   | 'childContentfulPageBlogPostBodyTextNode.children.internal.ignoreType'
@@ -5305,6 +5913,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostBodyTextNode.id'
   | 'childContentfulPageBlogPostBodyTextNode.internal.content'
   | 'childContentfulPageBlogPostBodyTextNode.internal.contentDigest'
+  | 'childContentfulPageBlogPostBodyTextNode.internal.contentFilePath'
   | 'childContentfulPageBlogPostBodyTextNode.internal.description'
   | 'childContentfulPageBlogPostBodyTextNode.internal.fieldOwners'
   | 'childContentfulPageBlogPostBodyTextNode.internal.ignoreType'
@@ -5317,6 +5926,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostBodyTextNode.parent.id'
   | 'childContentfulPageBlogPostBodyTextNode.parent.internal.content'
   | 'childContentfulPageBlogPostBodyTextNode.parent.internal.contentDigest'
+  | 'childContentfulPageBlogPostBodyTextNode.parent.internal.contentFilePath'
   | 'childContentfulPageBlogPostBodyTextNode.parent.internal.description'
   | 'childContentfulPageBlogPostBodyTextNode.parent.internal.fieldOwners'
   | 'childContentfulPageBlogPostBodyTextNode.parent.internal.ignoreType'
@@ -5341,6 +5951,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.id'
   | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.content'
   | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.description'
   | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.ignoreType'
@@ -5372,6 +5983,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.id'
   | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.content'
   | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.description'
   | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -5392,6 +6004,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostDescriptionTextNode.children.id'
   | 'childContentfulPageBlogPostDescriptionTextNode.children.internal.content'
   | 'childContentfulPageBlogPostDescriptionTextNode.children.internal.contentDigest'
+  | 'childContentfulPageBlogPostDescriptionTextNode.children.internal.contentFilePath'
   | 'childContentfulPageBlogPostDescriptionTextNode.children.internal.description'
   | 'childContentfulPageBlogPostDescriptionTextNode.children.internal.fieldOwners'
   | 'childContentfulPageBlogPostDescriptionTextNode.children.internal.ignoreType'
@@ -5404,6 +6017,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostDescriptionTextNode.id'
   | 'childContentfulPageBlogPostDescriptionTextNode.internal.content'
   | 'childContentfulPageBlogPostDescriptionTextNode.internal.contentDigest'
+  | 'childContentfulPageBlogPostDescriptionTextNode.internal.contentFilePath'
   | 'childContentfulPageBlogPostDescriptionTextNode.internal.description'
   | 'childContentfulPageBlogPostDescriptionTextNode.internal.fieldOwners'
   | 'childContentfulPageBlogPostDescriptionTextNode.internal.ignoreType'
@@ -5416,6 +6030,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childContentfulPageBlogPostDescriptionTextNode.parent.id'
   | 'childContentfulPageBlogPostDescriptionTextNode.parent.internal.content'
   | 'childContentfulPageBlogPostDescriptionTextNode.parent.internal.contentDigest'
+  | 'childContentfulPageBlogPostDescriptionTextNode.parent.internal.contentFilePath'
   | 'childContentfulPageBlogPostDescriptionTextNode.parent.internal.description'
   | 'childContentfulPageBlogPostDescriptionTextNode.parent.internal.fieldOwners'
   | 'childContentfulPageBlogPostDescriptionTextNode.parent.internal.ignoreType'
@@ -5443,6 +6058,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.id'
   | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.content'
   | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.description'
   | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostBodyTextNode.childMarkdownRemark.internal.ignoreType'
@@ -5474,6 +6090,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.id'
   | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.content'
   | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.description'
   | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -5494,6 +6111,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostBodyTextNode.children.id'
   | 'childrenContentfulPageBlogPostBodyTextNode.children.internal.content'
   | 'childrenContentfulPageBlogPostBodyTextNode.children.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostBodyTextNode.children.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostBodyTextNode.children.internal.description'
   | 'childrenContentfulPageBlogPostBodyTextNode.children.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostBodyTextNode.children.internal.ignoreType'
@@ -5505,6 +6123,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostBodyTextNode.id'
   | 'childrenContentfulPageBlogPostBodyTextNode.internal.content'
   | 'childrenContentfulPageBlogPostBodyTextNode.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostBodyTextNode.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostBodyTextNode.internal.description'
   | 'childrenContentfulPageBlogPostBodyTextNode.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostBodyTextNode.internal.ignoreType'
@@ -5517,6 +6136,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostBodyTextNode.parent.id'
   | 'childrenContentfulPageBlogPostBodyTextNode.parent.internal.content'
   | 'childrenContentfulPageBlogPostBodyTextNode.parent.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostBodyTextNode.parent.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostBodyTextNode.parent.internal.description'
   | 'childrenContentfulPageBlogPostBodyTextNode.parent.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostBodyTextNode.parent.internal.ignoreType'
@@ -5542,6 +6162,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.id'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.content'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.description'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childMarkdownRemark.internal.ignoreType'
@@ -5573,6 +6194,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.id'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.content'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.description'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark.internal.ignoreType'
@@ -5593,6 +6215,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostDescriptionTextNode.children.id'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.children.internal.content'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.children.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostDescriptionTextNode.children.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.children.internal.description'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.children.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.children.internal.ignoreType'
@@ -5605,6 +6228,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostDescriptionTextNode.id'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.internal.content'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostDescriptionTextNode.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.internal.description'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.internal.ignoreType'
@@ -5617,6 +6241,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.id'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.internal.content'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.internal.contentDigest'
+  | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.internal.contentFilePath'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.internal.description'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.internal.fieldOwners'
   | 'childrenContentfulPageBlogPostDescriptionTextNode.parent.internal.ignoreType'
@@ -5633,6 +6258,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -5644,6 +6270,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -5656,6 +6283,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -5681,6 +6309,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'description.childMarkdownRemark.id'
   | 'description.childMarkdownRemark.internal.content'
   | 'description.childMarkdownRemark.internal.contentDigest'
+  | 'description.childMarkdownRemark.internal.contentFilePath'
   | 'description.childMarkdownRemark.internal.description'
   | 'description.childMarkdownRemark.internal.fieldOwners'
   | 'description.childMarkdownRemark.internal.ignoreType'
@@ -5712,6 +6341,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'description.childrenMarkdownRemark.id'
   | 'description.childrenMarkdownRemark.internal.content'
   | 'description.childrenMarkdownRemark.internal.contentDigest'
+  | 'description.childrenMarkdownRemark.internal.contentFilePath'
   | 'description.childrenMarkdownRemark.internal.description'
   | 'description.childrenMarkdownRemark.internal.fieldOwners'
   | 'description.childrenMarkdownRemark.internal.ignoreType'
@@ -5732,6 +6362,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'description.children.id'
   | 'description.children.internal.content'
   | 'description.children.internal.contentDigest'
+  | 'description.children.internal.contentFilePath'
   | 'description.children.internal.description'
   | 'description.children.internal.fieldOwners'
   | 'description.children.internal.ignoreType'
@@ -5744,6 +6375,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'description.id'
   | 'description.internal.content'
   | 'description.internal.contentDigest'
+  | 'description.internal.contentFilePath'
   | 'description.internal.description'
   | 'description.internal.fieldOwners'
   | 'description.internal.ignoreType'
@@ -5756,6 +6388,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'description.parent.id'
   | 'description.parent.internal.content'
   | 'description.parent.internal.contentDigest'
+  | 'description.parent.internal.contentFilePath'
   | 'description.parent.internal.description'
   | 'description.parent.internal.fieldOwners'
   | 'description.parent.internal.ignoreType'
@@ -5772,6 +6405,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'heroImage.children.id'
   | 'heroImage.children.internal.content'
   | 'heroImage.children.internal.contentDigest'
+  | 'heroImage.children.internal.contentFilePath'
   | 'heroImage.children.internal.description'
   | 'heroImage.children.internal.fieldOwners'
   | 'heroImage.children.internal.ignoreType'
@@ -5795,6 +6429,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'heroImage.id'
   | 'heroImage.internal.content'
   | 'heroImage.internal.contentDigest'
+  | 'heroImage.internal.contentFilePath'
   | 'heroImage.internal.description'
   | 'heroImage.internal.fieldOwners'
   | 'heroImage.internal.ignoreType'
@@ -5809,6 +6444,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'heroImage.parent.id'
   | 'heroImage.parent.internal.content'
   | 'heroImage.parent.internal.contentDigest'
+  | 'heroImage.parent.internal.contentFilePath'
   | 'heroImage.parent.internal.description'
   | 'heroImage.parent.internal.fieldOwners'
   | 'heroImage.parent.internal.ignoreType'
@@ -5822,6 +6458,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'heroImage.resize.height'
   | 'heroImage.resize.src'
   | 'heroImage.resize.width'
+  | 'heroImage.size'
   | 'heroImage.spaceId'
   | 'heroImage.sys.revision'
   | 'heroImage.sys.type'
@@ -5832,6 +6469,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -5846,6 +6484,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -5857,6 +6496,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -5869,6 +6509,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -5885,6 +6526,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.children.id'
   | 'seo.children.internal.content'
   | 'seo.children.internal.contentDigest'
+  | 'seo.children.internal.contentFilePath'
   | 'seo.children.internal.description'
   | 'seo.children.internal.fieldOwners'
   | 'seo.children.internal.ignoreType'
@@ -5914,6 +6556,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.image.id'
   | 'seo.image.internal.content'
   | 'seo.image.internal.contentDigest'
+  | 'seo.image.internal.contentFilePath'
   | 'seo.image.internal.description'
   | 'seo.image.internal.fieldOwners'
   | 'seo.image.internal.ignoreType'
@@ -5929,6 +6572,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.image.resize.height'
   | 'seo.image.resize.src'
   | 'seo.image.resize.width'
+  | 'seo.image.size'
   | 'seo.image.spaceId'
   | 'seo.image.sys.revision'
   | 'seo.image.sys.type'
@@ -5938,6 +6582,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.image.width'
   | 'seo.internal.content'
   | 'seo.internal.contentDigest'
+  | 'seo.internal.contentFilePath'
   | 'seo.internal.description'
   | 'seo.internal.fieldOwners'
   | 'seo.internal.ignoreType'
@@ -6009,6 +6654,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.page___blog_post.heroImage.node_locale'
   | 'seo.page___blog_post.heroImage.placeholderUrl'
   | 'seo.page___blog_post.heroImage.publicUrl'
+  | 'seo.page___blog_post.heroImage.size'
   | 'seo.page___blog_post.heroImage.spaceId'
   | 'seo.page___blog_post.heroImage.title'
   | 'seo.page___blog_post.heroImage.updatedAt'
@@ -6017,6 +6663,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.page___blog_post.id'
   | 'seo.page___blog_post.internal.content'
   | 'seo.page___blog_post.internal.contentDigest'
+  | 'seo.page___blog_post.internal.contentFilePath'
   | 'seo.page___blog_post.internal.description'
   | 'seo.page___blog_post.internal.fieldOwners'
   | 'seo.page___blog_post.internal.ignoreType'
@@ -6034,6 +6681,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.page___blog_post.seo.id'
   | 'seo.page___blog_post.seo.node_locale'
   | 'seo.page___blog_post.seo.page___blog_post'
+  | 'seo.page___blog_post.seo.page___flex_page'
   | 'seo.page___blog_post.seo.robots'
   | 'seo.page___blog_post.seo.spaceId'
   | 'seo.page___blog_post.seo.title'
@@ -6045,12 +6693,50 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.page___blog_post.tags'
   | 'seo.page___blog_post.title'
   | 'seo.page___blog_post.updatedAt'
+  | 'seo.page___flex_page'
+  | 'seo.page___flex_page.children'
+  | 'seo.page___flex_page.children.children'
+  | 'seo.page___flex_page.children.id'
+  | 'seo.page___flex_page.contentful_id'
+  | 'seo.page___flex_page.createdAt'
+  | 'seo.page___flex_page.id'
+  | 'seo.page___flex_page.internal.content'
+  | 'seo.page___flex_page.internal.contentDigest'
+  | 'seo.page___flex_page.internal.contentFilePath'
+  | 'seo.page___flex_page.internal.description'
+  | 'seo.page___flex_page.internal.fieldOwners'
+  | 'seo.page___flex_page.internal.ignoreType'
+  | 'seo.page___flex_page.internal.mediaType'
+  | 'seo.page___flex_page.internal.owner'
+  | 'seo.page___flex_page.internal.type'
+  | 'seo.page___flex_page.node_locale'
+  | 'seo.page___flex_page.parent.children'
+  | 'seo.page___flex_page.parent.id'
+  | 'seo.page___flex_page.seo.children'
+  | 'seo.page___flex_page.seo.contentful_id'
+  | 'seo.page___flex_page.seo.createdAt'
+  | 'seo.page___flex_page.seo.description'
+  | 'seo.page___flex_page.seo.id'
+  | 'seo.page___flex_page.seo.node_locale'
+  | 'seo.page___flex_page.seo.page___blog_post'
+  | 'seo.page___flex_page.seo.page___flex_page'
+  | 'seo.page___flex_page.seo.robots'
+  | 'seo.page___flex_page.seo.spaceId'
+  | 'seo.page___flex_page.seo.title'
+  | 'seo.page___flex_page.seo.updatedAt'
+  | 'seo.page___flex_page.slug'
+  | 'seo.page___flex_page.spaceId'
+  | 'seo.page___flex_page.sys.revision'
+  | 'seo.page___flex_page.sys.type'
+  | 'seo.page___flex_page.title'
+  | 'seo.page___flex_page.updatedAt'
   | 'seo.parent.children'
   | 'seo.parent.children.children'
   | 'seo.parent.children.id'
   | 'seo.parent.id'
   | 'seo.parent.internal.content'
   | 'seo.parent.internal.contentDigest'
+  | 'seo.parent.internal.contentFilePath'
   | 'seo.parent.internal.description'
   | 'seo.parent.internal.fieldOwners'
   | 'seo.parent.internal.ignoreType'
@@ -6193,9 +6879,11 @@ type ContentfulPageFlexPage = ContentfulEntry & ContentfulReference & Node & {
   readonly internal: Internal;
   readonly node_locale: Scalars['String'];
   readonly parent: Maybe<Node>;
+  readonly seo: Maybe<ContentfulSeo>;
   readonly slug: Maybe<Scalars['String']>;
   readonly spaceId: Maybe<Scalars['String']>;
   readonly sys: Maybe<ContentfulPageFlexPageSys>;
+  readonly title: Maybe<Scalars['String']>;
   readonly updatedAt: Maybe<Scalars['Date']>;
 };
 
@@ -6269,6 +6957,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -6280,6 +6969,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -6292,6 +6982,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -6305,6 +6996,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -6319,6 +7011,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -6330,6 +7023,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -6342,6 +7036,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -6350,6 +7045,238 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'parent.parent.internal.type'
   | 'parent.parent.parent.children'
   | 'parent.parent.parent.id'
+  | 'seo.children'
+  | 'seo.children.children'
+  | 'seo.children.children.children'
+  | 'seo.children.children.id'
+  | 'seo.children.id'
+  | 'seo.children.internal.content'
+  | 'seo.children.internal.contentDigest'
+  | 'seo.children.internal.contentFilePath'
+  | 'seo.children.internal.description'
+  | 'seo.children.internal.fieldOwners'
+  | 'seo.children.internal.ignoreType'
+  | 'seo.children.internal.mediaType'
+  | 'seo.children.internal.owner'
+  | 'seo.children.internal.type'
+  | 'seo.children.parent.children'
+  | 'seo.children.parent.id'
+  | 'seo.contentful_id'
+  | 'seo.createdAt'
+  | 'seo.description'
+  | 'seo.id'
+  | 'seo.image.children'
+  | 'seo.image.children.children'
+  | 'seo.image.children.id'
+  | 'seo.image.contentful_id'
+  | 'seo.image.createdAt'
+  | 'seo.image.description'
+  | 'seo.image.file.contentType'
+  | 'seo.image.file.fileName'
+  | 'seo.image.file.url'
+  | 'seo.image.filename'
+  | 'seo.image.filesize'
+  | 'seo.image.gatsbyImage'
+  | 'seo.image.gatsbyImageData'
+  | 'seo.image.height'
+  | 'seo.image.id'
+  | 'seo.image.internal.content'
+  | 'seo.image.internal.contentDigest'
+  | 'seo.image.internal.contentFilePath'
+  | 'seo.image.internal.description'
+  | 'seo.image.internal.fieldOwners'
+  | 'seo.image.internal.ignoreType'
+  | 'seo.image.internal.mediaType'
+  | 'seo.image.internal.owner'
+  | 'seo.image.internal.type'
+  | 'seo.image.mimeType'
+  | 'seo.image.node_locale'
+  | 'seo.image.parent.children'
+  | 'seo.image.parent.id'
+  | 'seo.image.placeholderUrl'
+  | 'seo.image.publicUrl'
+  | 'seo.image.resize.height'
+  | 'seo.image.resize.src'
+  | 'seo.image.resize.width'
+  | 'seo.image.size'
+  | 'seo.image.spaceId'
+  | 'seo.image.sys.revision'
+  | 'seo.image.sys.type'
+  | 'seo.image.title'
+  | 'seo.image.updatedAt'
+  | 'seo.image.url'
+  | 'seo.image.width'
+  | 'seo.internal.content'
+  | 'seo.internal.contentDigest'
+  | 'seo.internal.contentFilePath'
+  | 'seo.internal.description'
+  | 'seo.internal.fieldOwners'
+  | 'seo.internal.ignoreType'
+  | 'seo.internal.mediaType'
+  | 'seo.internal.owner'
+  | 'seo.internal.type'
+  | 'seo.node_locale'
+  | 'seo.page___blog_post'
+  | 'seo.page___blog_post.author.children'
+  | 'seo.page___blog_post.author.childrenContentfulEntityPersonShortBioTextNode'
+  | 'seo.page___blog_post.author.company'
+  | 'seo.page___blog_post.author.contentful_id'
+  | 'seo.page___blog_post.author.createdAt'
+  | 'seo.page___blog_post.author.email'
+  | 'seo.page___blog_post.author.facebook'
+  | 'seo.page___blog_post.author.gatsbyPath'
+  | 'seo.page___blog_post.author.github'
+  | 'seo.page___blog_post.author.id'
+  | 'seo.page___blog_post.author.name'
+  | 'seo.page___blog_post.author.node_locale'
+  | 'seo.page___blog_post.author.page___blog_post'
+  | 'seo.page___blog_post.author.phone'
+  | 'seo.page___blog_post.author.spaceId'
+  | 'seo.page___blog_post.author.title'
+  | 'seo.page___blog_post.author.twitter'
+  | 'seo.page___blog_post.author.updatedAt'
+  | 'seo.page___blog_post.body.body'
+  | 'seo.page___blog_post.body.children'
+  | 'seo.page___blog_post.body.childrenMarkdownRemark'
+  | 'seo.page___blog_post.body.id'
+  | 'seo.page___blog_post.childContentfulPageBlogPostBodyTextNode.body'
+  | 'seo.page___blog_post.childContentfulPageBlogPostBodyTextNode.children'
+  | 'seo.page___blog_post.childContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark'
+  | 'seo.page___blog_post.childContentfulPageBlogPostBodyTextNode.id'
+  | 'seo.page___blog_post.childContentfulPageBlogPostDescriptionTextNode.children'
+  | 'seo.page___blog_post.childContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark'
+  | 'seo.page___blog_post.childContentfulPageBlogPostDescriptionTextNode.description'
+  | 'seo.page___blog_post.childContentfulPageBlogPostDescriptionTextNode.id'
+  | 'seo.page___blog_post.children'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode.body'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode.children'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode.childrenMarkdownRemark'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode.id'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.children'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.childrenMarkdownRemark'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.description'
+  | 'seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.id'
+  | 'seo.page___blog_post.children.children'
+  | 'seo.page___blog_post.children.id'
+  | 'seo.page___blog_post.contentful_id'
+  | 'seo.page___blog_post.createdAt'
+  | 'seo.page___blog_post.description.children'
+  | 'seo.page___blog_post.description.childrenMarkdownRemark'
+  | 'seo.page___blog_post.description.description'
+  | 'seo.page___blog_post.description.id'
+  | 'seo.page___blog_post.heroImage.children'
+  | 'seo.page___blog_post.heroImage.contentful_id'
+  | 'seo.page___blog_post.heroImage.createdAt'
+  | 'seo.page___blog_post.heroImage.description'
+  | 'seo.page___blog_post.heroImage.filename'
+  | 'seo.page___blog_post.heroImage.filesize'
+  | 'seo.page___blog_post.heroImage.gatsbyImage'
+  | 'seo.page___blog_post.heroImage.gatsbyImageData'
+  | 'seo.page___blog_post.heroImage.height'
+  | 'seo.page___blog_post.heroImage.id'
+  | 'seo.page___blog_post.heroImage.mimeType'
+  | 'seo.page___blog_post.heroImage.node_locale'
+  | 'seo.page___blog_post.heroImage.placeholderUrl'
+  | 'seo.page___blog_post.heroImage.publicUrl'
+  | 'seo.page___blog_post.heroImage.size'
+  | 'seo.page___blog_post.heroImage.spaceId'
+  | 'seo.page___blog_post.heroImage.title'
+  | 'seo.page___blog_post.heroImage.updatedAt'
+  | 'seo.page___blog_post.heroImage.url'
+  | 'seo.page___blog_post.heroImage.width'
+  | 'seo.page___blog_post.id'
+  | 'seo.page___blog_post.internal.content'
+  | 'seo.page___blog_post.internal.contentDigest'
+  | 'seo.page___blog_post.internal.contentFilePath'
+  | 'seo.page___blog_post.internal.description'
+  | 'seo.page___blog_post.internal.fieldOwners'
+  | 'seo.page___blog_post.internal.ignoreType'
+  | 'seo.page___blog_post.internal.mediaType'
+  | 'seo.page___blog_post.internal.owner'
+  | 'seo.page___blog_post.internal.type'
+  | 'seo.page___blog_post.node_locale'
+  | 'seo.page___blog_post.parent.children'
+  | 'seo.page___blog_post.parent.id'
+  | 'seo.page___blog_post.publishDate'
+  | 'seo.page___blog_post.seo.children'
+  | 'seo.page___blog_post.seo.contentful_id'
+  | 'seo.page___blog_post.seo.createdAt'
+  | 'seo.page___blog_post.seo.description'
+  | 'seo.page___blog_post.seo.id'
+  | 'seo.page___blog_post.seo.node_locale'
+  | 'seo.page___blog_post.seo.page___blog_post'
+  | 'seo.page___blog_post.seo.page___flex_page'
+  | 'seo.page___blog_post.seo.robots'
+  | 'seo.page___blog_post.seo.spaceId'
+  | 'seo.page___blog_post.seo.title'
+  | 'seo.page___blog_post.seo.updatedAt'
+  | 'seo.page___blog_post.slug'
+  | 'seo.page___blog_post.spaceId'
+  | 'seo.page___blog_post.sys.revision'
+  | 'seo.page___blog_post.sys.type'
+  | 'seo.page___blog_post.tags'
+  | 'seo.page___blog_post.title'
+  | 'seo.page___blog_post.updatedAt'
+  | 'seo.page___flex_page'
+  | 'seo.page___flex_page.children'
+  | 'seo.page___flex_page.children.children'
+  | 'seo.page___flex_page.children.id'
+  | 'seo.page___flex_page.contentful_id'
+  | 'seo.page___flex_page.createdAt'
+  | 'seo.page___flex_page.id'
+  | 'seo.page___flex_page.internal.content'
+  | 'seo.page___flex_page.internal.contentDigest'
+  | 'seo.page___flex_page.internal.contentFilePath'
+  | 'seo.page___flex_page.internal.description'
+  | 'seo.page___flex_page.internal.fieldOwners'
+  | 'seo.page___flex_page.internal.ignoreType'
+  | 'seo.page___flex_page.internal.mediaType'
+  | 'seo.page___flex_page.internal.owner'
+  | 'seo.page___flex_page.internal.type'
+  | 'seo.page___flex_page.node_locale'
+  | 'seo.page___flex_page.parent.children'
+  | 'seo.page___flex_page.parent.id'
+  | 'seo.page___flex_page.seo.children'
+  | 'seo.page___flex_page.seo.contentful_id'
+  | 'seo.page___flex_page.seo.createdAt'
+  | 'seo.page___flex_page.seo.description'
+  | 'seo.page___flex_page.seo.id'
+  | 'seo.page___flex_page.seo.node_locale'
+  | 'seo.page___flex_page.seo.page___blog_post'
+  | 'seo.page___flex_page.seo.page___flex_page'
+  | 'seo.page___flex_page.seo.robots'
+  | 'seo.page___flex_page.seo.spaceId'
+  | 'seo.page___flex_page.seo.title'
+  | 'seo.page___flex_page.seo.updatedAt'
+  | 'seo.page___flex_page.slug'
+  | 'seo.page___flex_page.spaceId'
+  | 'seo.page___flex_page.sys.revision'
+  | 'seo.page___flex_page.sys.type'
+  | 'seo.page___flex_page.title'
+  | 'seo.page___flex_page.updatedAt'
+  | 'seo.parent.children'
+  | 'seo.parent.children.children'
+  | 'seo.parent.children.id'
+  | 'seo.parent.id'
+  | 'seo.parent.internal.content'
+  | 'seo.parent.internal.contentDigest'
+  | 'seo.parent.internal.contentFilePath'
+  | 'seo.parent.internal.description'
+  | 'seo.parent.internal.fieldOwners'
+  | 'seo.parent.internal.ignoreType'
+  | 'seo.parent.internal.mediaType'
+  | 'seo.parent.internal.owner'
+  | 'seo.parent.internal.type'
+  | 'seo.parent.parent.children'
+  | 'seo.parent.parent.id'
+  | 'seo.robots'
+  | 'seo.spaceId'
+  | 'seo.sys.revision'
+  | 'seo.sys.type'
+  | 'seo.title'
+  | 'seo.updatedAt'
   | 'slug'
   | 'spaceId'
   | 'sys.contentType.sys.id'
@@ -6357,6 +7284,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'sys.contentType.sys.type'
   | 'sys.revision'
   | 'sys.type'
+  | 'title'
   | 'updatedAt';
 
 type ContentfulPageFlexPageFilterInput = {
@@ -6367,9 +7295,11 @@ type ContentfulPageFlexPageFilterInput = {
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly node_locale: InputMaybe<StringQueryOperatorInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
+  readonly seo: InputMaybe<ContentfulSeoFilterInput>;
   readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly spaceId: InputMaybe<StringQueryOperatorInput>;
   readonly sys: InputMaybe<ContentfulPageFlexPageSysFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
   readonly updatedAt: InputMaybe<DateQueryOperatorInput>;
 };
 
@@ -6455,9 +7385,497 @@ type ContentfulPageFlexPageSysFilterInput = {
   readonly type: InputMaybe<StringQueryOperatorInput>;
 };
 
+type ContentfulRedirect = ContentfulEntry & ContentfulReference & Node & {
+  readonly children: ReadonlyArray<Node>;
+  readonly contentful_id: Scalars['String'];
+  readonly createdAt: Maybe<Scalars['Date']>;
+  readonly force: Maybe<Scalars['Boolean']>;
+  readonly from: Maybe<Scalars['String']>;
+  readonly id: Scalars['ID'];
+  readonly internal: Internal;
+  readonly node_locale: Scalars['String'];
+  readonly parent: Maybe<Node>;
+  readonly spaceId: Maybe<Scalars['String']>;
+  readonly statusCode: Maybe<Scalars['Int']>;
+  readonly sys: Maybe<ContentfulRedirectSys>;
+  readonly to: Maybe<Scalars['String']>;
+  readonly updatedAt: Maybe<Scalars['Date']>;
+};
+
+
+type ContentfulRedirect_createdAtArgs = {
+  difference: InputMaybe<Scalars['String']>;
+  formatString: InputMaybe<Scalars['String']>;
+  fromNow: InputMaybe<Scalars['Boolean']>;
+  locale: InputMaybe<Scalars['String']>;
+};
+
+
+type ContentfulRedirect_updatedAtArgs = {
+  difference: InputMaybe<Scalars['String']>;
+  formatString: InputMaybe<Scalars['String']>;
+  fromNow: InputMaybe<Scalars['Boolean']>;
+  locale: InputMaybe<Scalars['String']>;
+};
+
+type ContentfulRedirectConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulRedirectEdge>;
+  readonly group: ReadonlyArray<ContentfulRedirectGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulRedirect>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulRedirectConnection_distinctArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+
+type ContentfulRedirectConnection_groupArgs = {
+  field: ContentfulRedirectFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulRedirectConnection_maxArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+
+type ContentfulRedirectConnection_minArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+
+type ContentfulRedirectConnection_sumArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+type ContentfulRedirectEdge = {
+  readonly next: Maybe<ContentfulRedirect>;
+  readonly node: ContentfulRedirect;
+  readonly previous: Maybe<ContentfulRedirect>;
+};
+
+type ContentfulRedirectFieldsEnum =
+  | 'children'
+  | 'children.children'
+  | 'children.children.children'
+  | 'children.children.children.children'
+  | 'children.children.children.id'
+  | 'children.children.id'
+  | 'children.children.internal.content'
+  | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
+  | 'children.children.internal.description'
+  | 'children.children.internal.fieldOwners'
+  | 'children.children.internal.ignoreType'
+  | 'children.children.internal.mediaType'
+  | 'children.children.internal.owner'
+  | 'children.children.internal.type'
+  | 'children.children.parent.children'
+  | 'children.children.parent.id'
+  | 'children.id'
+  | 'children.internal.content'
+  | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
+  | 'children.internal.description'
+  | 'children.internal.fieldOwners'
+  | 'children.internal.ignoreType'
+  | 'children.internal.mediaType'
+  | 'children.internal.owner'
+  | 'children.internal.type'
+  | 'children.parent.children'
+  | 'children.parent.children.children'
+  | 'children.parent.children.id'
+  | 'children.parent.id'
+  | 'children.parent.internal.content'
+  | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
+  | 'children.parent.internal.description'
+  | 'children.parent.internal.fieldOwners'
+  | 'children.parent.internal.ignoreType'
+  | 'children.parent.internal.mediaType'
+  | 'children.parent.internal.owner'
+  | 'children.parent.internal.type'
+  | 'children.parent.parent.children'
+  | 'children.parent.parent.id'
+  | 'contentful_id'
+  | 'createdAt'
+  | 'force'
+  | 'from'
+  | 'id'
+  | 'internal.content'
+  | 'internal.contentDigest'
+  | 'internal.contentFilePath'
+  | 'internal.description'
+  | 'internal.fieldOwners'
+  | 'internal.ignoreType'
+  | 'internal.mediaType'
+  | 'internal.owner'
+  | 'internal.type'
+  | 'node_locale'
+  | 'parent.children'
+  | 'parent.children.children'
+  | 'parent.children.children.children'
+  | 'parent.children.children.id'
+  | 'parent.children.id'
+  | 'parent.children.internal.content'
+  | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
+  | 'parent.children.internal.description'
+  | 'parent.children.internal.fieldOwners'
+  | 'parent.children.internal.ignoreType'
+  | 'parent.children.internal.mediaType'
+  | 'parent.children.internal.owner'
+  | 'parent.children.internal.type'
+  | 'parent.children.parent.children'
+  | 'parent.children.parent.id'
+  | 'parent.id'
+  | 'parent.internal.content'
+  | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
+  | 'parent.internal.description'
+  | 'parent.internal.fieldOwners'
+  | 'parent.internal.ignoreType'
+  | 'parent.internal.mediaType'
+  | 'parent.internal.owner'
+  | 'parent.internal.type'
+  | 'parent.parent.children'
+  | 'parent.parent.children.children'
+  | 'parent.parent.children.id'
+  | 'parent.parent.id'
+  | 'parent.parent.internal.content'
+  | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
+  | 'parent.parent.internal.description'
+  | 'parent.parent.internal.fieldOwners'
+  | 'parent.parent.internal.ignoreType'
+  | 'parent.parent.internal.mediaType'
+  | 'parent.parent.internal.owner'
+  | 'parent.parent.internal.type'
+  | 'parent.parent.parent.children'
+  | 'parent.parent.parent.id'
+  | 'spaceId'
+  | 'statusCode'
+  | 'sys.contentType.sys.id'
+  | 'sys.contentType.sys.linkType'
+  | 'sys.contentType.sys.type'
+  | 'sys.revision'
+  | 'sys.type'
+  | 'to'
+  | 'updatedAt';
+
+type ContentfulRedirectFilterInput = {
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly contentful_id: InputMaybe<StringQueryOperatorInput>;
+  readonly createdAt: InputMaybe<DateQueryOperatorInput>;
+  readonly force: InputMaybe<BooleanQueryOperatorInput>;
+  readonly from: InputMaybe<StringQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly node_locale: InputMaybe<StringQueryOperatorInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+  readonly spaceId: InputMaybe<StringQueryOperatorInput>;
+  readonly statusCode: InputMaybe<IntQueryOperatorInput>;
+  readonly sys: InputMaybe<ContentfulRedirectSysFilterInput>;
+  readonly to: InputMaybe<StringQueryOperatorInput>;
+  readonly updatedAt: InputMaybe<DateQueryOperatorInput>;
+};
+
+type ContentfulRedirectGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulRedirectEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<ContentfulRedirectGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulRedirect>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulRedirectGroupConnection_distinctArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+
+type ContentfulRedirectGroupConnection_groupArgs = {
+  field: ContentfulRedirectFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulRedirectGroupConnection_maxArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+
+type ContentfulRedirectGroupConnection_minArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+
+type ContentfulRedirectGroupConnection_sumArgs = {
+  field: ContentfulRedirectFieldsEnum;
+};
+
+type ContentfulRedirectSortInput = {
+  readonly fields: InputMaybe<ReadonlyArray<InputMaybe<ContentfulRedirectFieldsEnum>>>;
+  readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
+};
+
+type ContentfulRedirectSys = {
+  readonly contentType: Maybe<ContentfulRedirectSysContentType>;
+  readonly revision: Maybe<Scalars['Int']>;
+  readonly type: Maybe<Scalars['String']>;
+};
+
+type ContentfulRedirectSysContentType = {
+  readonly sys: Maybe<ContentfulRedirectSysContentTypeSys>;
+};
+
+type ContentfulRedirectSysContentTypeFilterInput = {
+  readonly sys: InputMaybe<ContentfulRedirectSysContentTypeSysFilterInput>;
+};
+
+type ContentfulRedirectSysContentTypeSys = {
+  readonly id: Maybe<Scalars['String']>;
+  readonly linkType: Maybe<Scalars['String']>;
+  readonly type: Maybe<Scalars['String']>;
+};
+
+type ContentfulRedirectSysContentTypeSysFilterInput = {
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly linkType: InputMaybe<StringQueryOperatorInput>;
+  readonly type: InputMaybe<StringQueryOperatorInput>;
+};
+
+type ContentfulRedirectSysFilterInput = {
+  readonly contentType: InputMaybe<ContentfulRedirectSysContentTypeFilterInput>;
+  readonly revision: InputMaybe<IntQueryOperatorInput>;
+  readonly type: InputMaybe<StringQueryOperatorInput>;
+};
+
 type ContentfulReference = {
   readonly contentful_id: Scalars['String'];
   readonly id: Scalars['ID'];
+};
+
+type ContentfulScript = ContentfulEntry & ContentfulReference & Node & {
+  readonly children: ReadonlyArray<Node>;
+  readonly contentful_id: Scalars['String'];
+  readonly id: Scalars['ID'];
+  readonly internal: Internal;
+  readonly node_locale: Scalars['String'];
+  readonly parent: Maybe<Node>;
+};
+
+type ContentfulScriptConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulScriptEdge>;
+  readonly group: ReadonlyArray<ContentfulScriptGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulScript>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulScriptConnection_distinctArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+
+type ContentfulScriptConnection_groupArgs = {
+  field: ContentfulScriptFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulScriptConnection_maxArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+
+type ContentfulScriptConnection_minArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+
+type ContentfulScriptConnection_sumArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+type ContentfulScriptEdge = {
+  readonly next: Maybe<ContentfulScript>;
+  readonly node: ContentfulScript;
+  readonly previous: Maybe<ContentfulScript>;
+};
+
+type ContentfulScriptFieldsEnum =
+  | 'children'
+  | 'children.children'
+  | 'children.children.children'
+  | 'children.children.children.children'
+  | 'children.children.children.id'
+  | 'children.children.id'
+  | 'children.children.internal.content'
+  | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
+  | 'children.children.internal.description'
+  | 'children.children.internal.fieldOwners'
+  | 'children.children.internal.ignoreType'
+  | 'children.children.internal.mediaType'
+  | 'children.children.internal.owner'
+  | 'children.children.internal.type'
+  | 'children.children.parent.children'
+  | 'children.children.parent.id'
+  | 'children.id'
+  | 'children.internal.content'
+  | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
+  | 'children.internal.description'
+  | 'children.internal.fieldOwners'
+  | 'children.internal.ignoreType'
+  | 'children.internal.mediaType'
+  | 'children.internal.owner'
+  | 'children.internal.type'
+  | 'children.parent.children'
+  | 'children.parent.children.children'
+  | 'children.parent.children.id'
+  | 'children.parent.id'
+  | 'children.parent.internal.content'
+  | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
+  | 'children.parent.internal.description'
+  | 'children.parent.internal.fieldOwners'
+  | 'children.parent.internal.ignoreType'
+  | 'children.parent.internal.mediaType'
+  | 'children.parent.internal.owner'
+  | 'children.parent.internal.type'
+  | 'children.parent.parent.children'
+  | 'children.parent.parent.id'
+  | 'contentful_id'
+  | 'id'
+  | 'internal.content'
+  | 'internal.contentDigest'
+  | 'internal.contentFilePath'
+  | 'internal.description'
+  | 'internal.fieldOwners'
+  | 'internal.ignoreType'
+  | 'internal.mediaType'
+  | 'internal.owner'
+  | 'internal.type'
+  | 'node_locale'
+  | 'parent.children'
+  | 'parent.children.children'
+  | 'parent.children.children.children'
+  | 'parent.children.children.id'
+  | 'parent.children.id'
+  | 'parent.children.internal.content'
+  | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
+  | 'parent.children.internal.description'
+  | 'parent.children.internal.fieldOwners'
+  | 'parent.children.internal.ignoreType'
+  | 'parent.children.internal.mediaType'
+  | 'parent.children.internal.owner'
+  | 'parent.children.internal.type'
+  | 'parent.children.parent.children'
+  | 'parent.children.parent.id'
+  | 'parent.id'
+  | 'parent.internal.content'
+  | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
+  | 'parent.internal.description'
+  | 'parent.internal.fieldOwners'
+  | 'parent.internal.ignoreType'
+  | 'parent.internal.mediaType'
+  | 'parent.internal.owner'
+  | 'parent.internal.type'
+  | 'parent.parent.children'
+  | 'parent.parent.children.children'
+  | 'parent.parent.children.id'
+  | 'parent.parent.id'
+  | 'parent.parent.internal.content'
+  | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
+  | 'parent.parent.internal.description'
+  | 'parent.parent.internal.fieldOwners'
+  | 'parent.parent.internal.ignoreType'
+  | 'parent.parent.internal.mediaType'
+  | 'parent.parent.internal.owner'
+  | 'parent.parent.internal.type'
+  | 'parent.parent.parent.children'
+  | 'parent.parent.parent.id';
+
+type ContentfulScriptFilterInput = {
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly contentful_id: InputMaybe<StringQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly node_locale: InputMaybe<StringQueryOperatorInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+};
+
+type ContentfulScriptGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<ContentfulScriptEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<ContentfulScriptGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<ContentfulScript>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type ContentfulScriptGroupConnection_distinctArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+
+type ContentfulScriptGroupConnection_groupArgs = {
+  field: ContentfulScriptFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type ContentfulScriptGroupConnection_maxArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+
+type ContentfulScriptGroupConnection_minArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+
+type ContentfulScriptGroupConnection_sumArgs = {
+  field: ContentfulScriptFieldsEnum;
+};
+
+type ContentfulScriptSortInput = {
+  readonly fields: InputMaybe<ReadonlyArray<InputMaybe<ContentfulScriptFieldsEnum>>>;
+  readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
 };
 
 type ContentfulSeo = ContentfulEntry & ContentfulReference & Node & {
@@ -6470,6 +7888,7 @@ type ContentfulSeo = ContentfulEntry & ContentfulReference & Node & {
   readonly internal: Internal;
   readonly node_locale: Scalars['String'];
   readonly page___blog_post: Maybe<ReadonlyArray<Maybe<ContentfulPageBlogPost>>>;
+  readonly page___flex_page: Maybe<ReadonlyArray<Maybe<ContentfulPageFlexPage>>>;
   readonly parent: Maybe<Node>;
   readonly robots: Maybe<Scalars['String']>;
   readonly spaceId: Maybe<Scalars['String']>;
@@ -6548,6 +7967,7 @@ type ContentfulSeoFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -6559,6 +7979,7 @@ type ContentfulSeoFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -6571,6 +7992,7 @@ type ContentfulSeoFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -6590,6 +8012,7 @@ type ContentfulSeoFieldsEnum =
   | 'image.children.id'
   | 'image.children.internal.content'
   | 'image.children.internal.contentDigest'
+  | 'image.children.internal.contentFilePath'
   | 'image.children.internal.description'
   | 'image.children.internal.fieldOwners'
   | 'image.children.internal.ignoreType'
@@ -6613,6 +8036,7 @@ type ContentfulSeoFieldsEnum =
   | 'image.id'
   | 'image.internal.content'
   | 'image.internal.contentDigest'
+  | 'image.internal.contentFilePath'
   | 'image.internal.description'
   | 'image.internal.fieldOwners'
   | 'image.internal.ignoreType'
@@ -6627,6 +8051,7 @@ type ContentfulSeoFieldsEnum =
   | 'image.parent.id'
   | 'image.parent.internal.content'
   | 'image.parent.internal.contentDigest'
+  | 'image.parent.internal.contentFilePath'
   | 'image.parent.internal.description'
   | 'image.parent.internal.fieldOwners'
   | 'image.parent.internal.ignoreType'
@@ -6640,6 +8065,7 @@ type ContentfulSeoFieldsEnum =
   | 'image.resize.height'
   | 'image.resize.src'
   | 'image.resize.width'
+  | 'image.size'
   | 'image.spaceId'
   | 'image.sys.revision'
   | 'image.sys.type'
@@ -6649,6 +8075,7 @@ type ContentfulSeoFieldsEnum =
   | 'image.width'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -6691,6 +8118,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.author.image.node_locale'
   | 'page___blog_post.author.image.placeholderUrl'
   | 'page___blog_post.author.image.publicUrl'
+  | 'page___blog_post.author.image.size'
   | 'page___blog_post.author.image.spaceId'
   | 'page___blog_post.author.image.title'
   | 'page___blog_post.author.image.updatedAt'
@@ -6698,6 +8126,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.author.image.width'
   | 'page___blog_post.author.internal.content'
   | 'page___blog_post.author.internal.contentDigest'
+  | 'page___blog_post.author.internal.contentFilePath'
   | 'page___blog_post.author.internal.description'
   | 'page___blog_post.author.internal.fieldOwners'
   | 'page___blog_post.author.internal.ignoreType'
@@ -6761,6 +8190,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.body.id'
   | 'page___blog_post.body.internal.content'
   | 'page___blog_post.body.internal.contentDigest'
+  | 'page___blog_post.body.internal.contentFilePath'
   | 'page___blog_post.body.internal.description'
   | 'page___blog_post.body.internal.fieldOwners'
   | 'page___blog_post.body.internal.ignoreType'
@@ -6798,6 +8228,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.id'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.content'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.contentDigest'
+  | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.contentFilePath'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.description'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.fieldOwners'
   | 'page___blog_post.childContentfulPageBlogPostBodyTextNode.internal.ignoreType'
@@ -6835,6 +8266,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.id'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.content'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.contentDigest'
+  | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.contentFilePath'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.description'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.fieldOwners'
   | 'page___blog_post.childContentfulPageBlogPostDescriptionTextNode.internal.ignoreType'
@@ -6874,6 +8306,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.id'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.content'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.contentDigest'
+  | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.contentFilePath'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.description'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.fieldOwners'
   | 'page___blog_post.childrenContentfulPageBlogPostBodyTextNode.internal.ignoreType'
@@ -6912,6 +8345,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.id'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.content'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.contentDigest'
+  | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.contentFilePath'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.description'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.fieldOwners'
   | 'page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode.internal.ignoreType'
@@ -6927,6 +8361,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.children.id'
   | 'page___blog_post.children.internal.content'
   | 'page___blog_post.children.internal.contentDigest'
+  | 'page___blog_post.children.internal.contentFilePath'
   | 'page___blog_post.children.internal.description'
   | 'page___blog_post.children.internal.fieldOwners'
   | 'page___blog_post.children.internal.ignoreType'
@@ -6965,6 +8400,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.description.id'
   | 'page___blog_post.description.internal.content'
   | 'page___blog_post.description.internal.contentDigest'
+  | 'page___blog_post.description.internal.contentFilePath'
   | 'page___blog_post.description.internal.description'
   | 'page___blog_post.description.internal.fieldOwners'
   | 'page___blog_post.description.internal.ignoreType'
@@ -6991,6 +8427,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.heroImage.id'
   | 'page___blog_post.heroImage.internal.content'
   | 'page___blog_post.heroImage.internal.contentDigest'
+  | 'page___blog_post.heroImage.internal.contentFilePath'
   | 'page___blog_post.heroImage.internal.description'
   | 'page___blog_post.heroImage.internal.fieldOwners'
   | 'page___blog_post.heroImage.internal.ignoreType'
@@ -7006,6 +8443,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.heroImage.resize.height'
   | 'page___blog_post.heroImage.resize.src'
   | 'page___blog_post.heroImage.resize.width'
+  | 'page___blog_post.heroImage.size'
   | 'page___blog_post.heroImage.spaceId'
   | 'page___blog_post.heroImage.sys.revision'
   | 'page___blog_post.heroImage.sys.type'
@@ -7016,6 +8454,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.id'
   | 'page___blog_post.internal.content'
   | 'page___blog_post.internal.contentDigest'
+  | 'page___blog_post.internal.contentFilePath'
   | 'page___blog_post.internal.description'
   | 'page___blog_post.internal.fieldOwners'
   | 'page___blog_post.internal.ignoreType'
@@ -7029,6 +8468,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.parent.id'
   | 'page___blog_post.parent.internal.content'
   | 'page___blog_post.parent.internal.contentDigest'
+  | 'page___blog_post.parent.internal.contentFilePath'
   | 'page___blog_post.parent.internal.description'
   | 'page___blog_post.parent.internal.fieldOwners'
   | 'page___blog_post.parent.internal.ignoreType'
@@ -7059,6 +8499,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.seo.image.node_locale'
   | 'page___blog_post.seo.image.placeholderUrl'
   | 'page___blog_post.seo.image.publicUrl'
+  | 'page___blog_post.seo.image.size'
   | 'page___blog_post.seo.image.spaceId'
   | 'page___blog_post.seo.image.title'
   | 'page___blog_post.seo.image.updatedAt'
@@ -7066,6 +8507,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.seo.image.width'
   | 'page___blog_post.seo.internal.content'
   | 'page___blog_post.seo.internal.contentDigest'
+  | 'page___blog_post.seo.internal.contentFilePath'
   | 'page___blog_post.seo.internal.description'
   | 'page___blog_post.seo.internal.fieldOwners'
   | 'page___blog_post.seo.internal.ignoreType'
@@ -7087,6 +8529,16 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.seo.page___blog_post.tags'
   | 'page___blog_post.seo.page___blog_post.title'
   | 'page___blog_post.seo.page___blog_post.updatedAt'
+  | 'page___blog_post.seo.page___flex_page'
+  | 'page___blog_post.seo.page___flex_page.children'
+  | 'page___blog_post.seo.page___flex_page.contentful_id'
+  | 'page___blog_post.seo.page___flex_page.createdAt'
+  | 'page___blog_post.seo.page___flex_page.id'
+  | 'page___blog_post.seo.page___flex_page.node_locale'
+  | 'page___blog_post.seo.page___flex_page.slug'
+  | 'page___blog_post.seo.page___flex_page.spaceId'
+  | 'page___blog_post.seo.page___flex_page.title'
+  | 'page___blog_post.seo.page___flex_page.updatedAt'
   | 'page___blog_post.seo.parent.children'
   | 'page___blog_post.seo.parent.id'
   | 'page___blog_post.seo.robots'
@@ -7102,6 +8554,126 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.tags'
   | 'page___blog_post.title'
   | 'page___blog_post.updatedAt'
+  | 'page___flex_page'
+  | 'page___flex_page.children'
+  | 'page___flex_page.children.children'
+  | 'page___flex_page.children.children.children'
+  | 'page___flex_page.children.children.id'
+  | 'page___flex_page.children.id'
+  | 'page___flex_page.children.internal.content'
+  | 'page___flex_page.children.internal.contentDigest'
+  | 'page___flex_page.children.internal.contentFilePath'
+  | 'page___flex_page.children.internal.description'
+  | 'page___flex_page.children.internal.fieldOwners'
+  | 'page___flex_page.children.internal.ignoreType'
+  | 'page___flex_page.children.internal.mediaType'
+  | 'page___flex_page.children.internal.owner'
+  | 'page___flex_page.children.internal.type'
+  | 'page___flex_page.children.parent.children'
+  | 'page___flex_page.children.parent.id'
+  | 'page___flex_page.contentful_id'
+  | 'page___flex_page.createdAt'
+  | 'page___flex_page.id'
+  | 'page___flex_page.internal.content'
+  | 'page___flex_page.internal.contentDigest'
+  | 'page___flex_page.internal.contentFilePath'
+  | 'page___flex_page.internal.description'
+  | 'page___flex_page.internal.fieldOwners'
+  | 'page___flex_page.internal.ignoreType'
+  | 'page___flex_page.internal.mediaType'
+  | 'page___flex_page.internal.owner'
+  | 'page___flex_page.internal.type'
+  | 'page___flex_page.node_locale'
+  | 'page___flex_page.parent.children'
+  | 'page___flex_page.parent.children.children'
+  | 'page___flex_page.parent.children.id'
+  | 'page___flex_page.parent.id'
+  | 'page___flex_page.parent.internal.content'
+  | 'page___flex_page.parent.internal.contentDigest'
+  | 'page___flex_page.parent.internal.contentFilePath'
+  | 'page___flex_page.parent.internal.description'
+  | 'page___flex_page.parent.internal.fieldOwners'
+  | 'page___flex_page.parent.internal.ignoreType'
+  | 'page___flex_page.parent.internal.mediaType'
+  | 'page___flex_page.parent.internal.owner'
+  | 'page___flex_page.parent.internal.type'
+  | 'page___flex_page.parent.parent.children'
+  | 'page___flex_page.parent.parent.id'
+  | 'page___flex_page.seo.children'
+  | 'page___flex_page.seo.children.children'
+  | 'page___flex_page.seo.children.id'
+  | 'page___flex_page.seo.contentful_id'
+  | 'page___flex_page.seo.createdAt'
+  | 'page___flex_page.seo.description'
+  | 'page___flex_page.seo.id'
+  | 'page___flex_page.seo.image.children'
+  | 'page___flex_page.seo.image.contentful_id'
+  | 'page___flex_page.seo.image.createdAt'
+  | 'page___flex_page.seo.image.description'
+  | 'page___flex_page.seo.image.filename'
+  | 'page___flex_page.seo.image.filesize'
+  | 'page___flex_page.seo.image.gatsbyImage'
+  | 'page___flex_page.seo.image.gatsbyImageData'
+  | 'page___flex_page.seo.image.height'
+  | 'page___flex_page.seo.image.id'
+  | 'page___flex_page.seo.image.mimeType'
+  | 'page___flex_page.seo.image.node_locale'
+  | 'page___flex_page.seo.image.placeholderUrl'
+  | 'page___flex_page.seo.image.publicUrl'
+  | 'page___flex_page.seo.image.size'
+  | 'page___flex_page.seo.image.spaceId'
+  | 'page___flex_page.seo.image.title'
+  | 'page___flex_page.seo.image.updatedAt'
+  | 'page___flex_page.seo.image.url'
+  | 'page___flex_page.seo.image.width'
+  | 'page___flex_page.seo.internal.content'
+  | 'page___flex_page.seo.internal.contentDigest'
+  | 'page___flex_page.seo.internal.contentFilePath'
+  | 'page___flex_page.seo.internal.description'
+  | 'page___flex_page.seo.internal.fieldOwners'
+  | 'page___flex_page.seo.internal.ignoreType'
+  | 'page___flex_page.seo.internal.mediaType'
+  | 'page___flex_page.seo.internal.owner'
+  | 'page___flex_page.seo.internal.type'
+  | 'page___flex_page.seo.node_locale'
+  | 'page___flex_page.seo.page___blog_post'
+  | 'page___flex_page.seo.page___blog_post.children'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostBodyTextNode'
+  | 'page___flex_page.seo.page___blog_post.childrenContentfulPageBlogPostDescriptionTextNode'
+  | 'page___flex_page.seo.page___blog_post.contentful_id'
+  | 'page___flex_page.seo.page___blog_post.createdAt'
+  | 'page___flex_page.seo.page___blog_post.id'
+  | 'page___flex_page.seo.page___blog_post.node_locale'
+  | 'page___flex_page.seo.page___blog_post.publishDate'
+  | 'page___flex_page.seo.page___blog_post.slug'
+  | 'page___flex_page.seo.page___blog_post.spaceId'
+  | 'page___flex_page.seo.page___blog_post.tags'
+  | 'page___flex_page.seo.page___blog_post.title'
+  | 'page___flex_page.seo.page___blog_post.updatedAt'
+  | 'page___flex_page.seo.page___flex_page'
+  | 'page___flex_page.seo.page___flex_page.children'
+  | 'page___flex_page.seo.page___flex_page.contentful_id'
+  | 'page___flex_page.seo.page___flex_page.createdAt'
+  | 'page___flex_page.seo.page___flex_page.id'
+  | 'page___flex_page.seo.page___flex_page.node_locale'
+  | 'page___flex_page.seo.page___flex_page.slug'
+  | 'page___flex_page.seo.page___flex_page.spaceId'
+  | 'page___flex_page.seo.page___flex_page.title'
+  | 'page___flex_page.seo.page___flex_page.updatedAt'
+  | 'page___flex_page.seo.parent.children'
+  | 'page___flex_page.seo.parent.id'
+  | 'page___flex_page.seo.robots'
+  | 'page___flex_page.seo.spaceId'
+  | 'page___flex_page.seo.sys.revision'
+  | 'page___flex_page.seo.sys.type'
+  | 'page___flex_page.seo.title'
+  | 'page___flex_page.seo.updatedAt'
+  | 'page___flex_page.slug'
+  | 'page___flex_page.spaceId'
+  | 'page___flex_page.sys.revision'
+  | 'page___flex_page.sys.type'
+  | 'page___flex_page.title'
+  | 'page___flex_page.updatedAt'
   | 'parent.children'
   | 'parent.children.children'
   | 'parent.children.children.children'
@@ -7109,6 +8681,7 @@ type ContentfulSeoFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -7120,6 +8693,7 @@ type ContentfulSeoFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -7132,6 +8706,7 @@ type ContentfulSeoFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -7160,6 +8735,7 @@ type ContentfulSeoFilterInput = {
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly node_locale: InputMaybe<StringQueryOperatorInput>;
   readonly page___blog_post: InputMaybe<ContentfulPageBlogPostFilterListInput>;
+  readonly page___flex_page: InputMaybe<ContentfulPageFlexPageFilterListInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
   readonly robots: InputMaybe<StringQueryOperatorInput>;
   readonly spaceId: InputMaybe<StringQueryOperatorInput>;
@@ -7416,6 +8992,7 @@ type DirectoryFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -7427,6 +9004,7 @@ type DirectoryFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -7439,6 +9017,7 @@ type DirectoryFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -7458,6 +9037,7 @@ type DirectoryFieldsEnum =
   | 'ino'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -7477,6 +9057,7 @@ type DirectoryFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -7488,6 +9069,7 @@ type DirectoryFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -7500,6 +9082,7 @@ type DirectoryFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -7769,6 +9352,7 @@ type FileFieldsEnum =
   | 'childImageSharp.children.id'
   | 'childImageSharp.children.internal.content'
   | 'childImageSharp.children.internal.contentDigest'
+  | 'childImageSharp.children.internal.contentFilePath'
   | 'childImageSharp.children.internal.description'
   | 'childImageSharp.children.internal.fieldOwners'
   | 'childImageSharp.children.internal.ignoreType'
@@ -7803,6 +9387,7 @@ type FileFieldsEnum =
   | 'childImageSharp.id'
   | 'childImageSharp.internal.content'
   | 'childImageSharp.internal.contentDigest'
+  | 'childImageSharp.internal.contentFilePath'
   | 'childImageSharp.internal.description'
   | 'childImageSharp.internal.fieldOwners'
   | 'childImageSharp.internal.ignoreType'
@@ -7818,6 +9403,7 @@ type FileFieldsEnum =
   | 'childImageSharp.parent.id'
   | 'childImageSharp.parent.internal.content'
   | 'childImageSharp.parent.internal.contentDigest'
+  | 'childImageSharp.parent.internal.contentFilePath'
   | 'childImageSharp.parent.internal.description'
   | 'childImageSharp.parent.internal.fieldOwners'
   | 'childImageSharp.parent.internal.ignoreType'
@@ -7841,6 +9427,7 @@ type FileFieldsEnum =
   | 'childrenImageSharp.children.id'
   | 'childrenImageSharp.children.internal.content'
   | 'childrenImageSharp.children.internal.contentDigest'
+  | 'childrenImageSharp.children.internal.contentFilePath'
   | 'childrenImageSharp.children.internal.description'
   | 'childrenImageSharp.children.internal.fieldOwners'
   | 'childrenImageSharp.children.internal.ignoreType'
@@ -7875,6 +9462,7 @@ type FileFieldsEnum =
   | 'childrenImageSharp.id'
   | 'childrenImageSharp.internal.content'
   | 'childrenImageSharp.internal.contentDigest'
+  | 'childrenImageSharp.internal.contentFilePath'
   | 'childrenImageSharp.internal.description'
   | 'childrenImageSharp.internal.fieldOwners'
   | 'childrenImageSharp.internal.ignoreType'
@@ -7890,6 +9478,7 @@ type FileFieldsEnum =
   | 'childrenImageSharp.parent.id'
   | 'childrenImageSharp.parent.internal.content'
   | 'childrenImageSharp.parent.internal.contentDigest'
+  | 'childrenImageSharp.parent.internal.contentFilePath'
   | 'childrenImageSharp.parent.internal.description'
   | 'childrenImageSharp.parent.internal.fieldOwners'
   | 'childrenImageSharp.parent.internal.ignoreType'
@@ -7911,6 +9500,7 @@ type FileFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -7922,6 +9512,7 @@ type FileFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -7934,6 +9525,7 @@ type FileFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -7953,6 +9545,7 @@ type FileFieldsEnum =
   | 'ino'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -7972,6 +9565,7 @@ type FileFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -7983,6 +9577,7 @@ type FileFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -7995,6 +9590,7 @@ type FileFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -8109,11 +9705,18 @@ type FloatQueryOperatorInput = {
   readonly nin: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Float']>>>;
 };
 
+type GatsbyImageDataQueryOperatorInput = {
+  readonly eq: InputMaybe<Scalars['GatsbyImageData']>;
+  readonly in: InputMaybe<ReadonlyArray<InputMaybe<Scalars['GatsbyImageData']>>>;
+  readonly ne: InputMaybe<Scalars['GatsbyImageData']>;
+  readonly nin: InputMaybe<ReadonlyArray<InputMaybe<Scalars['GatsbyImageData']>>>;
+};
+
 type GatsbyImageFormat =
   | 'auto'
   | 'avif'
   | 'jpg'
-  | 'NO_CHANGE'
+  | ''
   | 'png'
   | 'webp';
 
@@ -8130,7 +9733,7 @@ type GatsbyImagePlaceholder =
 
 type ImageCropFocus =
   | 17
-  | 'CENTER'
+  | 0
   | 2
   | 16
   | 1
@@ -8149,10 +9752,10 @@ type ImageFit =
   | 'outside';
 
 type ImageFormat =
-  | 'AUTO'
+  | ''
   | 'avif'
   | 'jpg'
-  | 'NO_CHANGE'
+  | ''
   | 'png'
   | 'webp';
 
@@ -8172,7 +9775,7 @@ type ImageResizingBehavior =
   | 'crop'
   /** Crop the image to the specified dimensions, if the original image is smaller than these dimensions, then the image will be upscaled. */
   | 'fill'
-  | 'NO_CHANGE'
+  | ''
   /** Same as the default resizing, but adds padding so that the generated image has the specified dimensions. */
   | 'pad'
   /** Scale the image regardless of the original aspect ratio. */
@@ -8184,7 +9787,7 @@ type ImageSharp = Node & {
   readonly children: ReadonlyArray<Node>;
   readonly fixed: Maybe<ImageSharpFixed>;
   readonly fluid: Maybe<ImageSharpFluid>;
-  readonly gatsbyImageData: Scalars['JSON'];
+  readonly gatsbyImageData: Scalars['GatsbyImageData'];
   readonly id: Scalars['ID'];
   readonly internal: Internal;
   readonly original: Maybe<ImageSharpOriginal>;
@@ -8339,6 +9942,7 @@ type ImageSharpFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -8350,6 +9954,7 @@ type ImageSharpFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -8362,6 +9967,7 @@ type ImageSharpFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -8396,6 +10002,7 @@ type ImageSharpFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -8412,6 +10019,7 @@ type ImageSharpFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -8423,6 +10031,7 @@ type ImageSharpFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -8435,6 +10044,7 @@ type ImageSharpFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -8454,7 +10064,7 @@ type ImageSharpFilterInput = {
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly fixed: InputMaybe<ImageSharpFixedFilterInput>;
   readonly fluid: InputMaybe<ImageSharpFluidFilterInput>;
-  readonly gatsbyImageData: InputMaybe<JSONQueryOperatorInput>;
+  readonly gatsbyImageData: InputMaybe<GatsbyImageDataQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly original: InputMaybe<ImageSharpOriginalFilterInput>;
@@ -8612,6 +10222,7 @@ type IntQueryOperatorInput = {
 type Internal = {
   readonly content: Maybe<Scalars['String']>;
   readonly contentDigest: Scalars['String'];
+  readonly contentFilePath: Maybe<Scalars['String']>;
   readonly description: Maybe<Scalars['String']>;
   readonly fieldOwners: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly ignoreType: Maybe<Scalars['Boolean']>;
@@ -8623,6 +10234,7 @@ type Internal = {
 type InternalFilterInput = {
   readonly content: InputMaybe<StringQueryOperatorInput>;
   readonly contentDigest: InputMaybe<StringQueryOperatorInput>;
+  readonly contentFilePath: InputMaybe<StringQueryOperatorInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly fieldOwners: InputMaybe<StringQueryOperatorInput>;
   readonly ignoreType: InputMaybe<BooleanQueryOperatorInput>;
@@ -8771,6 +10383,7 @@ type MarkdownRemarkFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -8782,6 +10395,7 @@ type MarkdownRemarkFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -8794,6 +10408,7 @@ type MarkdownRemarkFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -8814,6 +10429,7 @@ type MarkdownRemarkFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -8827,6 +10443,7 @@ type MarkdownRemarkFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -8838,6 +10455,7 @@ type MarkdownRemarkFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -8850,6 +10468,7 @@ type MarkdownRemarkFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -9020,11 +10639,14 @@ type Query = {
   readonly allContentfulEntityPerson: ContentfulEntityPersonConnection;
   readonly allContentfulEntityPersonShortBioTextNode: contentfulEntityPersonShortBioTextNodeConnection;
   readonly allContentfulEntry: ContentfulEntryConnection;
+  readonly allContentfulInferComponent: ContentfulInferComponentConnection;
   readonly allContentfulLink: ContentfulLinkConnection;
   readonly allContentfulPageBlogPost: ContentfulPageBlogPostConnection;
   readonly allContentfulPageBlogPostBodyTextNode: contentfulPageBlogPostBodyTextNodeConnection;
   readonly allContentfulPageBlogPostDescriptionTextNode: contentfulPageBlogPostDescriptionTextNodeConnection;
   readonly allContentfulPageFlexPage: ContentfulPageFlexPageConnection;
+  readonly allContentfulRedirect: ContentfulRedirectConnection;
+  readonly allContentfulScript: ContentfulScriptConnection;
   readonly allContentfulSeo: ContentfulSeoConnection;
   readonly allDirectory: DirectoryConnection;
   readonly allFile: FileConnection;
@@ -9048,11 +10670,14 @@ type Query = {
   readonly contentfulEntityPerson: Maybe<ContentfulEntityPerson>;
   readonly contentfulEntityPersonShortBioTextNode: Maybe<contentfulEntityPersonShortBioTextNode>;
   readonly contentfulEntry: Maybe<ContentfulEntry>;
+  readonly contentfulInferComponent: Maybe<ContentfulInferComponent>;
   readonly contentfulLink: Maybe<ContentfulLink>;
   readonly contentfulPageBlogPost: Maybe<ContentfulPageBlogPost>;
   readonly contentfulPageBlogPostBodyTextNode: Maybe<contentfulPageBlogPostBodyTextNode>;
   readonly contentfulPageBlogPostDescriptionTextNode: Maybe<contentfulPageBlogPostDescriptionTextNode>;
   readonly contentfulPageFlexPage: Maybe<ContentfulPageFlexPage>;
+  readonly contentfulRedirect: Maybe<ContentfulRedirect>;
+  readonly contentfulScript: Maybe<ContentfulScript>;
   readonly contentfulSeo: Maybe<ContentfulSeo>;
   readonly directory: Maybe<Directory>;
   readonly file: Maybe<File>;
@@ -9170,6 +10795,14 @@ type Query_allContentfulEntryArgs = {
 };
 
 
+type Query_allContentfulInferComponentArgs = {
+  filter: InputMaybe<ContentfulInferComponentFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ContentfulInferComponentSortInput>;
+};
+
+
 type Query_allContentfulLinkArgs = {
   filter: InputMaybe<ContentfulLinkFilterInput>;
   limit: InputMaybe<Scalars['Int']>;
@@ -9207,6 +10840,22 @@ type Query_allContentfulPageFlexPageArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<ContentfulPageFlexPageSortInput>;
+};
+
+
+type Query_allContentfulRedirectArgs = {
+  filter: InputMaybe<ContentfulRedirectFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ContentfulRedirectSortInput>;
+};
+
+
+type Query_allContentfulScriptArgs = {
+  filter: InputMaybe<ContentfulScriptFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ContentfulScriptSortInput>;
 };
 
 
@@ -9291,10 +10940,12 @@ type Query_allSitePluginArgs = {
 
 
 type Query_breweryArgs = {
+  address_2: InputMaybe<StringQueryOperatorInput>;
   brewery_type: InputMaybe<StringQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   city: InputMaybe<StringQueryOperatorInput>;
   country: InputMaybe<StringQueryOperatorInput>;
+  county_province: InputMaybe<StringQueryOperatorInput>;
   created_at: InputMaybe<DateQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
@@ -9319,8 +10970,8 @@ type Query_contentfulAssetArgs = {
   file: InputMaybe<ContentfulAssetFileFilterInput>;
   filename: InputMaybe<StringQueryOperatorInput>;
   filesize: InputMaybe<IntQueryOperatorInput>;
-  gatsbyImage: InputMaybe<JSONQueryOperatorInput>;
-  gatsbyImageData: InputMaybe<JSONQueryOperatorInput>;
+  gatsbyImage: InputMaybe<GatsbyImageDataQueryOperatorInput>;
+  gatsbyImageData: InputMaybe<GatsbyImageDataQueryOperatorInput>;
   height: InputMaybe<IntQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
@@ -9330,6 +10981,7 @@ type Query_contentfulAssetArgs = {
   placeholderUrl: InputMaybe<StringQueryOperatorInput>;
   publicUrl: InputMaybe<StringQueryOperatorInput>;
   resize: InputMaybe<RemoteFileResizeFilterInput>;
+  size: InputMaybe<IntQueryOperatorInput>;
   spaceId: InputMaybe<StringQueryOperatorInput>;
   sys: InputMaybe<ContentfulAssetSysFilterInput>;
   title: InputMaybe<StringQueryOperatorInput>;
@@ -9509,6 +11161,16 @@ type Query_contentfulEntryArgs = {
 };
 
 
+type Query_contentfulInferComponentArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  contentful_id: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  node_locale: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+};
+
+
 type Query_contentfulLinkArgs = {
   children: InputMaybe<NodeFilterListInput>;
   component___navigation: InputMaybe<ContentfulComponentNavigationFilterListInput>;
@@ -9585,10 +11247,40 @@ type Query_contentfulPageFlexPageArgs = {
   internal: InputMaybe<InternalFilterInput>;
   node_locale: InputMaybe<StringQueryOperatorInput>;
   parent: InputMaybe<NodeFilterInput>;
+  seo: InputMaybe<ContentfulSeoFilterInput>;
   slug: InputMaybe<StringQueryOperatorInput>;
   spaceId: InputMaybe<StringQueryOperatorInput>;
   sys: InputMaybe<ContentfulPageFlexPageSysFilterInput>;
+  title: InputMaybe<StringQueryOperatorInput>;
   updatedAt: InputMaybe<DateQueryOperatorInput>;
+};
+
+
+type Query_contentfulRedirectArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  contentful_id: InputMaybe<StringQueryOperatorInput>;
+  createdAt: InputMaybe<DateQueryOperatorInput>;
+  force: InputMaybe<BooleanQueryOperatorInput>;
+  from: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  node_locale: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+  spaceId: InputMaybe<StringQueryOperatorInput>;
+  statusCode: InputMaybe<IntQueryOperatorInput>;
+  sys: InputMaybe<ContentfulRedirectSysFilterInput>;
+  to: InputMaybe<StringQueryOperatorInput>;
+  updatedAt: InputMaybe<DateQueryOperatorInput>;
+};
+
+
+type Query_contentfulScriptArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  contentful_id: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  node_locale: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
 };
 
 
@@ -9602,6 +11294,7 @@ type Query_contentfulSeoArgs = {
   internal: InputMaybe<InternalFilterInput>;
   node_locale: InputMaybe<StringQueryOperatorInput>;
   page___blog_post: InputMaybe<ContentfulPageBlogPostFilterListInput>;
+  page___flex_page: InputMaybe<ContentfulPageFlexPageFilterListInput>;
   parent: InputMaybe<NodeFilterInput>;
   robots: InputMaybe<StringQueryOperatorInput>;
   spaceId: InputMaybe<StringQueryOperatorInput>;
@@ -9695,7 +11388,7 @@ type Query_imageSharpArgs = {
   children: InputMaybe<NodeFilterListInput>;
   fixed: InputMaybe<ImageSharpFixedFilterInput>;
   fluid: InputMaybe<ImageSharpFluidFilterInput>;
-  gatsbyImageData: InputMaybe<JSONQueryOperatorInput>;
+  gatsbyImageData: InputMaybe<GatsbyImageDataQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
   original: InputMaybe<ImageSharpOriginalFilterInput>;
@@ -9725,6 +11418,7 @@ type Query_markdownRemarkArgs = {
 type Query_siteArgs = {
   buildTime: InputMaybe<DateQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
+  graphqlTypegen: InputMaybe<BooleanQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
   jsxRuntime: InputMaybe<StringQueryOperatorInput>;
@@ -9796,7 +11490,7 @@ type RemoteFile = {
   readonly filename: Scalars['String'];
   readonly filesize: Maybe<Scalars['Int']>;
   /** Data used in the <GatsbyImage /> component. See https://gatsby.dev/img for more info. */
-  readonly gatsbyImage: Maybe<Scalars['JSON']>;
+  readonly gatsbyImage: Maybe<Scalars['GatsbyImageData']>;
   readonly height: Maybe<Scalars['Int']>;
   readonly id: Scalars['ID'];
   readonly mimeType: Scalars['String'];
@@ -9866,7 +11560,8 @@ type RemoteFileLayout =
 type RemoteFilePlaceholder =
   | 'blurred'
   | 'dominantColor'
-  | 'none';
+  | 'none'
+  | 'tracedSVG';
 
 type RemoteFileResize = {
   readonly height: Maybe<Scalars['Int']>;
@@ -9883,6 +11578,7 @@ type RemoteFileResizeFilterInput = {
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly children: ReadonlyArray<Node>;
+  readonly graphqlTypegen: Maybe<Scalars['Boolean']>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
   readonly jsxRuntime: Maybe<Scalars['String']>;
@@ -9972,6 +11668,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -9983,6 +11680,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -9995,6 +11693,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -10006,6 +11705,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -10019,6 +11719,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -10030,6 +11731,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -10042,6 +11744,7 @@ type SiteBuildMetadataFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -10160,6 +11863,7 @@ type SiteFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -10171,6 +11875,7 @@ type SiteFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -10183,6 +11888,7 @@ type SiteFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -10191,9 +11897,11 @@ type SiteFieldsEnum =
   | 'children.parent.internal.type'
   | 'children.parent.parent.children'
   | 'children.parent.parent.id'
+  | 'graphqlTypegen'
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -10208,6 +11916,7 @@ type SiteFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -10219,6 +11928,7 @@ type SiteFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -10231,6 +11941,7 @@ type SiteFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -10248,6 +11959,7 @@ type SiteFieldsEnum =
 type SiteFilterInput = {
   readonly buildTime: InputMaybe<DateQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
+  readonly graphqlTypegen: InputMaybe<BooleanQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly jsxRuntime: InputMaybe<StringQueryOperatorInput>;
@@ -10327,6 +12039,7 @@ type SiteFunctionFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -10338,6 +12051,7 @@ type SiteFunctionFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -10350,6 +12064,7 @@ type SiteFunctionFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -10362,6 +12077,7 @@ type SiteFunctionFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -10378,6 +12094,7 @@ type SiteFunctionFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -10389,6 +12106,7 @@ type SiteFunctionFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -10401,6 +12119,7 @@ type SiteFunctionFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -10581,6 +12300,7 @@ type SitePageFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -10592,6 +12312,7 @@ type SitePageFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -10604,6 +12325,7 @@ type SitePageFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -10618,6 +12340,7 @@ type SitePageFieldsEnum =
   | 'internalComponentName'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -10633,6 +12356,7 @@ type SitePageFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -10644,6 +12368,7 @@ type SitePageFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -10656,6 +12381,7 @@ type SitePageFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -10673,6 +12399,7 @@ type SitePageFieldsEnum =
   | 'pluginCreator.children.id'
   | 'pluginCreator.children.internal.content'
   | 'pluginCreator.children.internal.contentDigest'
+  | 'pluginCreator.children.internal.contentFilePath'
   | 'pluginCreator.children.internal.description'
   | 'pluginCreator.children.internal.fieldOwners'
   | 'pluginCreator.children.internal.ignoreType'
@@ -10684,6 +12411,7 @@ type SitePageFieldsEnum =
   | 'pluginCreator.id'
   | 'pluginCreator.internal.content'
   | 'pluginCreator.internal.contentDigest'
+  | 'pluginCreator.internal.contentFilePath'
   | 'pluginCreator.internal.description'
   | 'pluginCreator.internal.fieldOwners'
   | 'pluginCreator.internal.ignoreType'
@@ -10699,6 +12427,7 @@ type SitePageFieldsEnum =
   | 'pluginCreator.parent.id'
   | 'pluginCreator.parent.internal.content'
   | 'pluginCreator.parent.internal.contentDigest'
+  | 'pluginCreator.parent.internal.contentFilePath'
   | 'pluginCreator.parent.internal.description'
   | 'pluginCreator.parent.internal.fieldOwners'
   | 'pluginCreator.parent.internal.ignoreType'
@@ -10844,6 +12573,7 @@ type SitePluginFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -10855,6 +12585,7 @@ type SitePluginFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -10867,6 +12598,7 @@ type SitePluginFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -10878,6 +12610,7 @@ type SitePluginFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -10894,6 +12627,7 @@ type SitePluginFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -10905,6 +12639,7 @@ type SitePluginFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -10917,6 +12652,7 @@ type SitePluginFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -11101,6 +12837,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'childMarkdownRemark.children.id'
   | 'childMarkdownRemark.children.internal.content'
   | 'childMarkdownRemark.children.internal.contentDigest'
+  | 'childMarkdownRemark.children.internal.contentFilePath'
   | 'childMarkdownRemark.children.internal.description'
   | 'childMarkdownRemark.children.internal.fieldOwners'
   | 'childMarkdownRemark.children.internal.ignoreType'
@@ -11121,6 +12858,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'childMarkdownRemark.id'
   | 'childMarkdownRemark.internal.content'
   | 'childMarkdownRemark.internal.contentDigest'
+  | 'childMarkdownRemark.internal.contentFilePath'
   | 'childMarkdownRemark.internal.description'
   | 'childMarkdownRemark.internal.fieldOwners'
   | 'childMarkdownRemark.internal.ignoreType'
@@ -11133,6 +12871,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'childMarkdownRemark.parent.id'
   | 'childMarkdownRemark.parent.internal.content'
   | 'childMarkdownRemark.parent.internal.contentDigest'
+  | 'childMarkdownRemark.parent.internal.contentFilePath'
   | 'childMarkdownRemark.parent.internal.description'
   | 'childMarkdownRemark.parent.internal.fieldOwners'
   | 'childMarkdownRemark.parent.internal.ignoreType'
@@ -11156,6 +12895,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.children.id'
   | 'childrenMarkdownRemark.children.internal.content'
   | 'childrenMarkdownRemark.children.internal.contentDigest'
+  | 'childrenMarkdownRemark.children.internal.contentFilePath'
   | 'childrenMarkdownRemark.children.internal.description'
   | 'childrenMarkdownRemark.children.internal.fieldOwners'
   | 'childrenMarkdownRemark.children.internal.ignoreType'
@@ -11176,6 +12916,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.id'
   | 'childrenMarkdownRemark.internal.content'
   | 'childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenMarkdownRemark.internal.description'
   | 'childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenMarkdownRemark.internal.ignoreType'
@@ -11188,6 +12929,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.parent.id'
   | 'childrenMarkdownRemark.parent.internal.content'
   | 'childrenMarkdownRemark.parent.internal.contentDigest'
+  | 'childrenMarkdownRemark.parent.internal.contentFilePath'
   | 'childrenMarkdownRemark.parent.internal.description'
   | 'childrenMarkdownRemark.parent.internal.fieldOwners'
   | 'childrenMarkdownRemark.parent.internal.ignoreType'
@@ -11209,6 +12951,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -11220,6 +12963,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -11232,6 +12976,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -11243,6 +12988,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -11256,6 +13002,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -11267,6 +13014,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -11279,6 +13027,7 @@ type contentfulComponentCalloutBodyTextNodeFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -11424,6 +13173,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'childMarkdownRemark.children.id'
   | 'childMarkdownRemark.children.internal.content'
   | 'childMarkdownRemark.children.internal.contentDigest'
+  | 'childMarkdownRemark.children.internal.contentFilePath'
   | 'childMarkdownRemark.children.internal.description'
   | 'childMarkdownRemark.children.internal.fieldOwners'
   | 'childMarkdownRemark.children.internal.ignoreType'
@@ -11444,6 +13194,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'childMarkdownRemark.id'
   | 'childMarkdownRemark.internal.content'
   | 'childMarkdownRemark.internal.contentDigest'
+  | 'childMarkdownRemark.internal.contentFilePath'
   | 'childMarkdownRemark.internal.description'
   | 'childMarkdownRemark.internal.fieldOwners'
   | 'childMarkdownRemark.internal.ignoreType'
@@ -11456,6 +13207,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'childMarkdownRemark.parent.id'
   | 'childMarkdownRemark.parent.internal.content'
   | 'childMarkdownRemark.parent.internal.contentDigest'
+  | 'childMarkdownRemark.parent.internal.contentFilePath'
   | 'childMarkdownRemark.parent.internal.description'
   | 'childMarkdownRemark.parent.internal.fieldOwners'
   | 'childMarkdownRemark.parent.internal.ignoreType'
@@ -11479,6 +13231,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.children.id'
   | 'childrenMarkdownRemark.children.internal.content'
   | 'childrenMarkdownRemark.children.internal.contentDigest'
+  | 'childrenMarkdownRemark.children.internal.contentFilePath'
   | 'childrenMarkdownRemark.children.internal.description'
   | 'childrenMarkdownRemark.children.internal.fieldOwners'
   | 'childrenMarkdownRemark.children.internal.ignoreType'
@@ -11499,6 +13252,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.id'
   | 'childrenMarkdownRemark.internal.content'
   | 'childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenMarkdownRemark.internal.description'
   | 'childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenMarkdownRemark.internal.ignoreType'
@@ -11511,6 +13265,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.parent.id'
   | 'childrenMarkdownRemark.parent.internal.content'
   | 'childrenMarkdownRemark.parent.internal.contentDigest'
+  | 'childrenMarkdownRemark.parent.internal.contentFilePath'
   | 'childrenMarkdownRemark.parent.internal.description'
   | 'childrenMarkdownRemark.parent.internal.fieldOwners'
   | 'childrenMarkdownRemark.parent.internal.ignoreType'
@@ -11532,6 +13287,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -11543,6 +13299,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -11555,6 +13312,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -11566,6 +13324,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -11579,6 +13338,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -11590,6 +13350,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -11602,6 +13363,7 @@ type contentfulEntityPersonShortBioTextNodeFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -11749,6 +13511,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'childMarkdownRemark.children.id'
   | 'childMarkdownRemark.children.internal.content'
   | 'childMarkdownRemark.children.internal.contentDigest'
+  | 'childMarkdownRemark.children.internal.contentFilePath'
   | 'childMarkdownRemark.children.internal.description'
   | 'childMarkdownRemark.children.internal.fieldOwners'
   | 'childMarkdownRemark.children.internal.ignoreType'
@@ -11769,6 +13532,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'childMarkdownRemark.id'
   | 'childMarkdownRemark.internal.content'
   | 'childMarkdownRemark.internal.contentDigest'
+  | 'childMarkdownRemark.internal.contentFilePath'
   | 'childMarkdownRemark.internal.description'
   | 'childMarkdownRemark.internal.fieldOwners'
   | 'childMarkdownRemark.internal.ignoreType'
@@ -11781,6 +13545,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'childMarkdownRemark.parent.id'
   | 'childMarkdownRemark.parent.internal.content'
   | 'childMarkdownRemark.parent.internal.contentDigest'
+  | 'childMarkdownRemark.parent.internal.contentFilePath'
   | 'childMarkdownRemark.parent.internal.description'
   | 'childMarkdownRemark.parent.internal.fieldOwners'
   | 'childMarkdownRemark.parent.internal.ignoreType'
@@ -11804,6 +13569,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.children.id'
   | 'childrenMarkdownRemark.children.internal.content'
   | 'childrenMarkdownRemark.children.internal.contentDigest'
+  | 'childrenMarkdownRemark.children.internal.contentFilePath'
   | 'childrenMarkdownRemark.children.internal.description'
   | 'childrenMarkdownRemark.children.internal.fieldOwners'
   | 'childrenMarkdownRemark.children.internal.ignoreType'
@@ -11824,6 +13590,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.id'
   | 'childrenMarkdownRemark.internal.content'
   | 'childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenMarkdownRemark.internal.description'
   | 'childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenMarkdownRemark.internal.ignoreType'
@@ -11836,6 +13603,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.parent.id'
   | 'childrenMarkdownRemark.parent.internal.content'
   | 'childrenMarkdownRemark.parent.internal.contentDigest'
+  | 'childrenMarkdownRemark.parent.internal.contentFilePath'
   | 'childrenMarkdownRemark.parent.internal.description'
   | 'childrenMarkdownRemark.parent.internal.fieldOwners'
   | 'childrenMarkdownRemark.parent.internal.ignoreType'
@@ -11857,6 +13625,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -11868,6 +13637,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -11880,6 +13650,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -11891,6 +13662,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -11904,6 +13676,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -11915,6 +13688,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -11927,6 +13701,7 @@ type contentfulPageBlogPostBodyTextNodeFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -12072,6 +13847,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'childMarkdownRemark.children.id'
   | 'childMarkdownRemark.children.internal.content'
   | 'childMarkdownRemark.children.internal.contentDigest'
+  | 'childMarkdownRemark.children.internal.contentFilePath'
   | 'childMarkdownRemark.children.internal.description'
   | 'childMarkdownRemark.children.internal.fieldOwners'
   | 'childMarkdownRemark.children.internal.ignoreType'
@@ -12092,6 +13868,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'childMarkdownRemark.id'
   | 'childMarkdownRemark.internal.content'
   | 'childMarkdownRemark.internal.contentDigest'
+  | 'childMarkdownRemark.internal.contentFilePath'
   | 'childMarkdownRemark.internal.description'
   | 'childMarkdownRemark.internal.fieldOwners'
   | 'childMarkdownRemark.internal.ignoreType'
@@ -12104,6 +13881,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'childMarkdownRemark.parent.id'
   | 'childMarkdownRemark.parent.internal.content'
   | 'childMarkdownRemark.parent.internal.contentDigest'
+  | 'childMarkdownRemark.parent.internal.contentFilePath'
   | 'childMarkdownRemark.parent.internal.description'
   | 'childMarkdownRemark.parent.internal.fieldOwners'
   | 'childMarkdownRemark.parent.internal.ignoreType'
@@ -12127,6 +13905,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.children.id'
   | 'childrenMarkdownRemark.children.internal.content'
   | 'childrenMarkdownRemark.children.internal.contentDigest'
+  | 'childrenMarkdownRemark.children.internal.contentFilePath'
   | 'childrenMarkdownRemark.children.internal.description'
   | 'childrenMarkdownRemark.children.internal.fieldOwners'
   | 'childrenMarkdownRemark.children.internal.ignoreType'
@@ -12147,6 +13926,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.id'
   | 'childrenMarkdownRemark.internal.content'
   | 'childrenMarkdownRemark.internal.contentDigest'
+  | 'childrenMarkdownRemark.internal.contentFilePath'
   | 'childrenMarkdownRemark.internal.description'
   | 'childrenMarkdownRemark.internal.fieldOwners'
   | 'childrenMarkdownRemark.internal.ignoreType'
@@ -12159,6 +13939,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'childrenMarkdownRemark.parent.id'
   | 'childrenMarkdownRemark.parent.internal.content'
   | 'childrenMarkdownRemark.parent.internal.contentDigest'
+  | 'childrenMarkdownRemark.parent.internal.contentFilePath'
   | 'childrenMarkdownRemark.parent.internal.description'
   | 'childrenMarkdownRemark.parent.internal.fieldOwners'
   | 'childrenMarkdownRemark.parent.internal.ignoreType'
@@ -12180,6 +13961,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'children.children.id'
   | 'children.children.internal.content'
   | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
   | 'children.children.internal.description'
   | 'children.children.internal.fieldOwners'
   | 'children.children.internal.ignoreType'
@@ -12191,6 +13973,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'children.id'
   | 'children.internal.content'
   | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
   | 'children.internal.description'
   | 'children.internal.fieldOwners'
   | 'children.internal.ignoreType'
@@ -12203,6 +13986,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'children.parent.id'
   | 'children.parent.internal.content'
   | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
   | 'children.parent.internal.description'
   | 'children.parent.internal.fieldOwners'
   | 'children.parent.internal.ignoreType'
@@ -12215,6 +13999,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
+  | 'internal.contentFilePath'
   | 'internal.description'
   | 'internal.fieldOwners'
   | 'internal.ignoreType'
@@ -12228,6 +14013,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'parent.children.id'
   | 'parent.children.internal.content'
   | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
   | 'parent.children.internal.description'
   | 'parent.children.internal.fieldOwners'
   | 'parent.children.internal.ignoreType'
@@ -12239,6 +14025,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'parent.id'
   | 'parent.internal.content'
   | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
   | 'parent.internal.description'
   | 'parent.internal.fieldOwners'
   | 'parent.internal.ignoreType'
@@ -12251,6 +14038,7 @@ type contentfulPageBlogPostDescriptionTextNodeFieldsEnum =
   | 'parent.parent.id'
   | 'parent.parent.internal.content'
   | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
   | 'parent.parent.internal.description'
   | 'parent.parent.internal.fieldOwners'
   | 'parent.parent.internal.ignoreType'
@@ -12330,15 +14118,19 @@ type contentfulPageBlogPostDescriptionTextNodeSysFilterInput = {
   readonly type: InputMaybe<StringQueryOperatorInput>;
 };
 
+type BadBlogPostBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+  previousPostSlug: InputMaybe<Scalars['String']>;
+  nextPostSlug: InputMaybe<Scalars['String']>;
+}>;
+
+
+type BadBlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | null, readonly title: string | null, readonly publishDate: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly rawDate: string | null, readonly author: { readonly name: string | null } | null, readonly heroImage: { readonly resize: { readonly src: string | null } | null, readonly file: { readonly url: string | null } | null } | null, readonly body: { readonly childMarkdownRemark: { readonly html: string | null, readonly timeToRead: number | null } | null } | null, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | null } | null } | null } | null, readonly previous: { readonly slug: string | null, readonly title: string | null } | null, readonly next: { readonly slug: string | null, readonly title: string | null } | null };
+
 type BlogIndexQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type BlogIndexQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> } };
-
-type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | undefined, readonly slug: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly html: string | undefined } | undefined } | undefined }> }, readonly contentfulEntityPerson: { readonly name: string | undefined, readonly title: string | undefined, readonly shortBio: { readonly shortBio: string | undefined } | undefined, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | undefined };
+type BlogIndexQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly slug: string | null, readonly publishDate: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly heroImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null, readonly description: { readonly childMarkdownRemark: { readonly html: string | null } | null } | null }> } };
 
 type BlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -12347,23 +14139,19 @@ type BlogPostBySlugQueryVariables = Exact<{
 }>;
 
 
-type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly gatsbyImageData: any | undefined, readonly resize: { readonly src: string | undefined } | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
-
-type BadBlogPostBySlugQueryVariables = Exact<{
-  slug: Scalars['String'];
-  previousPostSlug: InputMaybe<Scalars['String']>;
-  nextPostSlug: InputMaybe<Scalars['String']>;
-}>;
-
-
-type BadBlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | undefined, readonly title: string | undefined, readonly publishDate: string | undefined, readonly tags: ReadonlyArray<string | undefined> | undefined, readonly rawDate: string | undefined, readonly author: { readonly name: string | undefined } | undefined, readonly heroImage: { readonly resize: { readonly src: string | undefined } | undefined, readonly file: { readonly url: string | undefined } | undefined } | undefined, readonly body: { readonly childMarkdownRemark: { readonly html: string | undefined, readonly timeToRead: number | undefined } | undefined } | undefined, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | undefined } | undefined } | undefined } | undefined, readonly previous: { readonly slug: string | undefined, readonly title: string | undefined } | undefined, readonly next: { readonly slug: string | undefined, readonly title: string | undefined } | undefined };
+type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | null, readonly title: string | null, readonly publishDate: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly rawDate: string | null, readonly author: { readonly name: string | null } | null, readonly heroImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null, readonly resize: { readonly src: string | null } | null } | null, readonly body: { readonly childMarkdownRemark: { readonly html: string | null, readonly timeToRead: number | null } | null } | null, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | null } | null } | null } | null, readonly previous: { readonly slug: string | null, readonly title: string | null } | null, readonly next: { readonly slug: string | null, readonly title: string | null } | null };
 
 type FlexPageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | undefined, readonly content: ReadonlyArray<{ readonly heading: string | undefined, readonly internal: { readonly type: string }, readonly body: { readonly body: string | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: any | undefined } | undefined } | { readonly title: string | undefined, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | undefined } | undefined } | undefined> | undefined } | undefined };
+type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | null, readonly content: ReadonlyArray<{ readonly heading: string | null, readonly internal: { readonly type: string }, readonly body: { readonly body: string | null } | null } | { readonly title: string | null, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null } | { readonly title: string | null, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | null } | null } | null> | null } | null };
+
+type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type HomeQueryQuery = { readonly allContentfulPageBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly slug: string | null, readonly publishDate: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly heroImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null, readonly description: { readonly childMarkdownRemark: { readonly html: string | null } | null } | null }> }, readonly contentfulEntityPerson: { readonly name: string | null, readonly title: string | null, readonly shortBio: { readonly shortBio: string | null } | null, readonly image: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null } | null };
 
 
 }

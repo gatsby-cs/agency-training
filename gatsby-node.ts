@@ -1,16 +1,15 @@
-// import createFlexPages from './gatsby-apis/flex-page'
+import path from 'path'
+import nodeFetch from 'node-fetch'
+import createFlexPages from './gatsby-apis/flex-page'
 
-const path = require('path')
-const fetch = require('node-fetch')
-
-exports.createPages = async ({ graphql, actions, reporter }) => {
+export const createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
-  // createFlexPages({ graphql, createPage, reporter })
+  await createFlexPages({ graphql, createPage, reporter })
 
   // Define a template for blog post
   const blogPost = path.resolve('./src/templates/blog-post.tsx')
-  // const badBlogPost = path.resolve('./src/templates/bad-blog-post.tsx')
+  const badBlogPost = path.resolve('./src/templates/bad-blog-post.tsx')
 
   const result = await graphql(
     `
@@ -40,13 +39,22 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   if (posts.length > 0) {
     posts.forEach((post, index) => {
+      createPage({
+        path: `/blog/${post.slug}/`,
+        component: blogPost,
+        context: {
+          slug: post.slug,
+        },
+      })
+    })
+    posts.forEach((post, index) => {
       const previousPostSlug = index === 0 ? null : posts[index - 1].slug
       const nextPostSlug =
         index === posts.length - 1 ? null : posts[index + 1].slug
 
       createPage({
-        path: `/blog/${post.slug}/`,
-        component: blogPost,
+        path: `/bad-blog/${post.slug}/`,
+        component: badBlogPost,
         context: {
           slug: post.slug,
           previousPostSlug,
@@ -54,32 +62,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         },
       })
     })
-    // posts.forEach((post, index) => {
-    //   const previousPostSlug = index === 0 ? null : posts[index - 1].slug
-    //   const nextPostSlug =
-    //     index === posts.length - 1 ? null : posts[index + 1].slug
-
-    //   createPage({
-    //     path: `/bad-blog/${post.slug}/`,
-    //     component: badBlogPost,
-    //     context: {
-    //       slug: post.slug,
-    //       previousPostSlug,
-    //       nextPostSlug,
-    //     },
-    //   })
-    // })
   }
 }
 
-exports.sourceNodes = async ({
+export const sourceNodes = async ({
   actions,
   createContentDigest,
   createNodeId,
 }) => {
   const { createNode } = actions
 
-  const data = await fetch(`https://api.openbrewerydb.org/breweries`)
+  const data = await nodeFetch(`https://api.openbrewerydb.org/breweries`)
   const breweries = await data.json()
   const POST_NODE_TYPE = `Brewery`
   breweries.forEach((brewery, i) => {
@@ -118,7 +111,7 @@ exports.sourceNodes = async ({
 //   const { createTypes } = actions
 
 //   const typeDefs = [
-//     'type Brewery implements Node { hero: ContentfulComponentHero }',
+//     'type Brewery implements Node { hero: ContentfulComponentHero, fullAddress: String }',
 //     schema.buildObjectType({
 //       name: 'Brewery',
 //       fields: {

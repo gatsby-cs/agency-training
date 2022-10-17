@@ -4,7 +4,7 @@ import { Link, graphql, PageProps } from 'gatsby'
 import Seo from '../components/seo/seo'
 import Layout from '../components/layout/layout'
 import Tags from '../components/tags/tags'
-import BadHero from '../components/hero/bad-hero'
+import Hero from '../components/hero/bad-hero'
 
 import * as styles from './blog-post.module.scss'
 
@@ -29,7 +29,7 @@ function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
         description={post?.description?.childMarkdownRemark?.excerpt}
         image={`http:${post?.heroImage?.resize?.src}`}
       />
-      <BadHero
+      <Hero
         image={post.heroImage?.file?.url!}
         title={post.title!}
         content={post.description?.childMarkdownRemark?.excerpt}
