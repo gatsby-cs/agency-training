@@ -73,11 +73,6 @@ export const pageQuery = graphql`
         }
       }
     }
-    allContentfulInferComponent {
-      nodes {
-        name
-      }
-    }
     contentfulEntityPerson(contentful_id: { eq: "2037iqVH7K7LXMOUBAiztV" }) {
       name
       shortBio {

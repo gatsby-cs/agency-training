@@ -8,6 +8,7 @@ import Layout from '../components/layout/layout'
 import Paragraph from '../components/paragraph/paragraph'
 import Hero from '../components/hero/hero'
 import Callout from '../components/callout/callout'
+import Seo from '../components/seo/seo'
 
 type FlexPageProps = {
   contentfulPageFlexPage: GatsbyTypes.ContentfulPageFlexPage

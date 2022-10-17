@@ -49,6 +49,7 @@ type BooleanQueryOperatorInput = {
 
 type Brewery = Node & {
   readonly address_2: Maybe<Scalars['String']>;
+  readonly breweryId: Maybe<Scalars['String']>;
   readonly brewery_type: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
   readonly city: Maybe<Scalars['String']>;
@@ -132,6 +133,7 @@ type BreweryEdge = {
 
 type BreweryFieldsEnum =
   | 'address_2'
+  | 'breweryId'
   | 'brewery_type'
   | 'children'
   | 'children.children'
@@ -242,6 +244,7 @@ type BreweryFieldsEnum =
 
 type BreweryFilterInput = {
   readonly address_2: InputMaybe<StringQueryOperatorInput>;
+  readonly breweryId: InputMaybe<StringQueryOperatorInput>;
   readonly brewery_type: InputMaybe<StringQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly city: InputMaybe<StringQueryOperatorInput>;
@@ -313,6 +316,7 @@ type ContentfulAsset = ContentfulReference & Node & RemoteFile & {
   readonly contentful_id: Scalars['String'];
   readonly createdAt: Maybe<Scalars['Date']>;
   readonly description: Maybe<Scalars['String']>;
+  readonly fields: Maybe<ContentfulAssetFields>;
   readonly file: Maybe<ContentfulAssetFile>;
   readonly filename: Scalars['String'];
   readonly filesize: Maybe<Scalars['Int']>;
@@ -322,6 +326,7 @@ type ContentfulAsset = ContentfulReference & Node & RemoteFile & {
   readonly height: Maybe<Scalars['Int']>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
+  readonly localFile: Maybe<File>;
   readonly mimeType: Scalars['String'];
   readonly node_locale: Maybe<Scalars['String']>;
   readonly parent: Maybe<Node>;
@@ -445,6 +450,10 @@ type ContentfulAssetEdge = {
   readonly previous: Maybe<ContentfulAsset>;
 };
 
+type ContentfulAssetFields = {
+  readonly localFile: Maybe<Scalars['String']>;
+};
+
 type ContentfulAssetFieldsEnum =
   | 'children'
   | 'children.children'
@@ -491,6 +500,7 @@ type ContentfulAssetFieldsEnum =
   | 'contentful_id'
   | 'createdAt'
   | 'description'
+  | 'fields.localFile'
   | 'file.contentType'
   | 'file.details.image.height'
   | 'file.details.image.width'
@@ -512,6 +522,176 @@ type ContentfulAssetFieldsEnum =
   | 'internal.mediaType'
   | 'internal.owner'
   | 'internal.type'
+  | 'localFile.absolutePath'
+  | 'localFile.accessTime'
+  | 'localFile.atime'
+  | 'localFile.atimeMs'
+  | 'localFile.base'
+  | 'localFile.birthTime'
+  | 'localFile.birthtime'
+  | 'localFile.birthtimeMs'
+  | 'localFile.blksize'
+  | 'localFile.blocks'
+  | 'localFile.changeTime'
+  | 'localFile.childImageSharp.children'
+  | 'localFile.childImageSharp.children.children'
+  | 'localFile.childImageSharp.children.id'
+  | 'localFile.childImageSharp.fixed.aspectRatio'
+  | 'localFile.childImageSharp.fixed.base64'
+  | 'localFile.childImageSharp.fixed.height'
+  | 'localFile.childImageSharp.fixed.originalName'
+  | 'localFile.childImageSharp.fixed.src'
+  | 'localFile.childImageSharp.fixed.srcSet'
+  | 'localFile.childImageSharp.fixed.srcSetWebp'
+  | 'localFile.childImageSharp.fixed.srcWebp'
+  | 'localFile.childImageSharp.fixed.tracedSVG'
+  | 'localFile.childImageSharp.fixed.width'
+  | 'localFile.childImageSharp.fluid.aspectRatio'
+  | 'localFile.childImageSharp.fluid.base64'
+  | 'localFile.childImageSharp.fluid.originalImg'
+  | 'localFile.childImageSharp.fluid.originalName'
+  | 'localFile.childImageSharp.fluid.presentationHeight'
+  | 'localFile.childImageSharp.fluid.presentationWidth'
+  | 'localFile.childImageSharp.fluid.sizes'
+  | 'localFile.childImageSharp.fluid.src'
+  | 'localFile.childImageSharp.fluid.srcSet'
+  | 'localFile.childImageSharp.fluid.srcSetWebp'
+  | 'localFile.childImageSharp.fluid.srcWebp'
+  | 'localFile.childImageSharp.fluid.tracedSVG'
+  | 'localFile.childImageSharp.gatsbyImageData'
+  | 'localFile.childImageSharp.id'
+  | 'localFile.childImageSharp.internal.content'
+  | 'localFile.childImageSharp.internal.contentDigest'
+  | 'localFile.childImageSharp.internal.contentFilePath'
+  | 'localFile.childImageSharp.internal.description'
+  | 'localFile.childImageSharp.internal.fieldOwners'
+  | 'localFile.childImageSharp.internal.ignoreType'
+  | 'localFile.childImageSharp.internal.mediaType'
+  | 'localFile.childImageSharp.internal.owner'
+  | 'localFile.childImageSharp.internal.type'
+  | 'localFile.childImageSharp.original.height'
+  | 'localFile.childImageSharp.original.src'
+  | 'localFile.childImageSharp.original.width'
+  | 'localFile.childImageSharp.parent.children'
+  | 'localFile.childImageSharp.parent.id'
+  | 'localFile.childImageSharp.resize.aspectRatio'
+  | 'localFile.childImageSharp.resize.height'
+  | 'localFile.childImageSharp.resize.originalName'
+  | 'localFile.childImageSharp.resize.src'
+  | 'localFile.childImageSharp.resize.tracedSVG'
+  | 'localFile.childImageSharp.resize.width'
+  | 'localFile.children'
+  | 'localFile.childrenImageSharp'
+  | 'localFile.childrenImageSharp.children'
+  | 'localFile.childrenImageSharp.children.children'
+  | 'localFile.childrenImageSharp.children.id'
+  | 'localFile.childrenImageSharp.fixed.aspectRatio'
+  | 'localFile.childrenImageSharp.fixed.base64'
+  | 'localFile.childrenImageSharp.fixed.height'
+  | 'localFile.childrenImageSharp.fixed.originalName'
+  | 'localFile.childrenImageSharp.fixed.src'
+  | 'localFile.childrenImageSharp.fixed.srcSet'
+  | 'localFile.childrenImageSharp.fixed.srcSetWebp'
+  | 'localFile.childrenImageSharp.fixed.srcWebp'
+  | 'localFile.childrenImageSharp.fixed.tracedSVG'
+  | 'localFile.childrenImageSharp.fixed.width'
+  | 'localFile.childrenImageSharp.fluid.aspectRatio'
+  | 'localFile.childrenImageSharp.fluid.base64'
+  | 'localFile.childrenImageSharp.fluid.originalImg'
+  | 'localFile.childrenImageSharp.fluid.originalName'
+  | 'localFile.childrenImageSharp.fluid.presentationHeight'
+  | 'localFile.childrenImageSharp.fluid.presentationWidth'
+  | 'localFile.childrenImageSharp.fluid.sizes'
+  | 'localFile.childrenImageSharp.fluid.src'
+  | 'localFile.childrenImageSharp.fluid.srcSet'
+  | 'localFile.childrenImageSharp.fluid.srcSetWebp'
+  | 'localFile.childrenImageSharp.fluid.srcWebp'
+  | 'localFile.childrenImageSharp.fluid.tracedSVG'
+  | 'localFile.childrenImageSharp.gatsbyImageData'
+  | 'localFile.childrenImageSharp.id'
+  | 'localFile.childrenImageSharp.internal.content'
+  | 'localFile.childrenImageSharp.internal.contentDigest'
+  | 'localFile.childrenImageSharp.internal.contentFilePath'
+  | 'localFile.childrenImageSharp.internal.description'
+  | 'localFile.childrenImageSharp.internal.fieldOwners'
+  | 'localFile.childrenImageSharp.internal.ignoreType'
+  | 'localFile.childrenImageSharp.internal.mediaType'
+  | 'localFile.childrenImageSharp.internal.owner'
+  | 'localFile.childrenImageSharp.internal.type'
+  | 'localFile.childrenImageSharp.original.height'
+  | 'localFile.childrenImageSharp.original.src'
+  | 'localFile.childrenImageSharp.original.width'
+  | 'localFile.childrenImageSharp.parent.children'
+  | 'localFile.childrenImageSharp.parent.id'
+  | 'localFile.childrenImageSharp.resize.aspectRatio'
+  | 'localFile.childrenImageSharp.resize.height'
+  | 'localFile.childrenImageSharp.resize.originalName'
+  | 'localFile.childrenImageSharp.resize.src'
+  | 'localFile.childrenImageSharp.resize.tracedSVG'
+  | 'localFile.childrenImageSharp.resize.width'
+  | 'localFile.children.children'
+  | 'localFile.children.children.children'
+  | 'localFile.children.children.id'
+  | 'localFile.children.id'
+  | 'localFile.children.internal.content'
+  | 'localFile.children.internal.contentDigest'
+  | 'localFile.children.internal.contentFilePath'
+  | 'localFile.children.internal.description'
+  | 'localFile.children.internal.fieldOwners'
+  | 'localFile.children.internal.ignoreType'
+  | 'localFile.children.internal.mediaType'
+  | 'localFile.children.internal.owner'
+  | 'localFile.children.internal.type'
+  | 'localFile.children.parent.children'
+  | 'localFile.children.parent.id'
+  | 'localFile.ctime'
+  | 'localFile.ctimeMs'
+  | 'localFile.dev'
+  | 'localFile.dir'
+  | 'localFile.ext'
+  | 'localFile.extension'
+  | 'localFile.gid'
+  | 'localFile.id'
+  | 'localFile.ino'
+  | 'localFile.internal.content'
+  | 'localFile.internal.contentDigest'
+  | 'localFile.internal.contentFilePath'
+  | 'localFile.internal.description'
+  | 'localFile.internal.fieldOwners'
+  | 'localFile.internal.ignoreType'
+  | 'localFile.internal.mediaType'
+  | 'localFile.internal.owner'
+  | 'localFile.internal.type'
+  | 'localFile.mode'
+  | 'localFile.modifiedTime'
+  | 'localFile.mtime'
+  | 'localFile.mtimeMs'
+  | 'localFile.name'
+  | 'localFile.nlink'
+  | 'localFile.parent.children'
+  | 'localFile.parent.children.children'
+  | 'localFile.parent.children.id'
+  | 'localFile.parent.id'
+  | 'localFile.parent.internal.content'
+  | 'localFile.parent.internal.contentDigest'
+  | 'localFile.parent.internal.contentFilePath'
+  | 'localFile.parent.internal.description'
+  | 'localFile.parent.internal.fieldOwners'
+  | 'localFile.parent.internal.ignoreType'
+  | 'localFile.parent.internal.mediaType'
+  | 'localFile.parent.internal.owner'
+  | 'localFile.parent.internal.type'
+  | 'localFile.parent.parent.children'
+  | 'localFile.parent.parent.id'
+  | 'localFile.prettySize'
+  | 'localFile.rdev'
+  | 'localFile.relativeDirectory'
+  | 'localFile.relativePath'
+  | 'localFile.root'
+  | 'localFile.size'
+  | 'localFile.sourceInstanceName'
+  | 'localFile.uid'
+  | 'localFile.url'
   | 'mimeType'
   | 'node_locale'
   | 'parent.children'
@@ -569,6 +749,10 @@ type ContentfulAssetFieldsEnum =
   | 'url'
   | 'width';
 
+type ContentfulAssetFieldsFilterInput = {
+  readonly localFile: InputMaybe<StringQueryOperatorInput>;
+};
+
 type ContentfulAssetFile = {
   readonly contentType: Maybe<Scalars['String']>;
   readonly details: Maybe<ContentfulAssetFileDetails>;
@@ -608,6 +792,7 @@ type ContentfulAssetFilterInput = {
   readonly contentful_id: InputMaybe<StringQueryOperatorInput>;
   readonly createdAt: InputMaybe<DateQueryOperatorInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
+  readonly fields: InputMaybe<ContentfulAssetFieldsFilterInput>;
   readonly file: InputMaybe<ContentfulAssetFileFilterInput>;
   readonly filename: InputMaybe<StringQueryOperatorInput>;
   readonly filesize: InputMaybe<IntQueryOperatorInput>;
@@ -616,6 +801,7 @@ type ContentfulAssetFilterInput = {
   readonly height: InputMaybe<IntQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
+  readonly localFile: InputMaybe<FileFilterInput>;
   readonly mimeType: InputMaybe<StringQueryOperatorInput>;
   readonly node_locale: InputMaybe<StringQueryOperatorInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
@@ -2039,6 +2225,7 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.contentful_id'
   | 'image.createdAt'
   | 'image.description'
+  | 'image.fields.localFile'
   | 'image.file.contentType'
   | 'image.file.details.size'
   | 'image.file.fileName'
@@ -2058,6 +2245,62 @@ type ContentfulComponentHeroFieldsEnum =
   | 'image.internal.mediaType'
   | 'image.internal.owner'
   | 'image.internal.type'
+  | 'image.localFile.absolutePath'
+  | 'image.localFile.accessTime'
+  | 'image.localFile.atime'
+  | 'image.localFile.atimeMs'
+  | 'image.localFile.base'
+  | 'image.localFile.birthTime'
+  | 'image.localFile.birthtime'
+  | 'image.localFile.birthtimeMs'
+  | 'image.localFile.blksize'
+  | 'image.localFile.blocks'
+  | 'image.localFile.changeTime'
+  | 'image.localFile.childImageSharp.children'
+  | 'image.localFile.childImageSharp.gatsbyImageData'
+  | 'image.localFile.childImageSharp.id'
+  | 'image.localFile.children'
+  | 'image.localFile.childrenImageSharp'
+  | 'image.localFile.childrenImageSharp.children'
+  | 'image.localFile.childrenImageSharp.gatsbyImageData'
+  | 'image.localFile.childrenImageSharp.id'
+  | 'image.localFile.children.children'
+  | 'image.localFile.children.id'
+  | 'image.localFile.ctime'
+  | 'image.localFile.ctimeMs'
+  | 'image.localFile.dev'
+  | 'image.localFile.dir'
+  | 'image.localFile.ext'
+  | 'image.localFile.extension'
+  | 'image.localFile.gid'
+  | 'image.localFile.id'
+  | 'image.localFile.ino'
+  | 'image.localFile.internal.content'
+  | 'image.localFile.internal.contentDigest'
+  | 'image.localFile.internal.contentFilePath'
+  | 'image.localFile.internal.description'
+  | 'image.localFile.internal.fieldOwners'
+  | 'image.localFile.internal.ignoreType'
+  | 'image.localFile.internal.mediaType'
+  | 'image.localFile.internal.owner'
+  | 'image.localFile.internal.type'
+  | 'image.localFile.mode'
+  | 'image.localFile.modifiedTime'
+  | 'image.localFile.mtime'
+  | 'image.localFile.mtimeMs'
+  | 'image.localFile.name'
+  | 'image.localFile.nlink'
+  | 'image.localFile.parent.children'
+  | 'image.localFile.parent.id'
+  | 'image.localFile.prettySize'
+  | 'image.localFile.rdev'
+  | 'image.localFile.relativeDirectory'
+  | 'image.localFile.relativePath'
+  | 'image.localFile.root'
+  | 'image.localFile.size'
+  | 'image.localFile.sourceInstanceName'
+  | 'image.localFile.uid'
+  | 'image.localFile.url'
   | 'image.mimeType'
   | 'image.node_locale'
   | 'image.parent.children'
@@ -3728,6 +3971,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.contentful_id'
   | 'image.createdAt'
   | 'image.description'
+  | 'image.fields.localFile'
   | 'image.file.contentType'
   | 'image.file.details.size'
   | 'image.file.fileName'
@@ -3747,6 +3991,62 @@ type ContentfulEntityPersonFieldsEnum =
   | 'image.internal.mediaType'
   | 'image.internal.owner'
   | 'image.internal.type'
+  | 'image.localFile.absolutePath'
+  | 'image.localFile.accessTime'
+  | 'image.localFile.atime'
+  | 'image.localFile.atimeMs'
+  | 'image.localFile.base'
+  | 'image.localFile.birthTime'
+  | 'image.localFile.birthtime'
+  | 'image.localFile.birthtimeMs'
+  | 'image.localFile.blksize'
+  | 'image.localFile.blocks'
+  | 'image.localFile.changeTime'
+  | 'image.localFile.childImageSharp.children'
+  | 'image.localFile.childImageSharp.gatsbyImageData'
+  | 'image.localFile.childImageSharp.id'
+  | 'image.localFile.children'
+  | 'image.localFile.childrenImageSharp'
+  | 'image.localFile.childrenImageSharp.children'
+  | 'image.localFile.childrenImageSharp.gatsbyImageData'
+  | 'image.localFile.childrenImageSharp.id'
+  | 'image.localFile.children.children'
+  | 'image.localFile.children.id'
+  | 'image.localFile.ctime'
+  | 'image.localFile.ctimeMs'
+  | 'image.localFile.dev'
+  | 'image.localFile.dir'
+  | 'image.localFile.ext'
+  | 'image.localFile.extension'
+  | 'image.localFile.gid'
+  | 'image.localFile.id'
+  | 'image.localFile.ino'
+  | 'image.localFile.internal.content'
+  | 'image.localFile.internal.contentDigest'
+  | 'image.localFile.internal.contentFilePath'
+  | 'image.localFile.internal.description'
+  | 'image.localFile.internal.fieldOwners'
+  | 'image.localFile.internal.ignoreType'
+  | 'image.localFile.internal.mediaType'
+  | 'image.localFile.internal.owner'
+  | 'image.localFile.internal.type'
+  | 'image.localFile.mode'
+  | 'image.localFile.modifiedTime'
+  | 'image.localFile.mtime'
+  | 'image.localFile.mtimeMs'
+  | 'image.localFile.name'
+  | 'image.localFile.nlink'
+  | 'image.localFile.parent.children'
+  | 'image.localFile.parent.id'
+  | 'image.localFile.prettySize'
+  | 'image.localFile.rdev'
+  | 'image.localFile.relativeDirectory'
+  | 'image.localFile.relativePath'
+  | 'image.localFile.root'
+  | 'image.localFile.size'
+  | 'image.localFile.sourceInstanceName'
+  | 'image.localFile.uid'
+  | 'image.localFile.url'
   | 'image.mimeType'
   | 'image.node_locale'
   | 'image.parent.children'
@@ -4121,6 +4421,7 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.heroImage.contentful_id'
   | 'page___blog_post.heroImage.createdAt'
   | 'page___blog_post.heroImage.description'
+  | 'page___blog_post.heroImage.fields.localFile'
   | 'page___blog_post.heroImage.file.contentType'
   | 'page___blog_post.heroImage.file.fileName'
   | 'page___blog_post.heroImage.file.url'
@@ -4139,6 +4440,43 @@ type ContentfulEntityPersonFieldsEnum =
   | 'page___blog_post.heroImage.internal.mediaType'
   | 'page___blog_post.heroImage.internal.owner'
   | 'page___blog_post.heroImage.internal.type'
+  | 'page___blog_post.heroImage.localFile.absolutePath'
+  | 'page___blog_post.heroImage.localFile.accessTime'
+  | 'page___blog_post.heroImage.localFile.atime'
+  | 'page___blog_post.heroImage.localFile.atimeMs'
+  | 'page___blog_post.heroImage.localFile.base'
+  | 'page___blog_post.heroImage.localFile.birthTime'
+  | 'page___blog_post.heroImage.localFile.birthtime'
+  | 'page___blog_post.heroImage.localFile.birthtimeMs'
+  | 'page___blog_post.heroImage.localFile.blksize'
+  | 'page___blog_post.heroImage.localFile.blocks'
+  | 'page___blog_post.heroImage.localFile.changeTime'
+  | 'page___blog_post.heroImage.localFile.children'
+  | 'page___blog_post.heroImage.localFile.childrenImageSharp'
+  | 'page___blog_post.heroImage.localFile.ctime'
+  | 'page___blog_post.heroImage.localFile.ctimeMs'
+  | 'page___blog_post.heroImage.localFile.dev'
+  | 'page___blog_post.heroImage.localFile.dir'
+  | 'page___blog_post.heroImage.localFile.ext'
+  | 'page___blog_post.heroImage.localFile.extension'
+  | 'page___blog_post.heroImage.localFile.gid'
+  | 'page___blog_post.heroImage.localFile.id'
+  | 'page___blog_post.heroImage.localFile.ino'
+  | 'page___blog_post.heroImage.localFile.mode'
+  | 'page___blog_post.heroImage.localFile.modifiedTime'
+  | 'page___blog_post.heroImage.localFile.mtime'
+  | 'page___blog_post.heroImage.localFile.mtimeMs'
+  | 'page___blog_post.heroImage.localFile.name'
+  | 'page___blog_post.heroImage.localFile.nlink'
+  | 'page___blog_post.heroImage.localFile.prettySize'
+  | 'page___blog_post.heroImage.localFile.rdev'
+  | 'page___blog_post.heroImage.localFile.relativeDirectory'
+  | 'page___blog_post.heroImage.localFile.relativePath'
+  | 'page___blog_post.heroImage.localFile.root'
+  | 'page___blog_post.heroImage.localFile.size'
+  | 'page___blog_post.heroImage.localFile.sourceInstanceName'
+  | 'page___blog_post.heroImage.localFile.uid'
+  | 'page___blog_post.heroImage.localFile.url'
   | 'page___blog_post.heroImage.mimeType'
   | 'page___blog_post.heroImage.node_locale'
   | 'page___blog_post.heroImage.parent.children'
@@ -5519,6 +5857,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.image.contentful_id'
   | 'author.image.createdAt'
   | 'author.image.description'
+  | 'author.image.fields.localFile'
   | 'author.image.file.contentType'
   | 'author.image.file.fileName'
   | 'author.image.file.url'
@@ -5537,6 +5876,43 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'author.image.internal.mediaType'
   | 'author.image.internal.owner'
   | 'author.image.internal.type'
+  | 'author.image.localFile.absolutePath'
+  | 'author.image.localFile.accessTime'
+  | 'author.image.localFile.atime'
+  | 'author.image.localFile.atimeMs'
+  | 'author.image.localFile.base'
+  | 'author.image.localFile.birthTime'
+  | 'author.image.localFile.birthtime'
+  | 'author.image.localFile.birthtimeMs'
+  | 'author.image.localFile.blksize'
+  | 'author.image.localFile.blocks'
+  | 'author.image.localFile.changeTime'
+  | 'author.image.localFile.children'
+  | 'author.image.localFile.childrenImageSharp'
+  | 'author.image.localFile.ctime'
+  | 'author.image.localFile.ctimeMs'
+  | 'author.image.localFile.dev'
+  | 'author.image.localFile.dir'
+  | 'author.image.localFile.ext'
+  | 'author.image.localFile.extension'
+  | 'author.image.localFile.gid'
+  | 'author.image.localFile.id'
+  | 'author.image.localFile.ino'
+  | 'author.image.localFile.mode'
+  | 'author.image.localFile.modifiedTime'
+  | 'author.image.localFile.mtime'
+  | 'author.image.localFile.mtimeMs'
+  | 'author.image.localFile.name'
+  | 'author.image.localFile.nlink'
+  | 'author.image.localFile.prettySize'
+  | 'author.image.localFile.rdev'
+  | 'author.image.localFile.relativeDirectory'
+  | 'author.image.localFile.relativePath'
+  | 'author.image.localFile.root'
+  | 'author.image.localFile.size'
+  | 'author.image.localFile.sourceInstanceName'
+  | 'author.image.localFile.uid'
+  | 'author.image.localFile.url'
   | 'author.image.mimeType'
   | 'author.image.node_locale'
   | 'author.image.parent.children'
@@ -6417,6 +6793,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'heroImage.contentful_id'
   | 'heroImage.createdAt'
   | 'heroImage.description'
+  | 'heroImage.fields.localFile'
   | 'heroImage.file.contentType'
   | 'heroImage.file.details.size'
   | 'heroImage.file.fileName'
@@ -6436,6 +6813,62 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'heroImage.internal.mediaType'
   | 'heroImage.internal.owner'
   | 'heroImage.internal.type'
+  | 'heroImage.localFile.absolutePath'
+  | 'heroImage.localFile.accessTime'
+  | 'heroImage.localFile.atime'
+  | 'heroImage.localFile.atimeMs'
+  | 'heroImage.localFile.base'
+  | 'heroImage.localFile.birthTime'
+  | 'heroImage.localFile.birthtime'
+  | 'heroImage.localFile.birthtimeMs'
+  | 'heroImage.localFile.blksize'
+  | 'heroImage.localFile.blocks'
+  | 'heroImage.localFile.changeTime'
+  | 'heroImage.localFile.childImageSharp.children'
+  | 'heroImage.localFile.childImageSharp.gatsbyImageData'
+  | 'heroImage.localFile.childImageSharp.id'
+  | 'heroImage.localFile.children'
+  | 'heroImage.localFile.childrenImageSharp'
+  | 'heroImage.localFile.childrenImageSharp.children'
+  | 'heroImage.localFile.childrenImageSharp.gatsbyImageData'
+  | 'heroImage.localFile.childrenImageSharp.id'
+  | 'heroImage.localFile.children.children'
+  | 'heroImage.localFile.children.id'
+  | 'heroImage.localFile.ctime'
+  | 'heroImage.localFile.ctimeMs'
+  | 'heroImage.localFile.dev'
+  | 'heroImage.localFile.dir'
+  | 'heroImage.localFile.ext'
+  | 'heroImage.localFile.extension'
+  | 'heroImage.localFile.gid'
+  | 'heroImage.localFile.id'
+  | 'heroImage.localFile.ino'
+  | 'heroImage.localFile.internal.content'
+  | 'heroImage.localFile.internal.contentDigest'
+  | 'heroImage.localFile.internal.contentFilePath'
+  | 'heroImage.localFile.internal.description'
+  | 'heroImage.localFile.internal.fieldOwners'
+  | 'heroImage.localFile.internal.ignoreType'
+  | 'heroImage.localFile.internal.mediaType'
+  | 'heroImage.localFile.internal.owner'
+  | 'heroImage.localFile.internal.type'
+  | 'heroImage.localFile.mode'
+  | 'heroImage.localFile.modifiedTime'
+  | 'heroImage.localFile.mtime'
+  | 'heroImage.localFile.mtimeMs'
+  | 'heroImage.localFile.name'
+  | 'heroImage.localFile.nlink'
+  | 'heroImage.localFile.parent.children'
+  | 'heroImage.localFile.parent.id'
+  | 'heroImage.localFile.prettySize'
+  | 'heroImage.localFile.rdev'
+  | 'heroImage.localFile.relativeDirectory'
+  | 'heroImage.localFile.relativePath'
+  | 'heroImage.localFile.root'
+  | 'heroImage.localFile.size'
+  | 'heroImage.localFile.sourceInstanceName'
+  | 'heroImage.localFile.uid'
+  | 'heroImage.localFile.url'
   | 'heroImage.mimeType'
   | 'heroImage.node_locale'
   | 'heroImage.parent.children'
@@ -6545,6 +6978,7 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.image.contentful_id'
   | 'seo.image.createdAt'
   | 'seo.image.description'
+  | 'seo.image.fields.localFile'
   | 'seo.image.file.contentType'
   | 'seo.image.file.fileName'
   | 'seo.image.file.url'
@@ -6563,6 +6997,43 @@ type ContentfulPageBlogPostFieldsEnum =
   | 'seo.image.internal.mediaType'
   | 'seo.image.internal.owner'
   | 'seo.image.internal.type'
+  | 'seo.image.localFile.absolutePath'
+  | 'seo.image.localFile.accessTime'
+  | 'seo.image.localFile.atime'
+  | 'seo.image.localFile.atimeMs'
+  | 'seo.image.localFile.base'
+  | 'seo.image.localFile.birthTime'
+  | 'seo.image.localFile.birthtime'
+  | 'seo.image.localFile.birthtimeMs'
+  | 'seo.image.localFile.blksize'
+  | 'seo.image.localFile.blocks'
+  | 'seo.image.localFile.changeTime'
+  | 'seo.image.localFile.children'
+  | 'seo.image.localFile.childrenImageSharp'
+  | 'seo.image.localFile.ctime'
+  | 'seo.image.localFile.ctimeMs'
+  | 'seo.image.localFile.dev'
+  | 'seo.image.localFile.dir'
+  | 'seo.image.localFile.ext'
+  | 'seo.image.localFile.extension'
+  | 'seo.image.localFile.gid'
+  | 'seo.image.localFile.id'
+  | 'seo.image.localFile.ino'
+  | 'seo.image.localFile.mode'
+  | 'seo.image.localFile.modifiedTime'
+  | 'seo.image.localFile.mtime'
+  | 'seo.image.localFile.mtimeMs'
+  | 'seo.image.localFile.name'
+  | 'seo.image.localFile.nlink'
+  | 'seo.image.localFile.prettySize'
+  | 'seo.image.localFile.rdev'
+  | 'seo.image.localFile.relativeDirectory'
+  | 'seo.image.localFile.relativePath'
+  | 'seo.image.localFile.root'
+  | 'seo.image.localFile.size'
+  | 'seo.image.localFile.sourceInstanceName'
+  | 'seo.image.localFile.uid'
+  | 'seo.image.localFile.url'
   | 'seo.image.mimeType'
   | 'seo.image.node_locale'
   | 'seo.image.parent.children'
@@ -7071,6 +7542,7 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'seo.image.contentful_id'
   | 'seo.image.createdAt'
   | 'seo.image.description'
+  | 'seo.image.fields.localFile'
   | 'seo.image.file.contentType'
   | 'seo.image.file.fileName'
   | 'seo.image.file.url'
@@ -7089,6 +7561,43 @@ type ContentfulPageFlexPageFieldsEnum =
   | 'seo.image.internal.mediaType'
   | 'seo.image.internal.owner'
   | 'seo.image.internal.type'
+  | 'seo.image.localFile.absolutePath'
+  | 'seo.image.localFile.accessTime'
+  | 'seo.image.localFile.atime'
+  | 'seo.image.localFile.atimeMs'
+  | 'seo.image.localFile.base'
+  | 'seo.image.localFile.birthTime'
+  | 'seo.image.localFile.birthtime'
+  | 'seo.image.localFile.birthtimeMs'
+  | 'seo.image.localFile.blksize'
+  | 'seo.image.localFile.blocks'
+  | 'seo.image.localFile.changeTime'
+  | 'seo.image.localFile.children'
+  | 'seo.image.localFile.childrenImageSharp'
+  | 'seo.image.localFile.ctime'
+  | 'seo.image.localFile.ctimeMs'
+  | 'seo.image.localFile.dev'
+  | 'seo.image.localFile.dir'
+  | 'seo.image.localFile.ext'
+  | 'seo.image.localFile.extension'
+  | 'seo.image.localFile.gid'
+  | 'seo.image.localFile.id'
+  | 'seo.image.localFile.ino'
+  | 'seo.image.localFile.mode'
+  | 'seo.image.localFile.modifiedTime'
+  | 'seo.image.localFile.mtime'
+  | 'seo.image.localFile.mtimeMs'
+  | 'seo.image.localFile.name'
+  | 'seo.image.localFile.nlink'
+  | 'seo.image.localFile.prettySize'
+  | 'seo.image.localFile.rdev'
+  | 'seo.image.localFile.relativeDirectory'
+  | 'seo.image.localFile.relativePath'
+  | 'seo.image.localFile.root'
+  | 'seo.image.localFile.size'
+  | 'seo.image.localFile.sourceInstanceName'
+  | 'seo.image.localFile.uid'
+  | 'seo.image.localFile.url'
   | 'seo.image.mimeType'
   | 'seo.image.node_locale'
   | 'seo.image.parent.children'
@@ -8024,6 +8533,7 @@ type ContentfulSeoFieldsEnum =
   | 'image.contentful_id'
   | 'image.createdAt'
   | 'image.description'
+  | 'image.fields.localFile'
   | 'image.file.contentType'
   | 'image.file.details.size'
   | 'image.file.fileName'
@@ -8043,6 +8553,62 @@ type ContentfulSeoFieldsEnum =
   | 'image.internal.mediaType'
   | 'image.internal.owner'
   | 'image.internal.type'
+  | 'image.localFile.absolutePath'
+  | 'image.localFile.accessTime'
+  | 'image.localFile.atime'
+  | 'image.localFile.atimeMs'
+  | 'image.localFile.base'
+  | 'image.localFile.birthTime'
+  | 'image.localFile.birthtime'
+  | 'image.localFile.birthtimeMs'
+  | 'image.localFile.blksize'
+  | 'image.localFile.blocks'
+  | 'image.localFile.changeTime'
+  | 'image.localFile.childImageSharp.children'
+  | 'image.localFile.childImageSharp.gatsbyImageData'
+  | 'image.localFile.childImageSharp.id'
+  | 'image.localFile.children'
+  | 'image.localFile.childrenImageSharp'
+  | 'image.localFile.childrenImageSharp.children'
+  | 'image.localFile.childrenImageSharp.gatsbyImageData'
+  | 'image.localFile.childrenImageSharp.id'
+  | 'image.localFile.children.children'
+  | 'image.localFile.children.id'
+  | 'image.localFile.ctime'
+  | 'image.localFile.ctimeMs'
+  | 'image.localFile.dev'
+  | 'image.localFile.dir'
+  | 'image.localFile.ext'
+  | 'image.localFile.extension'
+  | 'image.localFile.gid'
+  | 'image.localFile.id'
+  | 'image.localFile.ino'
+  | 'image.localFile.internal.content'
+  | 'image.localFile.internal.contentDigest'
+  | 'image.localFile.internal.contentFilePath'
+  | 'image.localFile.internal.description'
+  | 'image.localFile.internal.fieldOwners'
+  | 'image.localFile.internal.ignoreType'
+  | 'image.localFile.internal.mediaType'
+  | 'image.localFile.internal.owner'
+  | 'image.localFile.internal.type'
+  | 'image.localFile.mode'
+  | 'image.localFile.modifiedTime'
+  | 'image.localFile.mtime'
+  | 'image.localFile.mtimeMs'
+  | 'image.localFile.name'
+  | 'image.localFile.nlink'
+  | 'image.localFile.parent.children'
+  | 'image.localFile.parent.id'
+  | 'image.localFile.prettySize'
+  | 'image.localFile.rdev'
+  | 'image.localFile.relativeDirectory'
+  | 'image.localFile.relativePath'
+  | 'image.localFile.root'
+  | 'image.localFile.size'
+  | 'image.localFile.sourceInstanceName'
+  | 'image.localFile.uid'
+  | 'image.localFile.url'
   | 'image.mimeType'
   | 'image.node_locale'
   | 'image.parent.children'
@@ -8416,6 +8982,7 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.heroImage.contentful_id'
   | 'page___blog_post.heroImage.createdAt'
   | 'page___blog_post.heroImage.description'
+  | 'page___blog_post.heroImage.fields.localFile'
   | 'page___blog_post.heroImage.file.contentType'
   | 'page___blog_post.heroImage.file.fileName'
   | 'page___blog_post.heroImage.file.url'
@@ -8434,6 +9001,43 @@ type ContentfulSeoFieldsEnum =
   | 'page___blog_post.heroImage.internal.mediaType'
   | 'page___blog_post.heroImage.internal.owner'
   | 'page___blog_post.heroImage.internal.type'
+  | 'page___blog_post.heroImage.localFile.absolutePath'
+  | 'page___blog_post.heroImage.localFile.accessTime'
+  | 'page___blog_post.heroImage.localFile.atime'
+  | 'page___blog_post.heroImage.localFile.atimeMs'
+  | 'page___blog_post.heroImage.localFile.base'
+  | 'page___blog_post.heroImage.localFile.birthTime'
+  | 'page___blog_post.heroImage.localFile.birthtime'
+  | 'page___blog_post.heroImage.localFile.birthtimeMs'
+  | 'page___blog_post.heroImage.localFile.blksize'
+  | 'page___blog_post.heroImage.localFile.blocks'
+  | 'page___blog_post.heroImage.localFile.changeTime'
+  | 'page___blog_post.heroImage.localFile.children'
+  | 'page___blog_post.heroImage.localFile.childrenImageSharp'
+  | 'page___blog_post.heroImage.localFile.ctime'
+  | 'page___blog_post.heroImage.localFile.ctimeMs'
+  | 'page___blog_post.heroImage.localFile.dev'
+  | 'page___blog_post.heroImage.localFile.dir'
+  | 'page___blog_post.heroImage.localFile.ext'
+  | 'page___blog_post.heroImage.localFile.extension'
+  | 'page___blog_post.heroImage.localFile.gid'
+  | 'page___blog_post.heroImage.localFile.id'
+  | 'page___blog_post.heroImage.localFile.ino'
+  | 'page___blog_post.heroImage.localFile.mode'
+  | 'page___blog_post.heroImage.localFile.modifiedTime'
+  | 'page___blog_post.heroImage.localFile.mtime'
+  | 'page___blog_post.heroImage.localFile.mtimeMs'
+  | 'page___blog_post.heroImage.localFile.name'
+  | 'page___blog_post.heroImage.localFile.nlink'
+  | 'page___blog_post.heroImage.localFile.prettySize'
+  | 'page___blog_post.heroImage.localFile.rdev'
+  | 'page___blog_post.heroImage.localFile.relativeDirectory'
+  | 'page___blog_post.heroImage.localFile.relativePath'
+  | 'page___blog_post.heroImage.localFile.root'
+  | 'page___blog_post.heroImage.localFile.size'
+  | 'page___blog_post.heroImage.localFile.sourceInstanceName'
+  | 'page___blog_post.heroImage.localFile.uid'
+  | 'page___blog_post.heroImage.localFile.url'
   | 'page___blog_post.heroImage.mimeType'
   | 'page___blog_post.heroImage.node_locale'
   | 'page___blog_post.heroImage.parent.children'
@@ -9201,6 +9805,8 @@ type File = Node & {
   readonly birthtime: Maybe<Scalars['Date']>;
   /** @deprecated Use `birthTime` instead */
   readonly birthtimeMs: Maybe<Scalars['Float']>;
+  readonly blksize: Maybe<Scalars['Int']>;
+  readonly blocks: Maybe<Scalars['Int']>;
   readonly changeTime: Scalars['Date'];
   /** Returns the first child node of type ImageSharp or null if there are no children of given type on this node */
   readonly childImageSharp: Maybe<ImageSharp>;
@@ -9232,6 +9838,7 @@ type File = Node & {
   readonly size: Scalars['Int'];
   readonly sourceInstanceName: Scalars['String'];
   readonly uid: Scalars['Int'];
+  readonly url: Maybe<Scalars['String']>;
 };
 
 
@@ -9344,6 +9951,8 @@ type FileFieldsEnum =
   | 'birthTime'
   | 'birthtime'
   | 'birthtimeMs'
+  | 'blksize'
+  | 'blocks'
   | 'changeTime'
   | 'childImageSharp.children'
   | 'childImageSharp.children.children'
@@ -9606,7 +10215,8 @@ type FileFieldsEnum =
   | 'root'
   | 'size'
   | 'sourceInstanceName'
-  | 'uid';
+  | 'uid'
+  | 'url';
 
 type FileFilterInput = {
   readonly absolutePath: InputMaybe<StringQueryOperatorInput>;
@@ -9617,6 +10227,8 @@ type FileFilterInput = {
   readonly birthTime: InputMaybe<DateQueryOperatorInput>;
   readonly birthtime: InputMaybe<DateQueryOperatorInput>;
   readonly birthtimeMs: InputMaybe<FloatQueryOperatorInput>;
+  readonly blksize: InputMaybe<IntQueryOperatorInput>;
+  readonly blocks: InputMaybe<IntQueryOperatorInput>;
   readonly changeTime: InputMaybe<DateQueryOperatorInput>;
   readonly childImageSharp: InputMaybe<ImageSharpFilterInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
@@ -9646,6 +10258,7 @@ type FileFilterInput = {
   readonly size: InputMaybe<IntQueryOperatorInput>;
   readonly sourceInstanceName: InputMaybe<StringQueryOperatorInput>;
   readonly uid: InputMaybe<IntQueryOperatorInput>;
+  readonly url: InputMaybe<StringQueryOperatorInput>;
 };
 
 type FileGroupConnection = {
@@ -9730,11 +10343,6 @@ type GatsbyImagePlaceholder =
   | 'dominantColor'
   | 'none'
   | 'tracedSVG';
-
-type Geo = {
-  readonly lat: Maybe<Scalars['String']>;
-  readonly lng: Maybe<Scalars['String']>;
-};
 
 type ImageCropFocus =
   | 17
@@ -10946,6 +11554,7 @@ type Query_allSitePluginArgs = {
 
 type Query_breweryArgs = {
   address_2: InputMaybe<StringQueryOperatorInput>;
+  breweryId: InputMaybe<StringQueryOperatorInput>;
   brewery_type: InputMaybe<StringQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   city: InputMaybe<StringQueryOperatorInput>;
@@ -10972,6 +11581,7 @@ type Query_contentfulAssetArgs = {
   contentful_id: InputMaybe<StringQueryOperatorInput>;
   createdAt: InputMaybe<DateQueryOperatorInput>;
   description: InputMaybe<StringQueryOperatorInput>;
+  fields: InputMaybe<ContentfulAssetFieldsFilterInput>;
   file: InputMaybe<ContentfulAssetFileFilterInput>;
   filename: InputMaybe<StringQueryOperatorInput>;
   filesize: InputMaybe<IntQueryOperatorInput>;
@@ -10980,6 +11590,7 @@ type Query_contentfulAssetArgs = {
   height: InputMaybe<IntQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
+  localFile: InputMaybe<FileFilterInput>;
   mimeType: InputMaybe<StringQueryOperatorInput>;
   node_locale: InputMaybe<StringQueryOperatorInput>;
   parent: InputMaybe<NodeFilterInput>;
@@ -11357,6 +11968,8 @@ type Query_fileArgs = {
   birthTime: InputMaybe<DateQueryOperatorInput>;
   birthtime: InputMaybe<DateQueryOperatorInput>;
   birthtimeMs: InputMaybe<FloatQueryOperatorInput>;
+  blksize: InputMaybe<IntQueryOperatorInput>;
+  blocks: InputMaybe<IntQueryOperatorInput>;
   changeTime: InputMaybe<DateQueryOperatorInput>;
   childImageSharp: InputMaybe<ImageSharpFilterInput>;
   children: InputMaybe<NodeFilterListInput>;
@@ -11386,6 +11999,7 @@ type Query_fileArgs = {
   size: InputMaybe<IntQueryOperatorInput>;
   sourceInstanceName: InputMaybe<StringQueryOperatorInput>;
   uid: InputMaybe<IntQueryOperatorInput>;
+  url: InputMaybe<StringQueryOperatorInput>;
 };
 
 
@@ -14123,6 +14737,12 @@ type contentfulPageBlogPostDescriptionTextNodeSysFilterInput = {
   readonly type: InputMaybe<StringQueryOperatorInput>;
 };
 
+type CalloutFragmentFragment = { readonly heading: string | null, readonly internal: { readonly type: string }, readonly body: { readonly body: string | null } | null };
+
+type HeroFragmentFragment = { readonly title: string | null, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null };
+
+type ParagraphFragmentFragment = { readonly title: string | null, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | null } | null };
+
 type BadBlogPostBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
   previousPostSlug: InputMaybe<Scalars['String']>;
@@ -14144,14 +14764,21 @@ type BlogPostBySlugQueryVariables = Exact<{
 }>;
 
 
-type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | null, readonly title: string | null, readonly publishDate: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly rawDate: string | null, readonly author: { readonly name: string | null } | null, readonly heroImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null, readonly resize: { readonly src: string | null } | null } | null, readonly body: { readonly childMarkdownRemark: { readonly html: string | null, readonly timeToRead: number | null } | null } | null, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | null } | null } | null } | null, readonly previous: { readonly slug: string | null, readonly title: string | null } | null, readonly next: { readonly slug: string | null, readonly title: string | null } | null };
+type BlogPostBySlugQuery = { readonly contentfulPageBlogPost: { readonly slug: string | null, readonly title: string | null, readonly publishDate: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly rawDate: string | null, readonly author: { readonly name: string | null } | null, readonly heroImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null, readonly body: { readonly childMarkdownRemark: { readonly html: string | null, readonly timeToRead: number | null } | null } | null, readonly description: { readonly childMarkdownRemark: { readonly excerpt: string | null } | null } | null } | null, readonly previous: { readonly slug: string | null, readonly title: string | null } | null, readonly next: { readonly slug: string | null, readonly title: string | null } | null };
+
+type BreweryPageQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+type BreweryPageQuery = { readonly brewery: { readonly name: string | null } | null };
 
 type FlexPageBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | null, readonly content: ReadonlyArray<{ readonly heading: string | null, readonly internal: { readonly type: string }, readonly body: { readonly body: string | null } | null } | { readonly title: string | null, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null } | { readonly title: string | null, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | null } | null } | null> | null } | null };
+type FlexPageBySlugQuery = { readonly contentfulPageFlexPage: { readonly slug: string | null, readonly title: string | null, readonly content: ReadonlyArray<{ readonly heading: string | null, readonly internal: { readonly type: string }, readonly body: { readonly body: string | null } | null } | { readonly title: string | null, readonly internal: { readonly type: string }, readonly image: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null } | { readonly title: string | null, readonly internal: { readonly type: string }, readonly content: { readonly raw: string | null } | null } | null> | null } | null };
 
 type HomeQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
