@@ -6,12 +6,12 @@ const addScript = (url) => {
   script.async = true
   document.body.appendChild(script)
 }
-export const onClientEntry = () => {
-  console.log('OnClientEntry!')
-  addScript('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-}
+// export const onClientEntry = () => {
+//   console.log('OnClientEntry!')
+//   addScript('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+// }
 
-export const onInitialClientRender = () => {
-  console.log('OnInitialClientRender!')
-  addScript('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
-}
+// export const onInitialClientRender = () => {
+//   console.log('OnInitialClientRender!')
+//   addScript('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+// }
