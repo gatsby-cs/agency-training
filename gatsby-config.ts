@@ -55,6 +55,7 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-plugin-image',
     'gatsby-plugin-sass',
+    'gatsby-plugin-loadable-components-ssr',
     {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,
@@ -72,6 +73,5 @@ module.exports = {
       },
     },
     `gatsby-plugin-perf-budgets`,
-    'gatsby-plugin-loadable-components-ssr',
   ],
 }
