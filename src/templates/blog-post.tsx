@@ -42,7 +42,7 @@ function BlogPostTemplate({
         image={`http:${post?.heroImage?.resize?.src}`}
       />
       <Hero
-        image={post.heroImage?.gatsbyImageData}
+        image={post.heroImage?.gatsbyImage}
         title={post.title!}
         content={post.description?.childMarkdownRemark?.excerpt}
       />
