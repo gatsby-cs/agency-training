@@ -43,15 +43,6 @@ export const createPages = async ({ graphql, actions, reporter }) => {
 
   if (posts.length > 0) {
     posts.forEach((post, index) => {
-      createPage({
-        path: `/blog/${post.slug}/`,
-        component: blogPost,
-        context: {
-          slug: post.slug,
-        },
-      })
-    })
-    posts.forEach((post, index) => {
       const previousPostSlug = index === 0 ? null : posts[index - 1].slug
       const nextPostSlug =
         index === posts.length - 1 ? null : posts[index + 1].slug
@@ -64,6 +55,7 @@ export const createPages = async ({ graphql, actions, reporter }) => {
           slug: post.slug,
           previousPostSlug,
           nextPostSlug,
+          hasCallout: Math.random() < 0.5,
         },
       })
     })
@@ -80,6 +72,7 @@ export const createPages = async ({ graphql, actions, reporter }) => {
           slug: post.slug,
           previousPostSlug,
           nextPostSlug,
+          hasCallout: Math.random() < 0.5,
         },
       })
     })

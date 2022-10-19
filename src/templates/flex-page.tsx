@@ -24,7 +24,6 @@ const FlexPage: React.FC<PageProps<FlexPageProps>> = ({ data }) => {
         <h1>{page.slug}</h1>
 
         {page.content?.map((c) => {
-          console.log(c?.internal.type)
           if (c?.internal.type === 'ContentfulComponentHero') {
             return <Hero title={c.title} image={c.image.gatsbyImageData} />
           }

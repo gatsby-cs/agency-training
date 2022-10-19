@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import loadable from '@loadable/component'
 import { Link, graphql, PageProps } from 'gatsby'
 
 import Seo from '../components/seo/seo'
 import Layout from '../components/layout/layout'
 import Hero from '../components/hero/hero'
 import Tags from '../components/tags/tags'
+const Callout = loadable(() => import('../components/callout/callout'))
+
 import * as styles from './blog-post.module.scss'
-import { GatsbyImage } from 'gatsby-plugin-image'
 
 interface PostWithRawDate extends GatsbyTypes.ContentfulPageBlogPost {
   rawDate: string
@@ -17,11 +19,20 @@ interface DataProps {
   next: GatsbyTypes.ContentfulPageBlogPost
 }
 
-function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
+interface Context {
+  hasCallout: boolean
+}
+
+function BlogPostTemplate({
+  data,
+  location,
+  pageContext,
+}: PageProps<DataProps, Context>) {
   const post = data.contentfulPageBlogPost
 
   const previous = data.previous
   const next = data.next
+  const { hasCallout } = pageContext
 
   return (
     <Layout location={location}>
@@ -35,6 +46,12 @@ function BlogPostTemplate({ data, location }: PageProps<DataProps>) {
         title={post.title!}
         content={post.description?.childMarkdownRemark?.excerpt}
       />
+      {hasCallout && (
+        <Callout
+          heading="Callout!"
+          body="Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta. Nulla quis lorem ut libero malesuada feugiat. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus."
+        />
+      )}
       <div className={styles.container}>
         <span className={styles.meta}>
           {post.author?.name} &middot;{' '}

@@ -71,7 +71,7 @@ module.exports = {
         frontendApi: process.env.CLERK_FRONTEND_API_KEY,
       },
     },
-    // `gatsby-plugin-perf-budgets`,
+    `gatsby-plugin-perf-budgets`,
     'gatsby-plugin-loadable-components-ssr',
   ],
 }
